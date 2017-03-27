@@ -1,27 +1,23 @@
 const {app, BrowserWindow, Menu} = require('electron');
 
-let windows = [];
-
-function openWindow() {
-    let window = new BrowserWindow({width: 960, height: 720});
-    window.loadURL('file://' + __dirname + '/app/game.html');
-    window.on('closed', () => windows = windows.filter((w) => w != window));
-    if (windows.length > 0) {
-        window.webContents.setAudioMuted(true);
-    }
-    windows.push(window);
-}
-
 app.on('ready', () => {
     Menu.setApplicationMenu(Menu.buildFromTemplate(require('./menu')));
-    openWindow();
+    let window = new BrowserWindow({
+        width: 1128,
+        height: 649,
+        useContentSize: true,
+        center: true,
+        webPreferences: {
+            pageVisibility: true,
+            zoomFactor: 1.0
+        }
+    });
+    window.loadURL('file://' + __dirname + '/app/game.html', {
+        userAgent: 'Mozilla/5.0 (Linux; Android 6.0; FEVER Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.124 Mobile Safari/537.36'
+    });
+    window.openDevTools()
 });
 
 app.on('window-all-closed', () => {
     app.quit();
 });
-
-module.exports = {
-    openWindow: openWindow,
-    windows: windows
-};
