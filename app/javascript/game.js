@@ -79,6 +79,10 @@ $(document).ready(() => {
                     window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Achievement').tap();
                     event.preventDefault();
                     break;
+                case 'X':
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Almanax').tap();
+                    event.preventDefault();
+                    break;
                 case ' ':
                     switch (window.gui.fightManager.fightState) {
                         case window.gui.fightManager.FIGHT_STATES.PREPARATION:
