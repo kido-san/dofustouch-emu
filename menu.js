@@ -1,40 +1,6 @@
 const {app} = require('electron');
-const main = require('./main');
 
 let menuTemplate = [
-    {
-        label: 'Jeu',
-        submenu: [
-            {
-                label: 'Nouvelle fenêtre',
-                accelerator: 'CommandOrControl+N',
-                click () {
-                    main.openWindow();
-                }
-            },
-            {
-                type: 'separator'
-            },
-            {
-                label: 'Charger un script',
-                accelerator: 'CommandOrControl+S',
-                click (item, focusedWindow) {
-                    if (focusedWindow) {
-                        focusedWindow.webContents.send('load-script');
-                    }
-                }
-            },
-            {
-                label: 'Outil de développeur',
-                accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-                click (item, focusedWindow) {
-                    if (focusedWindow) {
-                        focusedWindow.webContents.toggleDevTools();
-                    }
-                }
-            }
-        ]
-    },
     {
         label: 'Edition',
         submenu: [
