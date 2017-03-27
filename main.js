@@ -2,10 +2,20 @@ const {app, BrowserWindow, Menu} = require('electron');
 
 app.on('ready', () => {
     Menu.setApplicationMenu(Menu.buildFromTemplate(require('./menu')));
-    let window = new BrowserWindow({width: 980, height: 661});
-    window.loadURL('file://' + __dirname + '/app/game.html', {
-        userAgent: 'Mozilla/5.0 (iPad; CPU OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53'
+    let window = new BrowserWindow({
+        width: 1128,
+        height: 649,
+        useContentSize: true,
+        center: true,
+        webPreferences: {
+            pageVisibility: true,
+            zoomFactor: 1.0
+        }
     });
+    window.loadURL('file://' + __dirname + '/app/game.html', {
+        userAgent: 'Mozilla/5.0 (Linux; Android 6.0; FEVER Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.124 Mobile Safari/537.36'
+    });
+    window.openDevTools()
 });
 
 app.on('window-all-closed', () => {

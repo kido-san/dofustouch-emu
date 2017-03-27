@@ -1886,7 +1886,7 @@
             language: window.Config ? window.Config.language : "en",
             server: e,
             client: E.os,
-            appVersion: N,
+            appVersion: "1.9.28", // @todo
             buildVersion: L
         };
         return t
@@ -2968,9 +2968,9 @@
             var s = i.call(e), a = n;
             return v.group && _.groups ? (v.group(a, o), t.apply(v, s), void v.groupEnd()) : ("string" == typeof s[0] && (a = a + " " + s.shift()), e = [a, o].concat(s), void t.apply(v, e))
         })
-    }, a.prototype.addChannel = function (e) {/*
+    }, a.prototype.addChannel = function (e) {
         var t = window.navigator || {}, i = {userAgent: t.userAgent || "unknown", clientConfig: d};
-        _.on(e, function (t) {
+        _.on(e, function (t) {/*
             var n = h(t);
             n.data || (n.data = {}), Array.isArray(n.data.error) && n.data.error.length > y && (n.data.error.length = y), i.characterInfo = o(), n.data.clientInfo = i;
             var s = window.Config && window.Config.dataUrl || "", a = {};
@@ -2979,8 +2979,8 @@
                 headers: a,
                 body: JSON.stringify({channelName: e, message: n.message, data: n.data, report: n})
             })
-        })
-     */};
+         */})
+     };
     var A = {console: s, server: a}, I = {}, S = {
         logging: !0,
         haapi: !0,
@@ -5527,10 +5527,12 @@
     }, t.close = function () {
         d = !0, l = !1, a && (a.destroy(), a = null)
     }, t.disconnect = function (e) {
+        console.log(e)
         e = e || "CLIENT_CLOSING", console.info("connectionManager.disconnect: reason=" + e), "SOCKET_LOST" !== e && a && t.send("disconnecting", e), t.close(), t.emit("disconnect", e)
     }, t.sendMessage = function (e, i) {
         t.send("sendMessage", {type: e, data: i})
     }, t.send = function (e, i) {
+        console.log({type: e, data: i})
         if (!a)return console.warn("Client trying to send while primus is null for call: " + e);
         s.sending(e, i);
         var n = {call: e, data: i};
