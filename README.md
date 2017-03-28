@@ -2,6 +2,8 @@
 Portage complet de DofusTouch sur ordinateur et sans émulateur !
 Téléchargement disponible [ici](https://github.com/remicaumette/dofustouch-emu/releases).
 
+**Besoin d'aide ? [REJOINDRE LE DISCORD](https://discord.gg/9pdaT) | [OUVRIR UNE ISSUE](https://github.com/remicaumette/dofustouch-emu/issues/new)**
+
 **:warning: Afin de respecter un maximum les règles de dofus touch, l'émulateur ne propose pas le multi-compte. :warning:**
 
 ## Installation depuis les sources
