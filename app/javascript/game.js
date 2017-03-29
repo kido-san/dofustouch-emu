@@ -5,64 +5,64 @@ $(document).ready(() => {
         return this[this.length - 1];
     };
 
-    window.addEventListener('resize', () => window.gui._resizeUi());
+    window.addEventListener("resize", () => window.gui._resizeUi());
 
-    window.addEventListener('keydown', (event) => {
+    window.addEventListener("keydown", (event) => {
         if (isOnline && event.srcElement == document.body && !event.metaKey) {
             switch (event.key.toUpperCase()) {
-                case 'C':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Carac').tap();
+                case "C":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Carac").tap();
                     event.preventDefault();
                     break;
-                case 'S':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Spell').tap();
+                case "S":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Spell").tap();
                     event.preventDefault();
                     break;
-                case 'I':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Bag').tap();
+                case "I":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Bag").tap();
                     event.preventDefault();
                     break;
-                case 'H':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'BidHouse').tap();
+                case "H":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "BidHouse").tap();
                     event.preventDefault();
                     break;
-                case 'F':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Friend').tap();
+                case "F":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Friend").tap();
                     event.preventDefault();
                     break;
-                case 'Q':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Book').tap();
+                case "Q":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Book").tap();
                     event.preventDefault();
                     break;
-                case 'G':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Guild').tap();
+                case "G":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Guild").tap();
                     event.preventDefault();
                     break;
-                case 'J':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Job').tap();
+                case "J":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Job").tap();
                     event.preventDefault();
                     break;
-                case 'D':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Mount').tap();
+                case "D":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Mount").tap();
                     event.preventDefault();
                     break;
-                case 'B':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Bestiary').tap();
+                case "B":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Bestiary").tap();
                     event.preventDefault();
                     break;
-                case 'N':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Title').tap();
+                case "N":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Title").tap();
                     event.preventDefault();
                     break;
-                case 'U':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Achievement').tap();
+                case "U":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Achievement").tap();
                     event.preventDefault();
                     break;
-                case 'X':
-                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == 'Almanax').tap();
+                case "X":
+                    window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Almanax").tap();
                     event.preventDefault();
                     break;
-                case ' ':
+                case " ":
                     switch (window.gui.fightManager.fightState) {
                         case window.gui.fightManager.FIGHT_STATES.PREPARATION:
                             window.gui.timeline.infoAndFighters._childrenList.last()._childrenList.last()._fightReadyBtn.tap();
@@ -76,14 +76,14 @@ $(document).ready(() => {
         }
     });
 
-    window.gui.playerData.on('characterSelectedSuccess', () => {
+    window.gui.playerData.on("characterSelectedSuccess", () => {
         isOnline = true;
 
-        $(document).find('.shopBtn.Button').parent().hide();
+        $(document).find(".shopBtn.Button").parent().hide();
         document.title = window.gui.playerData.characterBaseInformations.name;
     });
 
-    window.gui.on('disconnect', () => {
+    window.gui.on("disconnect", () => {
         isOnline = false;
 
         document.title = "DofusTouchEmu";
