@@ -1,9 +1,9 @@
+Array.prototype.last = function () {
+    return this[this.length - 1];
+};
+
 $(document).ready(() => {
     let isOnline = false;
-
-    Array.prototype.last = function () {
-        return this[this.length - 1];
-    };
 
     window.addEventListener("resize", () => window.gui._resizeUi());
 
@@ -88,5 +88,4 @@ $(document).ready(() => {
 
         document.title = "DofusTouchEmu";
     });
-})
-;
+});
