@@ -17,3 +17,6 @@ $ npm start
 ## Contributions
 Toute contribution est la bienvenue du moment ou elle respecte les règles de dofus touch. Vous pouvez créer une pull request 
 [ici](https://github.com/remicaumette/dofustouch-emu/pulls). Il est recommandé de suivre [ce guide](https://github.com/dannyfritz/commit-message-emoji) pour les commits.
+
+Contributeurs :
+- Squalalah

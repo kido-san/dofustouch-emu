@@ -16,13 +16,13 @@
 
     function o() {
         if (c.isWebGlSupported()) {
-            var e = i(1166);
+            var e = i(1168);
             window.isoEngine = new e, window.actorManager = window.isoEngine.actorManager, window.background = window.isoEngine.background
         }
         window.dofus.start()
     }
 
-    i(1), i(2), i(3), i(4), window.developmentMode = !1, window.buildVersion = "0.63.0", window.location.search.slice(1).split(";").map(function (e) {
+    i(1), i(2), i(3), i(4), window.developmentMode = !1, window.buildVersion = "0.64.0", window.location.search.slice(1).split(";").map(function (e) {
         var t = e.split("=");
         switch (t[0]) {
             case"appVersion":
@@ -1886,7 +1886,7 @@
             language: window.Config ? window.Config.language : "en",
             server: e,
             client: E.os,
-            appVersion: "1.9.28", // @todo
+            appVersion: "1.9.28",
             buildVersion: L
         };
         return t
@@ -2321,7 +2321,7 @@
                 return M(function (t, i) {
                     t.apply(null, i.concat([M(function (t, i) {
                         "object" == typeof console && (t ? console.error && console.error(t) : console[e] && m(i, function (t) {
-                                //console[e](t)
+                                console[e](t)
                             }))
                     })]))
                 })
@@ -2979,8 +2979,8 @@
                 headers: a,
                 body: JSON.stringify({channelName: e, message: n.message, data: n.data, report: n})
             })
-         */})
-     };
+        */})
+    };
     var A = {console: s, server: a}, I = {}, S = {
         logging: !0,
         haapi: !0,
@@ -3002,13 +3002,10 @@
         })
     }, _.overrideConsole = function () {
         Object.keys(T).forEach(function (e) {
-            /*
-            @todo: override console here
-            var t = T[e];
+            /*var t = T[e];
             v[e] = function () {
                 _.emit(t, arguments)
-            }
-            */
+            }*/
         })
     }, _.logUncaughtExceptions = function (e, t) {
         var i = window.ErrorEvent;
@@ -5527,12 +5524,10 @@
     }, t.close = function () {
         d = !0, l = !1, a && (a.destroy(), a = null)
     }, t.disconnect = function (e) {
-        console.log(e)
         e = e || "CLIENT_CLOSING", console.info("connectionManager.disconnect: reason=" + e), "SOCKET_LOST" !== e && a && t.send("disconnecting", e), t.close(), t.emit("disconnect", e)
     }, t.sendMessage = function (e, i) {
         t.send("sendMessage", {type: e, data: i})
     }, t.send = function (e, i) {
-        console.log({type: e, data: i})
         if (!a)return console.warn("Client trying to send while primus is null for call: " + e);
         s.sending(e, i);
         var n = {call: e, data: i};
@@ -5722,8 +5717,8 @@
                     if (e)return console.error(e)
                 }, window.Config.byPassToken)return void r(null, {username: i.account, token: i.password});
         if (i.account) {
-            var c = i.account, u = c.split("|");
-            2 === u.length && (c = u[0]), a.login(c, i.password, i.save, r)
+            var c = i.account, u = c.split("|"), p = 2 === u.length;
+            p && (c = u[0]), window.gui.playerData.setForcedAccount(p), a.login(c, i.password, i.save, r)
         } else a.login(r)
     }
 
@@ -6342,8 +6337,8 @@
         window.isoEngine.transmitMessage(e)
     }), o.on("GameFightStartMessage", function (e) {
         window.gui.transmitMessage(e), window.isoEngine.transmitMessage(e)
-    }), o.on("GameFightSpectateMessage", n), o.on("GameFightResumeMessage", n),
-        o.on("GameFightResumeWithSlavesMessage", n), o.on("GameFightEndMessage", function (e) {
+    }), o.on("GameFightSpectateMessage", n),
+        o.on("GameFightResumeMessage", n), o.on("GameFightResumeWithSlavesMessage", n), o.on("GameFightEndMessage", function (e) {
         window.isoEngine.transmitMessage(e)
     }), o.on("GameFightNewRoundMessage", function (e) {
         window.gui.transmitMessage(e)
@@ -7173,7 +7168,7 @@
 }, function (e, t, i) {
     var n = i(52);
     n.on("EmoteListMessage", function (e) {
-        window.gui.transmitMessage(e);
+        window.gui.transmitMessage(e)
     }), n.on("EmoteAddMessage", function (e) {
         window.gui.transmitMessage(e)
     }), n.on("EmoteRemoveMessage", function (e) {
@@ -8236,8 +8231,8 @@
                 this.Da = n.ia(this.O).replace("=", "") + "_"
             }, t.G = function (e, t) {
                 var i, n, o, s, a, r, l;
-                for (t == m && (t = p), a = this.ga(e, t), n = document.cookie.split(";"), r = 0, l = n.length; r < l; r++)if (i = n[r],
-                        s = i.indexOf("="), o = i.slice(0, s).trim(), o === a)return i.slice(s + 1);
+                for (t == m && (t = p), a = this.ga(e, t), n = document.cookie.split(";"),
+                         r = 0, l = n.length; r < l; r++)if (i = n[r], s = i.indexOf("="), o = i.slice(0, s).trim(), o === a)return i.slice(s + 1);
                 return m
             }, t.eb = function () {
                 return this.G("install") != m
@@ -9805,49 +9800,49 @@
     }(window.mixpanel)
 }, function (e, t, i) {
     function n(e) {
-        var t = a[e];
-        return void 0 === t ? (s.error("ankAnalytics.getEventId: " + e + " is missing from the event map"), -1) : t
+        var t = r[e];
+        return void 0 === t ? (a.error("ankAnalytics.getEventId: " + e + " is missing from the event map"), -1) : t
     }
 
     function o(e, t) {
-        var i = r[e];
+        var i = l[e];
         if (!i)return void console.error("ankAnalytics checkModel: " + e + " is missing from the models");
         for (var n = Object.keys(t), o = [], s = 0, a = i.length; s < a; s += 1) {
-            var l = i[s];
-            if ("relative_soft_currency_gained" !== l && "relative_hard_currency_gained" !== l && "time_spent_on_action" !== l) {
-                var c = n.indexOf(l) === -1, d = y.indexOf(l) === -1 && (void 0 === t[l] || null === t[l]);
-                (c || d) && o.push(l)
+            var r = i[s];
+            if ("relative_soft_currency_gained" !== r && "relative_hard_currency_gained" !== r && "time_spent_on_action" !== r) {
+                var c = n.indexOf(r) === -1, d = b.indexOf(r) === -1 && (void 0 === t[r] || null === t[r]);
+                (c || d) && o.push(r)
             }
         }
         o.length && console.error("ankAnalytics checkModel: missing params on event", e, o)
     }
 
-    var s, a = i(177), r = i(178), l = i(179), c = i(180), d = i(181), u = i(54), h = !1, p = !1, m = !1, f = !1,
-        g = 18, _ = null, v = !1,
-        y = ["amu_id", "weapon_id", "ringl_id", "belt_id", "ringr_id", "boots_id", "hat_id", "cloack_id", "pet_id", "ride_id", "comp_id", "shield_id"];
+    var s, a, r = i(177), l = i(178), c = i(179), d = i(180), u = i(181), h = i(54), p = !1, m = !1, f = !1, g = !1,
+        _ = 18, v = null, y = !1,
+        b = ["amu_id", "weapon_id", "ringl_id", "belt_id", "ringr_id", "boots_id", "hat_id", "cloack_id", "pet_id", "ride_id", "comp_id", "shield_id"];
     t.init = function (e) {
-        s = window.dofus.logger, e && (e.debug && (m = !0), e.analog ? (p = !0, v = !0) : e.useUrlMap ? (f = !0, v = !0) : v = !1)
+        a = window.dofus.logger, e && (s = e.version, e.debug && (f = !0), e.analog ? (m = !0, y = !0) : e.useUrlMap ? (g = !0, y = !0) : y = !1)
     }, t.register = function (e) {
-        v && (_ = e || 0)
+        y && (v = e || 0)
     }, t.unregister = function () {
-        _ = null
+        v = null
     }, t.send = function (e, t) {
-        if (v) {
+        if (y) {
             t = t || {};
             var i = n(e);
-            window.developmentMode && m && o(e, t);
-            var a = {
-                game_id: g,
+            window.developmentMode && f && o(e, t);
+            var r = {
+                game_id: _,
                 event_id: i,
-                session_id: _,
-                date: d(t.date || u.now(), "UTC:yyyy-mm-dd HH:MM:ss") + " GMT",
+                session_id: v,
+                date: u(t.date || h.now(), "UTC:yyyy-mm-dd HH:MM:ss") + " GMT",
                 data: t
             };
-            if (p) s.info("ankAnalytics.send: " + e, JSON.stringify(a)); else if (f) {
-                var r = window.gui.serversData.connectedServerId, y = l[r];
-                if (!y)return void(h || (h = !0, console.error("ankAnalytics send: eventServerURL is missing for server " + r)));
-                c(y, a, function (e) {
-                    if (e)return s.error("ankAnalytics.send:", e)
+            if (m) a.info("ankAnalytics.send: " + e, JSON.stringify(r)); else if (g) {
+                var l = window.gui.serversData.connectedServerId, b = c[l];
+                if (!b)return void(p || (p = !0, console.error("ankAnalytics send: eventServerURL is missing for server " + l)));
+                d(b, r, s, function (e) {
+                    if (e)return a.error("ankAnalytics.send:", e)
                 })
             }
         }
@@ -10093,19 +10088,19 @@
     }
 
     var o = i(47);
-    e.exports = function (e, t, i) {
-        if (!e)return i(new Error("analytics.request: url is empty"));
+    e.exports = function (e, t, i, s) {
+        if (!e)return s(new Error("analytics.request: url is empty"));
         t = t || {};
-        var s = t.event_id, a = new XMLHttpRequest;
-        a.timeout = 5e3;
-        var r = o.operation({retries: 4, randomize: !0});
-        a.onreadystatechange = function () {
-            if (4 === ~~a.readyState) {
-                var t = n(s, a.status, e);
-                return r.retry(t) ? void console.warn("analytics.request failed event", s, "on the url", e, "will retry...") : t ? i(r.mainError()) : void i()
+        var a = t.event_id, r = new XMLHttpRequest;
+        r.timeout = 5e3;
+        var l = o.operation({retries: 4, randomize: !0});
+        r.onreadystatechange = function () {
+            if (4 === ~~r.readyState) {
+                var t = n(a, r.status, e);
+                return l.retry(t) ? void console.warn("analytics.request failed event", a, "on the url", e, "will retry...") : t ? s(l.mainError()) : void s()
             }
-        }, r.attempt(function () {
-            a.open("POST", e, !0), a.setRequestHeader("Content-type", "application/json"), a.send(JSON.stringify(t))
+        }, l.attempt(function () {
+            r.open("POST", e, !0), r.setRequestHeader("x-version", i), r.setRequestHeader("Content-type", "application/json"), r.send(JSON.stringify(t))
         })
     }
 }, function (e, t, i) {
@@ -10842,8 +10837,8 @@
         function e(e) {
             var i = window.gui.playerData.inventory.objects[t], n = i ? i.getName() : t;
             window.gui.openConfirmPopup({
-                title: h("ui.common.confirm"), message: p(h("ui.common.confirmationDropItem"), e, n),
-                cb: function (i) {
+                title: h("ui.common.confirm"),
+                message: p(h("ui.common.confirmationDropItem"), e, n), cb: function (i) {
                     i && (window.dofus.sendMessage("ObjectDropMessage", {objectUID: t, quantity: e}), c("DROP_ITEM_1"))
                 }
             })
@@ -11738,10 +11733,9 @@
         var n = t.rootElement.getBoundingClientRect(), s = e.rootElement.getBoundingClientRect(), a = 0, r = 0;
         if (i && i.padding) {
             var l = i.padding;
-            s.width += 2 * l, s.height += 2 * l
+            s.width += 2 * l, s.height += 2 * l;
         }
-        n.left > s.width ? a = n.left - s.width : o.screenWidth - n.right > s.width && (a = n.left + n.width),
-            r = o.screenHeight - n.bottom + n.height > s.height ? n.top : n.top + n.height > s.height ? n.top + n.height - s.height : o.screenHeight - s.height, e.setStyles({
+        n.left > s.width ? a = n.left - s.width : o.screenWidth - n.right > s.width && (a = n.left + n.width), r = o.screenHeight - n.bottom + n.height > s.height ? n.top : n.top + n.height > s.height ? n.top + n.height - s.height : o.screenHeight - s.height, e.setStyles({
             left: Math.round(a) + "px",
             top: Math.round(r) + "px"
         }), e.setStyle("opacity", 1)
@@ -12598,7 +12592,8 @@
         }), e.on("GameFightTurnStartSlaveMessage", function (e) {
             i(e)
         }), e.on("GameFightHumanReadyStateMessage", function (e) {
-            e.characterId === a.id && r.emit("playerReady", e.isReady), window.actorManager.setReadyIconOnActor(e.characterId, e.isReady);
+            e.characterId === a.id && r.emit("playerReady", e.isReady),
+                window.actorManager.setReadyIconOnActor(e.characterId, e.isReady)
         }), e.on("confirmTurnEnd", function () {
             if (r._lastFighterId) {
                 var e = r._lastFighterId, t = r.getFighter(e);
@@ -14780,8 +14775,7 @@
         e !== this.scale && (this.scale = e, this._render())
     }, s.prototype._computeScale = function (e, t, i, n, o, s) {
         var a;
-        if ("cover" === e) a = this._scale = Math.min(this._scale, n / Math.abs(s[0]), n / Math.abs(s[1]), o / Math.abs(s[2]), o / Math.abs(s[3])); else if ("width" === e) a = this._scale = Math.min(this._scale, t / (s[1] - s[0])); else if ("height" === e) a = this._scale = Math.min(this._scale, i / (s[2] - s[3])); else if ("fitin" === e) a = this._scale = Math.min(this._scale, t / (s[1] - s[0]), i / (s[2] - s[3])),
-            a = Math.min(a, v); else if ("%" === e[e.length - 1]) {
+        if ("cover" === e) a = this._scale = Math.min(this._scale, n / Math.abs(s[0]), n / Math.abs(s[1]), o / Math.abs(s[2]), o / Math.abs(s[3])); else if ("width" === e) a = this._scale = Math.min(this._scale, t / (s[1] - s[0])); else if ("height" === e) a = this._scale = Math.min(this._scale, i / (s[2] - s[3])); else if ("fitin" === e) a = this._scale = Math.min(this._scale, t / (s[1] - s[0]), i / (s[2] - s[3])), a = Math.min(a, v); else if ("%" === e[e.length - 1]) {
             var r = parseFloat(e);
             isNaN(r) ? r = this._scale : r *= .01;
             var l = t / (s[1] - s[0]), c = i / (s[2] - s[3]), d = l > c ? c : l;
@@ -15647,11 +15641,12 @@
             for (var V, X, Q, K, J, Z, $, ee, te = [], ie = i.children, ne = ie.length - 1; ne >= 0; ne -= 1) {
                 var oe = ie[ne];
                 if (!(t < oe.frames[0] || t > oe.frames[1]))if (oe.maskEnd) te.push(new r(oe.id)); else {
-                    for (oe.maskStart && te.push(new s(oe.id)), f = this.createSprites(oe, t - oe.frames[0], C.symbols[oe.id], n, 1, 1, d), p = 0; p < f.length; p += 1)m = f[p], te.push(m), m.isMaskTag || (u = m.vertexPos, V = u[0], X = u[1], Q = u[2], K = u[3], J = u[4], Z = u[5], $ = u[6], ee = u[7], u[0] = S * V + x * X + L, u[1] = E * V + N * X + O, u[2] = S * Q + x * K + L, u[3] = E * Q + N * K + O, u[4] = S * J + x * Z + L, u[5] = E * J + N * Z + O, u[6] = S * $ + x * ee + L, u[7] = E * $ + N * ee + O, h = m.color, h[0] *= D, h[1] *= R, h[2] *= P, h[3] *= B, h[4] = h[4] * D + k, h[5] = h[5] * R + z, h[6] = h[6] * P + F, h[7] = h[7] * B + H);
+                    for (oe.maskStart && te.push(new s(oe.id)), f = this.createSprites(oe, t - oe.frames[0], C.symbols[oe.id], n, 1, 1, d), p = 0; p < f.length; p += 1)m = f[p], te.push(m),
+                    m.isMaskTag || (u = m.vertexPos, V = u[0], X = u[1], Q = u[2], K = u[3], J = u[4], Z = u[5], $ = u[6], ee = u[7], u[0] = S * V + x * X + L, u[1] = E * V + N * X + O, u[2] = S * Q + x * K + L, u[3] = E * Q + N * K + O, u[4] = S * J + x * Z + L, u[5] = E * J + N * Z + O, u[6] = S * $ + x * ee + L, u[7] = E * $ + N * ee + O, h = m.color, h[0] *= D, h[1] *= R, h[2] *= P, h[3] *= B, h[4] = h[4] * D + k, h[5] = h[5] * R + z, h[6] = h[6] * P + F, h[7] = h[7] * B + H);
                     oe.maskStart && te.push(new a(oe.id))
                 }
             }
-            return te;
+            return te
         }
         return []
     }, n.prototype.prepareAnimationFrame = function (e, t, i, n, l, c) {
@@ -17925,7 +17920,7 @@
                 return i ? e(i) : (t._title = t._gender ? n.nameFemaleId : n.nameMaleId, void e())
             }) : e()
         }, function (e) {
-            return t._guild && t._guild.guildEmblem ? void t._guildEmblem.setValue(t._guild.guildEmblem, !0, e) : e();
+            return t._guild && t._guild.guildEmblem ? void t._guildEmblem.setValue(t._guild.guildEmblem, !0, e) : e()
         }, function (e) {
             return t._alliance && t._alliance.allianceEmblem ? void t._allianceEmblem.setValue(t._alliance.allianceEmblem, !0, e) : e()
         }], e)
@@ -18174,16 +18169,16 @@
 
     i(308);
     var o = i(14), s = i(28).inherits, a = i(18).EventEmitter, r = i(199), l = i(198), c = i(35), d = i(54), u = i(309),
-        h = (i(469), i(7)), p = i(26), m = i(458), f = i(470), g = i(471), _ = i(476), v = i(477), y = i(497),
-        b = i(499), M = i(502), w = i(504), T = i(195), C = i(225), A = i(505), I = i(352), S = i(27), E = i(38),
-        x = E.getText, N = i(507), L = i(355), O = i(513), D = i(339), R = i(37), P = i(290), B = i(515), k = i(55),
-        z = i(645), F = i(647), H = i(653), q = i(660), W = i(663), U = i(664), G = i(666), j = i(668), Y = i(670),
-        V = i(699), X = i(700), Q = i(702), K = i(704), J = i(715), Z = i(517), $ = i(716), ee = i(733), te = i(735),
-        ie = i(10), ne = i(744), oe = i(746), se = i(749), ae = i(215), re = i(32), le = i(751), ce = i(756),
-        de = i(758), ue = i(24), he = i(313), pe = i(761), me = i(786), fe = i(788), ge = i(789), _e = i(791),
-        ve = i(1131), ye = i(1133), be = i(1152), Me = i(1154), we = i(1157), Te = i(1159), Ce = i(1161), Ae = i(1163),
-        Ie = i(796), Se = new r(document.getElementById("dofusBody"));
-    c.initialize(Se), h.isIOS && !h.isPhoneGap && i(1165), s(n, a), e.exports = n, n.prototype.setupAppTransition = function () {
+        h = (i(469), i(7)), p = i(26), m = i(458), f = i(470), g = i(471), _ = i(476), v = i(477), y = i(499),
+        b = i(501), M = i(504), w = i(506), T = i(195), C = i(225), A = i(507), I = i(352), S = i(27), E = i(38),
+        x = E.getText, N = i(509), L = i(355), O = i(515), D = i(339), R = i(37), P = i(290), B = i(517), k = i(55),
+        z = i(647), F = i(649), H = i(655), q = i(662), W = i(665), U = i(666), G = i(668), j = i(670), Y = i(672),
+        V = i(701), X = i(702), Q = i(704), K = i(706), J = i(717), Z = i(519), $ = i(718), ee = i(735), te = i(737),
+        ie = i(10), ne = i(746), oe = i(748), se = i(751), ae = i(215), re = i(32), le = i(753), ce = i(758),
+        de = i(760), ue = i(24), he = i(313), pe = i(763), me = i(788), fe = i(790), ge = i(791), _e = i(793),
+        ve = i(1133), ye = i(1135), be = i(1154), Me = i(1156), we = i(1159), Te = i(1161), Ce = i(1163), Ae = i(1165),
+        Ie = i(798), Se = new r(document.getElementById("dofusBody"));
+    c.initialize(Se), h.isIOS && !h.isPhoneGap && i(1167), s(n, a), e.exports = n, n.prototype.setupAppTransition = function () {
         function e() {
             n.emit("appGoBackground")
         }
@@ -18693,8 +18688,7 @@
     }, n.prototype.cancel = function () {
         this.iScroll.disable()
     }, n.prototype.refresh = function (e) {
-        return e || 0 !== this.rootElement.clientHeight ? (this.iScroll.refresh(),
-            this.toggleClassName("scrollBgVisible", this.iScroll.hasVerticalScroll || this.iScroll.hasHorizontalScroll), this._refreshHints(), void(this.requestRefresh = !1)) : void(this.requestRefresh = !0)
+        return e || 0 !== this.rootElement.clientHeight ? (this.iScroll.refresh(), this.toggleClassName("scrollBgVisible", this.iScroll.hasVerticalScroll || this.iScroll.hasHorizontalScroll), this._refreshHints(), void(this.requestRefresh = !1)) : void(this.requestRefresh = !0)
     }, n.prototype.notify = function () {
         if (this.scrollUpHint && this.canScrollDown() && (this.notifyCount = _, !this.notifyInterval)) {
             var e = this;
@@ -25065,145 +25059,52 @@
     }
 }, function (e, t, i) {
     function n() {
-        B.call(this, "div", {className: "chat"}), this.displayMode = ee.ROLEPLAY, this.keyboardHeight = .6 * p.screenHeight, this.previousInput = "", this.linkHelper = new A, this.p2p = new I, this.enabledChannels = null, this.disallowedChannelMap = null, this.presets = null, this.channelMap = window.gui.databases.ChatChannels, this.numPresetsListeningToChannel = null, this.outgoingChannel = j, this.outgoingChannelMenu = null, this.previousPrivateReceiver = "", this.historyBuffers = {}, this.historyBuffers[V] = new v(oe);
-        for (var e in this.channelMap)this.historyBuffers[~~e] = new v(oe);
-        this.sentMessageHistory = new y, this.initializeElements(), this.setMessageHandlers()
+        x.call(this, "div", {className: "chat"}), this.displayMode = G.ROLEPLAY, this.keyboardHeight = .6 * h.screenHeight, this.linkHelper = new M, this.p2p = new w, this.presets = null, this.channelMap = window.gui.databases.ChatChannels, this.numPresetsListeningToChannel = null, this.historyBuffers = {}, this.historyBuffers[z] = new _(Y);
+        for (var e in this.channelMap)this.historyBuffers[~~e] = new _(Y);
+        this._initializeElements(), this._setMessageHandlers()
     }
 
-    function o(e, t) {
-        var i = e.getValue(), n = i.substr(0, t.length);
-        n === t && e.setValue(i.substr(t.length))
-    }
-
-    function s(e, t) {
-        var i = e.getValue();
-        i.substr(0, t.length) !== t && e.setValue(t + i)
-    }
-
-    function a(e) {
+    function o(e) {
         var t = this.chat;
         t._toggleChannel(t.activePreset, ~~this.id, e)
     }
 
-    function r() {
+    function s() {
         var e = this.chat, t = this.presetId;
         t === e.activePreset ? e._togglePresetChannels(t) : e._setActivePreset(t)
     }
 
     i(478);
-    var l = i(213), c = i(244), d = i(479), u = i(480), h = i(7), p = i(26).dimensions, m = l.DofusButton, f = i(226),
-        g = i(212).getElementPositionAround, _ = i(38).getText, v = i(338), y = i(482), b = i(483), M = i(37),
-        w = i(28).inherits, T = i(407), C = i(313), A = i(486), I = i(487), S = i(220), E = i(314), x = i(489),
-        N = i(35), L = i(215), O = i(34), D = i(32), R = i(420), P = i(24), B = i(199), k = i(490), z = i(491),
-        F = i(492), H = i(494), q = i(27), W = i(496), U = 450, G = 275, j = c.CHANNEL_GLOBAL,
-        Y = c.PSEUDO_CHANNEL_PRIVATE, V = 666, X = 0, Q = 1, K = 2, J = 3,
-        Z = [c.CHANNEL_GLOBAL, c.CHANNEL_TEAM, c.CHANNEL_GUILD, c.CHANNEL_ALLIANCE, c.CHANNEL_PARTY, c.CHANNEL_NOOB, c.CHANNEL_ADMIN, c.PSEUDO_CHANNEL_PRIVATE, c.CHANNEL_ARENA, c.CHANNEL_SALES, c.CHANNEL_SEEK],
-        $ = {};
-    $[c.PSEUDO_CHANNEL_FIGHT_LOG] = !0;
-    var ee = {ROLEPLAY: "roleplay", FIGHT: "fight"}, te = /^\/([A-Za-z]+)/, ie = {
-        s: j,
-        w: Y,
-        t: c.CHANNEL_TEAM,
-        g: c.CHANNEL_GUILD,
-        a: c.CHANNEL_ALLIANCE,
-        p: c.CHANNEL_PARTY,
-        i: c.CHANNEL_NOOB,
-        q: c.CHANNEL_ADMIN,
-        k: c.CHANNEL_ARENA,
-        b: c.CHANNEL_SALES,
-        r: c.CHANNEL_SEEK
-    }, ne = "chatIncomingPreset_", oe = 50;
-    w(n, B), e.exports = n, n.prototype._initialize = function (e, t) {
-        this.setDisplayMode(ee.ROLEPLAY), this.statusIndicator.initialize(), this.previousInput = "", this.previousPrivateReceiver = "", this._selectOutgoingChannel(j, !0), this.enabledChannels = e, this._initOutgoingChannelMenu(), this.disallowedChannelMap = {};
-        for (var i = 0; i < t.length; i++)this.disallowedChannelMap[t[i]] = !0;
-        this._loadPresetConfig(), this._setActivePreset(X), this._clearChatHistory(), this.censor = new W
+    var a = i(213), r = i(244), l = i(479), c = i(481), d = i(486), u = i(7), h = i(26).dimensions, p = a.DofusButton,
+        m = i(226), f = i(212).getElementPositionAround, g = i(38).getText, _ = i(338), v = i(488), y = i(28).inherits,
+        b = i(313), M = i(491), w = i(492), T = i(314), C = i(35), A = i(34), I = i(32), S = i(420), E = i(24),
+        x = i(199), N = i(494), L = i(496), O = i(27), D = i(498), R = 450, P = 275, B = r.CHANNEL_GLOBAL,
+        k = r.PSEUDO_CHANNEL_PRIVATE, z = 666, F = 0, H = 1, q = 2, W = 3, U = {};
+    U[r.PSEUDO_CHANNEL_FIGHT_LOG] = !0;
+    var G = {ROLEPLAY: "roleplay", FIGHT: "fight"}, j = "chatIncomingPreset_", Y = 50;
+    y(n, x), e.exports = n, n.prototype._initialize = function (e, t) {
+        this.setDisplayMode(G.ROLEPLAY), this.chatInput.initializeConnection(e, t), this._loadPresetConfig(), this._setActivePreset(F), this._clearChatHistory(), this.censor = new D
     }, n.prototype._clearChatHistory = function () {
         this._logChat.clearContent();
         for (var e in this.historyBuffers)this.historyBuffers[~~e].clear();
-        this.sentMessageHistory.reset()
-    }, n.prototype.initializeElements = function () {
-        function e() {
-            var e = t.sentMessageHistory.getCurrentEntry();
-            t._setInput(e.message), t.linkHelper.linksToReplace = e.links
-        }
-
-        var t = this;
+        this.chatInput.clearSentMessageHistory()
+    }, n.prototype._initializeElements = function () {
+        var e = this;
         this.savedWidth = null, this.savedHeight = null, this.logWrapper = this.createChild("div", {className: "logWrapper"}), this.fightControls = this.logWrapper.createChild("div", {className: "fightControls"}), this.timelineBox = this.fightControls.createChild("div", {className: "timelineBox"});
-        var i = this.fightControls.createChild("div", {className: "fightButtons"}),
-            n = new m("", {className: "yourTurnButton", hidden: !0}, function () {
-                t.deactivate()
-            }), o = this.createChild("div", {className: "yourTurnText"});
-        o.setText(_("tablet.chat.yourTurnButton")), n.appendChild(o), this.yourTurnButton = i.appendChild(n), this.logScroller = this.logWrapper.appendChild(new E({className: "log"}, {showHintArrows: !0})), this._logChat = this.logScroller.content, this._logChat.addClassNames("showChannel666");
-        var s = this.logWrapper.createChild("div", {className: "formChat"});
-        this.statusIndicator = new x(s), this._createChannelSelector(s), this.inputChat = s.appendChild(new T({
-            className: "inputChat",
-            attr: {maxlength: S.USER_MAX_CHAT_LEN}
-        })), this.inputChat.on("validate", function () {
-            t._submit()
-        });
-        var a = s.appendChild(new l({className: "historyUp", scaleOnPress: !0, hidden: !0}, function () {
-            t.sentMessageHistory.goBack(), e()
-        })), r = s.appendChild(new l({className: "historyDown", scaleOnPress: !0, hidden: !0}, function () {
-            t.sentMessageHistory.goForward(), e()
-        }));
-        s.appendChild(new l({className: "historyButton", scaleOnPress: !0}, function () {
-            a.toggleDisplay(), r.toggleDisplay()
-        })), s.appendChild(new l({className: ["sendButton", "greenButton"], addIcon: !0}, function () {
-            t._submit()
-        })), this.logWrapper.appendChild(new R({className: ["simpleButton", "chatCloseButton"]}, function () {
-            t.deactivate()
-        })), H(this.logWrapper, {minWidth: U, minHeight: G}), this.logWrapper.on("resize", function () {
-            t._refreshScroller()
+        var t = this.fightControls.createChild("div", {className: "fightButtons"}),
+            i = new p("", {className: "yourTurnButton", hidden: !0}, function () {
+                e.deactivate()
+            }), n = this.createChild("div", {className: "yourTurnText"});
+        n.setText(g("tablet.chat.yourTurnButton")), i.appendChild(n), this.yourTurnButton = t.appendChild(i), this.logScroller = this.logWrapper.appendChild(new T({className: "log"}, {showHintArrows: !0})), this._logChat = this.logScroller.content, this._logChat.addClassNames("showChannel666"), this.chatInput = new l(this.logWrapper, this.linkHelper), this.chatInput.on("sentChatMsg", function () {
+            e.logScroller.goToBottom()
+        }), this.logWrapper.appendChild(new S({className: ["simpleButton", "chatCloseButton"]}, function () {
+            e.deactivate()
+        })), L(this.logWrapper, {minWidth: R, minHeight: P}), this.logWrapper.on("resize", function () {
+            e._refreshScroller()
         })
-    }, n.prototype._createChannelSelector = function (e) {
-        function t() {
-            i._selectOutgoingChannel(this.id), i.inputChat.focus()
-        }
-
-        for (var i = this, n = this.outgoingChannelMenu = [], o = 0; o < Z.length; o++) {
-            var s = this.channelMap[Z[o]];
-            n.push({
-                id: s.id,
-                caption: s.nameId + " (" + s.shortcut + ")",
-                cb: t,
-                ticked: s.id === this.outgoingChannel
-            })
-        }
-        this.outgoingChannelButtonBg = e.createChild("div", {className: "buttonBackground"}), e.createChild("div", {className: "outgoingChannelButton"});
-        var a = e.createChild("div", {className: "buttonTouchZone"});
-        L.addTooltip(a, _("ui.option.chat")), a.on("tap", function () {
-            var e = this.rootElement.getBoundingClientRect();
-            window.gui.openContextualMenu("generic", {
-                title: _("ui.option.currentChannel"),
-                actions: i.outgoingChannelMenu
-            }, {x: e.left + e.width, y: e.top})
-        })
-    }, n.prototype._showNotification = function (e) {
-        L.showNotification(e, this.inputChat)
-    }, n.prototype._initOutgoingChannelMenu = function () {
-        for (var e = this.outgoingChannelMenu, t = 0; t < e.length; t++) {
-            var i = e[t];
-            i.hidden = this.enabledChannels.indexOf(i.id) < 0, i.ticked = i.id === this.outgoingChannel
-        }
-    }, n.prototype._getOutgoingChannelMenuOption = function (e) {
-        for (var t = this.outgoingChannelMenu, i = 0; i < t.length; i++)if (t[i].id === e)return t[i]
-    }, n.prototype._selectOutgoingChannel = function (e, t) {
-        var i = this.outgoingChannel;
-        (e !== i || t) && (t && e !== Y && this.inputChat.setValue(""), i === Y && o(this.inputChat, this.previousPrivateReceiver + " "), e === Y && this.previousPrivateReceiver && s(this.inputChat, this.previousPrivateReceiver + " "), this.inputChat.setClassNames(["inputChat", "inputBox", "channel" + e]), this.outgoingChannelButtonBg.setClassNames(["buttonBackground", "outgoingChannel" + e]), e === Y && (this.previousPrivateReceiver ? this._showNotification(_("tablet.chat.enteringPrivateChannel", this.previousPrivateReceiver)) : this._showNotification(_("tablet.chat.privateReceiverHelp"))), this._getOutgoingChannelMenuOption(i).ticked = !1, this._getOutgoingChannelMenuOption(e).ticked = !0, this.outgoingChannel = e)
-    }, n.prototype._setChannelEnabled = function (e, t) {
-        var i = this._getOutgoingChannelMenuOption(e);
-        i && (i.hidden = !t);
-        var n = this.channelMap[e].nameId, o = this.enabledChannels, s = o.indexOf(e);
-        if (s !== -1) {
-            if (this._showNotification(_("tablet.chat.disablingChannel", n)), t)return console.warn("Chat channel already enabled");
-            o.splice(s, 1)
-        } else {
-            if (this._showNotification(_("tablet.chat.enablingChannel", n)), !t)return console.warn("Chat channel already disabled");
-            o.push(e)
-        }
     }, n.prototype._updateChannelListenerCount = function (e, t) {
         var i = this.numPresetsListeningToChannel[e], n = Math.max(i + t, 0);
-        this.numPresetsListeningToChannel[e] = n, $[e] || (0 === i && n > 0 ? window.dofus.sendMessage("ChannelEnablingMessage", {
+        this.numPresetsListeningToChannel[e] = n, U[e] || (0 === i && n > 0 ? window.dofus.sendMessage("ChannelEnablingMessage", {
             channel: e,
             enable: !0
         }) : i > 0 && 0 === n && window.dofus.sendMessage("ChannelEnablingMessage", {channel: e, enable: !1}))
@@ -25211,25 +25112,25 @@
         this._setChannelInPreset(e, t, i), this._updateChannelListenerCount(t, i ? 1 : -1)
     }, n.prototype._addPreset = function (e) {
         var t = this.presetButtons.createChild("div", {className: "presetButton"});
-        t.createChild("div", {className: ["presetIcon", e.className]}), t.chat = this, t.presetId = this.presets.length, N(t), t.on("tap", r);
-        for (var i, n = [], o = 0; o < e.channels.length; o++)i = e.channels[o], n.push(i);
-        var s = {
+        t.createChild("div", {className: ["presetIcon", e.className]}), t.chat = this, t.presetId = this.presets.length, C(t), t.on("tap", s);
+        for (var i, n = [], a = 0; a < e.channels.length; a++)i = e.channels[a], n.push(i);
+        var r = {
             element: t,
             channels: n,
             channelsList: this.channelsLists.createChild("div", {className: "channelsList"})
         };
-        this.presets.push(s);
+        this.presets.push(r);
         for (var l in this.channelMap) {
             i = ~~l;
-            var c = s.channelsList.appendChild(new u(this.channelMap[i].nameId));
-            c.id = i, c.chat = this, c.addClassNames("channel" + c.id), c.on("change", a)
+            var c = r.channelsList.appendChild(new d(this.channelMap[i].nameId));
+            c.id = i, c.chat = this, c.addClassNames("channel" + c.id), c.on("change", o)
         }
     }, n.prototype._createPresets = function (e) {
         this.presets = [], this.activePreset = null, this.presetButtons = this.logWrapper.createChild("div", {className: "presetButtons"}), this.channelsLists = this.logWrapper.createChild("div", {className: "channelsLists"});
         for (var t = 0; t < e.length; t++)this._addPreset(e[t])
     }, n.prototype._setChannelInPreset = function (e, t, i) {
         var n = this.presets[e].channels, o = !1, s = n.indexOf(t);
-        s === -1 || i ? s === -1 && i && (n.push(t), o = !0) : (n.splice(s, 1), o = !0), o && (e === this.activePreset && this._updateLogFilter(), D.setValue(ne + e, n))
+        s === -1 || i ? s === -1 && i && (n.push(t), o = !0) : (n.splice(s, 1), o = !0), o && (e === this.activePreset && this._updateLogFilter(), I.setValue(j + e, n))
     }, n.prototype._updatePresets = function (e) {
         var t = this.numPresetsListeningToChannel = {};
         for (var i in this.channelMap)t[~~i] = 0;
@@ -25239,49 +25140,47 @@
             var r = 0;
             for (i in this.channelMap) {
                 n = ~~i;
-                var l = this.enabledChannels.indexOf(n) >= 0, c = a.channels.indexOf(n) >= 0, d = o[r];
-                r++, this.disallowedChannelMap[n] ? d.hide() : ($[n] || (!l || c || 0 !== s || t[n] || (this._setChannelInPreset(s, n, !0), c = !0), !l && c && (this._setChannelInPreset(s, n, !1), c = !1)), c ? (d.activate(!0), t[n]++) : d.deactivate(!0))
+                var l = this.chatInput.isChannelEnabledForSending(n), c = a.channels.indexOf(n) >= 0, d = o[r];
+                r++, this.chatInput.isChannelAllowedForSending(n) ? (U[n] || (!l || c || 0 !== s || t[n] || (this._setChannelInPreset(s, n, !0), c = !0), !l && c && (this._setChannelInPreset(s, n, !1), c = !1)), c ? (d.activate(!0), t[n]++) : d.deactivate(!0)) : d.hide()
             }
         }
     }, n.prototype._loadPresetConfig = function () {
         var e = [];
         e.push({
             className: "preset1",
-            channels: D.getValue(ne + X, [c.CHANNEL_GLOBAL, c.CHANNEL_TEAM, c.CHANNEL_GUILD, c.CHANNEL_ALLIANCE, c.CHANNEL_PARTY, c.CHANNEL_NOOB, c.PSEUDO_CHANNEL_PRIVATE, c.PSEUDO_CHANNEL_INFO, c.PSEUDO_CHANNEL_FIGHT_LOG, c.CHANNEL_ADS, c.CHANNEL_ARENA])
+            channels: I.getValue(j + F, [r.CHANNEL_GLOBAL, r.CHANNEL_TEAM, r.CHANNEL_GUILD, r.CHANNEL_ALLIANCE, r.CHANNEL_PARTY, r.CHANNEL_NOOB, r.PSEUDO_CHANNEL_PRIVATE, r.PSEUDO_CHANNEL_INFO, r.PSEUDO_CHANNEL_FIGHT_LOG, r.CHANNEL_ADS, r.CHANNEL_ARENA])
         }), e.push({
             className: "preset2",
-            channels: D.getValue(ne + Q, [c.PSEUDO_CHANNEL_FIGHT_LOG])
+            channels: I.getValue(j + H, [r.PSEUDO_CHANNEL_FIGHT_LOG])
         }), e.push({
             className: "preset3",
-            channels: D.getValue(ne + K, [c.PSEUDO_CHANNEL_PRIVATE])
+            channels: I.getValue(j + q, [r.PSEUDO_CHANNEL_PRIVATE])
         }), e.push({
             className: "preset4",
-            channels: D.getValue(ne + J, [c.CHANNEL_GUILD, c.CHANNEL_SALES, c.CHANNEL_SEEK])
+            channels: I.getValue(j + W, [r.CHANNEL_GUILD, r.CHANNEL_SALES, r.CHANNEL_SEEK])
         }), this.presets || this._createPresets(e), this._updatePresets(e)
     }, n.prototype._showMsgAsBubble = function (e) {
-        if (e.channel === Y)return !1;
-        if (!window.gui.playerData.isFighting || q.showSpeechBubbleInFight) {
+        if (e.channel === k)return !1;
+        if (!window.gui.playerData.isFighting || O.showSpeechBubbleInFight) {
             var t = window.actorManager.getActor(e.senderId);
             if (!t)return !1;
             window.gui.newSpeechBubble({actor: t, msg: e.content, objectItems: e.objects, channel: e.channel});
-            var i = P.getOpenWindows();
-            return !(i.length >= 2) && (1 !== i.length || "worldMap" === i[0] && !P.getWindow("worldMap").isMaximized())
+            var i = E.getOpenWindows();
+            return !(i.length >= 2) && (1 !== i.length || "worldMap" === i[0] && !E.getWindow("worldMap").isMaximized())
         }
     }, n.prototype._createMessageContent = function (e, t) {
-        var i = new B("div", {className: "message"}), n = "ChatAdminServerMessage" === e._messageType;
-        if (i.addClassNames("channel" + (n ? c.CHANNEL_ADMIN : e.channel)), e.channel !== j && e.channel !== Y && i.createChild("span", {text: "(" + this.channelMap[e.channel].nameId + ") "}), e.channel === Y) {
-            var o = _(t ? "ui.chat.to" : "ui.chat.from");
+        var i = new x("div", {className: "message"}), n = "ChatAdminServerMessage" === e._messageType;
+        if (i.addClassNames("channel" + (n ? r.CHANNEL_ADMIN : e.channel)), e.channel !== B && e.channel !== k && i.createChild("span", {text: "(" + this.channelMap[e.channel].nameId + ") "}), e.channel === k) {
+            var o = g(t ? "ui.chat.to" : "ui.chat.from");
             i.createChild("span", {text: o + " "})
         }
-        var s = b.process("{player," + (t ? e.receiverName : e.senderName) + "," + (t ? e.receiverId : e.senderId) + "}: ");
-        return i.appendChild(s), i.appendChild(b.process(e.content, {objectItems: e.objects, cameViaChat: !0})), i
+        var s = v.process("{player," + (t ? e.receiverName : e.senderName) + "," + (t ? e.receiverId : e.senderId) + "}: ");
+        return i.appendChild(s), i.appendChild(v.process(e.content, {objectItems: e.objects, cameViaChat: !0})), i
     }, n.prototype._createMessageContentFromText = function (e, t) {
-        var i = new B("div", {className: "message"});
+        var i = new x("div", {className: "message"});
         i.addClassNames("channel" + t);
-        var n = t === c.PSEUDO_CHANNEL_FIGHT_LOG ? {
-            allowStyleTag: !0
-        } : null;
-        return i.appendChild(b.process(e, n)), i
+        var n = t === r.PSEUDO_CHANNEL_FIGHT_LOG ? {allowStyleTag: !0} : null;
+        return i.appendChild(v.process(e, n)), i
     }, n.prototype._addMsgToChat = function (e, t) {
         var i = this._logChat.appendChild(e), n = this.historyBuffers[t].push(i);
         n && this._logChat.removeChild(n), this._refreshScroller(!0)
@@ -25298,26 +25197,25 @@
         e.content = this.linkHelper.replaceLinksReceived(e.content, e.objects), this._logNewMessage(e, t)
     }, n.prototype._logServerText = function (e, t) {
         t = t || {};
-        var i = void 0 !== t.channel ? t.channel : c.PSEUDO_CHANNEL_INFO, n = this._createMessageContentFromText(e, i),
+        var i = void 0 !== t.channel ? t.channel : r.PSEUDO_CHANNEL_INFO, n = this._createMessageContentFromText(e, i),
             o = this._createMessageContentFromText(e, i);
         this._addMsgToChat(n, i), window.gui.textNotification.add(o, {channel: i})
     }, n.prototype.logMsg = function (e, t) {
-        if (void 0 === t && (t = c.PSEUDO_CHANNEL_INFO), !this.isChannelEnabledInPreset(t)) {
+        if (void 0 === t && (t = r.PSEUDO_CHANNEL_INFO), !this.isChannelEnabledInPreset(t)) {
             var i = this._createMessageContentFromText(e, t);
             return this._addMsgToChat(i, t)
         }
         this._logServerText(e, {channel: t})
     }, n.prototype.logError = function (e) {
-        this._logServerText(e, {channel: V})
+        this._logServerText(e, {channel: z})
     }, n.prototype.insertLink = function (e, t) {
-        var i = this.linkHelper.newLinkForSending(e, t);
-        this.inputChat.setValue(this.inputChat.getValue() + " " + i + " ")
+        this.chatInput.insertLink(e, t)
     }, n.prototype._refreshScroller = function (e) {
         var t = !this.logScroller.canScrollDown();
         return this.logScroller.refresh(), e && !t ? this.logScroller.notify() : void this.logScroller.goToBottom()
     }, n.prototype._togglePresetChannels = function (e) {
         if (this.channelsLists.toggleDisplay(), !this.channelsLists.isVisible())return this._refreshScroller();
-        var t = this.presets[e], i = g(t.channelsList, t.element);
+        var t = this.presets[e], i = f(t.channelsList, t.element);
         t.channelsList.setStyles({left: i.x + "px", top: i.y + "px"})
     }, n.prototype._setActivePreset = function (e) {
         this.activePreset = e, this.channelsLists.hide();
@@ -25327,12 +25225,13 @@
         }
         this._updateLogFilter(), this._refreshScroller()
     }, n.prototype.isChannelEnabledInPreset = function (e) {
+        if (!this.presets)return !0;
         var t = this.presets[this.activePreset].channels;
         return t.indexOf(e) !== -1
     }, n.prototype._updateLogFilter = function () {
-        for (var e = this.presets[this.activePreset].channels, t = Object.keys(c).length,
+        for (var e = this.presets[this.activePreset].channels, t = Object.keys(r).length,
                  i = 0; i <= t; i++)this._logChat.toggleClassName("showChannel" + i, e.indexOf(i) !== -1)
-    }, n.prototype.setMessageHandlers = function () {
+    }, n.prototype._setMessageHandlers = function () {
         function e(e) {
             var t = n.playerData.characters.canControlCharacterId(e.id);
             i.yourTurnButton.toggleDisplay(t)
@@ -25345,8 +25244,6 @@
         var i = this, n = window.gui, o = window.dofus.connectionManager;
         o.on("EnabledChannelsMessage", function (e) {
             i._initialize(e.channels, e.disallowed)
-        }), o.on("ChannelEnablingChangeMessage", function (e) {
-            i._setChannelEnabled(e.channel, e.enable)
         }), o.on("ChatServerWithObjectMessage", function (e) {
             i._logServerMsgWithObject(e, !1)
         }), o.on("ChatServerCopyWithObjectMessage", function (e) {
@@ -25360,27 +25257,26 @@
             i._logNewMessage(e, !1)
         }), o.on("ChatServerCopyMessage", function (e) {
             i._logNewMessage(e, !0)
-        }), o.on("ChatErrorMessage", function (e) {
-            i._showNotification(e.reason), i._setInput(i.previousInput, !0)
         }), o.on("BasicWhoIsMessage", function (e) {
-            e.verbose && i._logServerText(F(e))
+            e.verbose && i._logServerText(N(e))
         }), o.on("BasicWhoIsNoMatchMessage", function (e) {
-            i._logServerText(_("ui.common.playerNotFound", e.search))
+            i._logServerText(g("ui.common.playerNotFound", e.search))
         }), o.on("CharacterExperienceGainMessage", function (e) {
-            e.experienceCharacter && i.logMsg(_("ui.stats.xpgain.mine", e.experienceCharacter)), e.experienceGuild && i.logMsg(_("ui.stats.xpgain.guild", e.experienceGuild)), e.experienceIncarnation && i.logMsg(_("ui.stats.xpgain.incarnation", e.experienceIncarnation)), e.experienceMount && i.logMsg(_("ui.stats.xpgain.mount", e.experienceMount))
+            e.experienceCharacter && i.logMsg(g("ui.stats.xpgain.mine", e.experienceCharacter)), e.experienceGuild && i.logMsg(g("ui.stats.xpgain.guild", e.experienceGuild)), e.experienceIncarnation && i.logMsg(g("ui.stats.xpgain.incarnation", e.experienceIncarnation)), e.experienceMount && i.logMsg(g("ui.stats.xpgain.mount", e.experienceMount))
         }), n.fightManager.on("fightEnterPreparation", function () {
             i.deactivate()
         }), n.fightManager.on("fightStart", function () {
-            i.yourTurnButton.hide(), i.setDisplayMode(ee.FIGHT)
-        }), n.fightManager.on(f.FIGHT_END, function () {
-            t(), i.setDisplayMode(ee.ROLEPLAY)
-        }), n.on("GameFightTurnStartMessage", e), n.on("GameFightTurnResumeMessage", e), n.on("GameFightTurnStartSlaveMessage", e), n.on("GameFightTurnEndMessage", t), n.on("resize", function () {
+            i.yourTurnButton.hide(), i.setDisplayMode(G.FIGHT)
+        }), n.fightManager.on(m.FIGHT_END, function () {
+            t(), i.setDisplayMode(G.ROLEPLAY)
+        }), n.on("GameFightTurnStartMessage", e), n.on("GameFightTurnResumeMessage", e),
+            n.on("GameFightTurnStartSlaveMessage", e), n.on("GameFightTurnEndMessage", t), n.on("resize", function () {
             i._resize()
         }), n.on("disconnect", function () {
             i.deactivate()
-        }), C.on("show", function (e) {
+        }), b.on("show", function (e) {
             i.keyboardHeight = e, i.setDimensions()
-        }), C.on("hide", function () {
+        }), b.on("hide", function () {
             n.playerData.isFighting && i.deactivate()
         })
     }, n.prototype.setDisplayMode = function (e) {
@@ -25390,20 +25286,20 @@
         }
     }, n.prototype.removeDisplayMode = function () {
         switch (this.displayMode) {
-            case ee.FIGHT:
+            case G.FIGHT:
                 window.gui.timeline.restoreFighterList(), this.delClassNames("fightMode")
         }
     }, n.prototype.addDisplayMode = function () {
-        this.displayMode === ee.FIGHT && (this.addClassNames("fightMode"), window.gui.timeline.appendFighterListTo(this.timelineBox))
+        this.displayMode === G.FIGHT && (this.addClassNames("fightMode"), window.gui.timeline.appendFighterListTo(this.timelineBox))
     }, n.prototype.setDimensions = function () {
         switch (this.displayMode) {
-            case ee.FIGHT:
-                this.logWrapper.windowWidth = p.screenWidth;
-                var e = p.physicalScreenHeight - this.keyboardHeight;
-                this.logWrapper.windowHeight = e * p.physicalToViewportRatio, this.logWrapper.resizeHandle.hide();
+            case G.FIGHT:
+                this.logWrapper.windowWidth = h.screenWidth;
+                var e = h.physicalScreenHeight - this.keyboardHeight;
+                this.logWrapper.windowHeight = e * h.physicalToViewportRatio, this.logWrapper.resizeHandle.hide();
                 break;
             default:
-                var t = Math.max(U, Math.round(.45 * p.mapWidth)), i = Math.max(G, Math.round(.45 * p.mapHeight));
+                var t = Math.max(R, Math.round(.45 * h.mapWidth)), i = Math.max(P, Math.round(.45 * h.mapHeight));
                 this.logWrapper.windowWidth = this.savedWidth || t, this.logWrapper.windowHeight = this.savedHeight || i, this.logWrapper.resizeHandle.show()
         }
         this.logWrapper.setStyles({
@@ -25411,114 +25307,412 @@
             height: this.logWrapper.windowHeight + "px"
         }), this._refreshScroller()
     }, n.prototype.sendChatMessage = function (e, t, i, n) {
-        var o = e.length - S.USER_MAX_CHAT_LEN;
-        if (o > 0)return this._showNotification(_("tablet.chat.messageTooLong", o)), !1;
-        var s, a = {content: e};
-        return n && n.length > 0 ? (s = i ? "ChatClientPrivateWithObjectMessage" : "ChatClientMultiWithObjectMessage", a.objects = n) : s = i ? "ChatClientPrivateMessage" : "ChatClientMultiMessage", i ? a.receiver = i : a.channel = t, window.dofus.sendMessage(s, a), !0
-    }, n.prototype._submit = function () {
-        M.recordActivity(), this.logScroller.goToBottom();
-        var e = this.inputChat.getValue().trim(), t = this.outgoingChannel, i = null, n = te.exec(e);
-        if (n) {
-            n = n[1].toLowerCase();
-            var o = e.split(" ").slice(1), s = k(n, o);
-            if (s)return void this._setInput("");
-            if (t = ie[n], void 0 === t)return this._showNotification(_("ui.console.notfound", e.substr(1).split(" ")[0]));
-            e = e.substr(n.length + 2)
-        }
-        if (t === Y) {
-            var a = e.indexOf(" ");
-            if (i = e.substr(0, a), e = e.substr(a), !i || !e || i.length < S.MIN_NICK_LEN || i.length > S.MAX_NICK_LEN)return this._showNotification(_("tablet.chat.privateReceiverHelp"));
-            this.previousPrivateReceiver = i
-        }
-        if (e = e.trim()) {
-            this.previousInput = e;
-            var r = d.getUnsendableCharacters(e);
-            if (r.length) {
-                var l = r[0] + " (" + r[0].codePointAt().toString(16) + ")";
-                return this._showNotification(_("tablet.chat.unsendableChars", l))
-            }
-            e = d.encode(e), e = z(e);
-            var c = [];
-            e = this.linkHelper.prepareForSending(e, c), this.sentMessageHistory.addMessage(this.inputChat.getValue(), this.linkHelper.previousLinks), this.sendChatMessage(e, t, i, c) && this._setInput("")
-        }
-    }, n.prototype._setInput = function (e, t) {
-        this.outgoingChannel === Y && this.previousPrivateReceiver ? (this.inputChat.setValue(this.previousPrivateReceiver + " " + e), t && this.inputChat.setCaretPosition(this.previousPrivateReceiver.length)) : this.inputChat.setValue(e), t && this.linkHelper.undoPrepareForSending()
+        return c.sendMessage(e, t, i, n)
     }, n.prototype.startPrivateMessage = function (e, t) {
-        t && (e = "*" + e), this.outgoingChannel === Y && e !== this.previousPrivateReceiver && o(this.inputChat, this.previousPrivateReceiver + " "), this.previousPrivateReceiver = e, this._selectOutgoingChannel(Y, !0), this.activate()
+        this.chatInput.startPrivateMessage(e, t), this.activate()
     }, n.prototype.activate = function () {
         var e = this;
-        C.disableScroll(!0), this.addClassNames("open"), this.active = !0, h.isPhoneGap || this.setDimensions(), this.addDisplayMode(), this._refreshScroller(), window.gui.textNotification && window.gui.textNotification.hide(), O.tween(this, {webkitTransform: "translate3d(0, 0, 0)"}, {
+        b.disableScroll(!0), this.addClassNames("open"), this.active = !0, u.isPhoneGap || this.setDimensions(), this.addDisplayMode(), this._refreshScroller(), window.gui.textNotification && window.gui.textNotification.hide(), A.tween(this, {webkitTransform: "translate3d(0, 0, 0)"}, {
             time: 200,
             delay: 0,
             easing: "ease-out"
         }, function () {
-            e.inputChat.focus()
-        }), C.setAutomaticHide(!1)
+            e.chatInput.focus()
+        }), b.setAutomaticHide(!1)
     }, n.prototype.deactivate = function () {
         if (this.active) {
-            this.active = !1, this.inputChat.blur(), C.disableScroll(!1), this.savedWidth = this.logWrapper.windowWidth, this.savedHeight = this.logWrapper.windowHeight;
+            this.active = !1, this.chatInput.blur(), b.disableScroll(!1), this.savedWidth = this.logWrapper.windowWidth, this.savedHeight = this.logWrapper.windowHeight;
             var e = this;
-            O.tween(this, {webkitTransform: "translate3d(0, -" + this.logWrapper.windowHeight + "px, 0)"}, {
+            A.tween(this, {webkitTransform: "translate3d(0, -" + this.logWrapper.windowHeight + "px, 0)"}, {
                 time: 200,
                 delay: 0,
                 easing: "ease-out"
             }, function () {
                 e.removeDisplayMode(), e.delClassNames("open")
-            }), window.gui.textNotification && window.gui.textNotification.show(), this.channelsLists && this.channelsLists.hide(), C.setAutomaticHide(!0)
+            }), window.gui.textNotification && window.gui.textNotification.show(), this.channelsLists && this.channelsLists.hide(), b.setAutomaticHide(!0)
         }
     }, n.prototype._resize = function () {
         var e = !this.logWrapper.windowHeight;
         this.setDimensions(), e && this.deactivate()
     }
 }, function (e, t) {
+}, function (e, t, i) {
+    function n(e, t) {
+        d.call(this), this.linkHelper = t, this.channelMap = window.gui.databases.ChatChannels, this.outgoingChannel = w, this.outgoingChannelMenu = null, this.sendingEnabledChannels = null, this.sendingDisallowedChannels = null, this.previousInput = "", this.previousPrivateReceiver = "", this.sentMessageHistory = new _, this._createElements(e), this._setMessageHandlers()
+    }
+
+    function o(e, t) {
+        var i = e.getValue(), n = i.substr(0, t.length);
+        n === t && e.setValue(i.substr(t.length))
+    }
+
+    function s(e, t) {
+        var i = e.getValue();
+        i.substr(0, t.length) !== t && e.setValue(t + i)
+    }
+
+    var a = i(213), r = i(244), l = i(480), c = i(481), d = i(31).EventEmitter, u = i(38).getText, h = i(37),
+        p = i(28).inherits, m = i(407), f = i(482), g = i(220), _ = i(483), v = i(484), y = i(485), b = i(215),
+        M = [r.CHANNEL_GLOBAL, r.CHANNEL_TEAM, r.CHANNEL_GUILD, r.CHANNEL_ALLIANCE, r.CHANNEL_PARTY, r.CHANNEL_NOOB, r.CHANNEL_ADMIN, r.PSEUDO_CHANNEL_PRIVATE, r.CHANNEL_ARENA, r.CHANNEL_SALES, r.CHANNEL_SEEK],
+        w = r.CHANNEL_GLOBAL, T = r.PSEUDO_CHANNEL_PRIVATE, C = /^\/([A-Za-z]+)/, A = {
+            s: w,
+            w: T,
+            t: r.CHANNEL_TEAM,
+            g: r.CHANNEL_GUILD,
+            a: r.CHANNEL_ALLIANCE,
+            p: r.CHANNEL_PARTY,
+            i: r.CHANNEL_NOOB,
+            q: r.CHANNEL_ADMIN,
+            k: r.CHANNEL_ARENA,
+            b: r.CHANNEL_SALES,
+            r: r.CHANNEL_SEEK
+        };
+    p(n, d), e.exports = n, n.prototype.initializeConnection = function (e, t) {
+        this.statusIndicator.initialize(), this.previousInput = "", this.previousPrivateReceiver = "", this._selectOutgoingChannel(w, !0), this.sendingEnabledChannels = e, this.sendingDisallowedChannels = t, this._initOutgoingChannelMenu()
+    }, n.prototype.clearSentMessageHistory = function () {
+        this.sentMessageHistory.reset()
+    }, n.prototype._createElements = function (e) {
+        function t() {
+            var e = n.sentMessageHistory.getCurrentEntry();
+            n._setInput(e.message), n.linkHelper.linksToReplace = e.links
+        }
+
+        var i = e.createChild("div", {className: "formChat"});
+        this.statusIndicator = new y(i), this._createChannelSelector(i), this.inputChat = i.appendChild(new m({
+            className: "inputChat",
+            attr: {maxlength: g.USER_MAX_CHAT_LEN}
+        }));
+        var n = this;
+        this.inputChat.on("validate", function () {
+            n._submit()
+        });
+        var o = i.appendChild(new a({className: "historyUp", scaleOnPress: !0, hidden: !0}, function () {
+            n.sentMessageHistory.goBack(), t()
+        })), s = i.appendChild(new a({className: "historyDown", scaleOnPress: !0, hidden: !0}, function () {
+            n.sentMessageHistory.goForward(), t()
+        }));
+        i.appendChild(new a({className: "historyButton", scaleOnPress: !0}, function () {
+            o.toggleDisplay(), s.toggleDisplay()
+        })), i.appendChild(new a({className: ["sendButton", "greenButton"], addIcon: !0}, function () {
+            n._submit()
+        }))
+    }, n.prototype._createChannelSelector = function (e) {
+        function t() {
+            i._selectOutgoingChannel(this.id), i.inputChat.focus()
+        }
+
+        for (var i = this, n = this.outgoingChannelMenu = [], o = 0; o < M.length; o++) {
+            var s = this.channelMap[M[o]];
+            n.push({
+                id: s.id,
+                caption: s.nameId + " (" + s.shortcut + ")",
+                cb: t,
+                ticked: s.id === this.outgoingChannel
+            })
+        }
+        this.outgoingChannelButtonBg = e.createChild("div", {className: "buttonBackground"}), e.createChild("div", {className: "outgoingChannelButton"});
+        var a = e.createChild("div", {className: "buttonTouchZone"});
+        b.addTooltip(a, u("ui.option.chat")), a.on("tap", function () {
+            var e = this.rootElement.getBoundingClientRect();
+            window.gui.openContextualMenu("generic", {
+                title: u("ui.option.currentChannel"),
+                actions: i.outgoingChannelMenu
+            }, {x: e.left + e.width, y: e.top})
+        })
+    }, n.prototype._showNotification = function (e) {
+        b.showNotification(e, this.inputChat)
+    }, n.prototype.showNotification = n.prototype._showNotification, n.prototype._initOutgoingChannelMenu = function () {
+        for (var e = this.outgoingChannelMenu, t = 0; t < e.length; t++) {
+            var i = e[t];
+            i.hidden = this.sendingEnabledChannels.indexOf(i.id) < 0, i.ticked = i.id === this.outgoingChannel
+        }
+    }, n.prototype._getOutgoingChannelMenuOption = function (e) {
+        for (var t = this.outgoingChannelMenu, i = 0; i < t.length; i++)if (t[i].id === e)return t[i]
+    }, n.prototype._setChannelEnabled = function (e, t) {
+        var i = this._getOutgoingChannelMenuOption(e);
+        i && (i.hidden = !t);
+        var n = this.channelMap[e].nameId, o = this.sendingEnabledChannels, s = o.indexOf(e);
+        if (s !== -1) {
+            if (this._showNotification(u("tablet.chat.disablingChannel", n)), t)return console.warn("Chat channel already enabled");
+            o.splice(s, 1)
+        } else {
+            if (this._showNotification(u("tablet.chat.enablingChannel", n)), !t)return console.warn("Chat channel already disabled");
+            o.push(e)
+        }
+    }, n.prototype.isChannelEnabledForSending = function (e) {
+        return this.sendingEnabledChannels.indexOf(e) !== -1
+    }, n.prototype.isChannelAllowedForSending = function (e) {
+        return this.sendingDisallowedChannels.indexOf(e) === -1
+    }, n.prototype._selectOutgoingChannel = function (e, t) {
+        var i = this.outgoingChannel;
+        (e !== i || t) && (t && e !== T && this.inputChat.setValue(""), i === T && o(this.inputChat, this.previousPrivateReceiver + " "), e === T && this.previousPrivateReceiver && s(this.inputChat, this.previousPrivateReceiver + " "), this.inputChat.setClassNames(["inputChat", "inputBox", "channel" + e]), this.outgoingChannelButtonBg.setClassNames(["buttonBackground", "outgoingChannel" + e]), e === T && (this.previousPrivateReceiver ? this._showNotification(u("tablet.chat.enteringPrivateChannel", this.previousPrivateReceiver)) : this._showNotification(u("tablet.chat.privateReceiverHelp"))), this._getOutgoingChannelMenuOption(i).ticked = !1, this._getOutgoingChannelMenuOption(e).ticked = !0, this.outgoingChannel = e)
+    }, n.prototype._setMessageHandlers = function () {
+        var e = this, t = window.dofus.connectionManager;
+        t.on("ChannelEnablingChangeMessage", function (t) {
+            e._setChannelEnabled(t.channel, t.enable)
+        }), t.on("ChatErrorMessage", function (t) {
+            e._showNotification(t.reason), e._setInput(e.previousInput, !0), e.sentMessageHistory.removeMessage()
+        })
+    }, n.prototype.insertLink = function (e, t) {
+        var i = this.linkHelper.newLinkForSending(e, t);
+        this.inputChat.setValue(this.inputChat.getValue() + " " + i + " ")
+    }, n.prototype.focus = function () {
+        this.inputChat.focus()
+    }, n.prototype.blur = function () {
+        this.inputChat.blur()
+    }, n.prototype._submit = function () {
+        h.recordActivity();
+        var e = this.inputChat.getValue().trim(), t = this.outgoingChannel, i = null, n = C.exec(e);
+        if (n) {
+            n = n[1].toLowerCase();
+            var o = e.split(" ").slice(1), s = v(n, o);
+            if (s)return void this._setInput("");
+            if (t = A[n], void 0 === t)return this._showNotification(u("ui.console.notfound", e.substr(1).split(" ")[0]));
+            e = e.substr(n.length + 2)
+        }
+        if (t === T) {
+            var a = e.indexOf(" ");
+            if (i = e.substr(0, a), e = e.substr(a), !i || !e || i.length < g.MIN_NICK_LEN || i.length > g.MAX_NICK_LEN)return this._showNotification(u("tablet.chat.privateReceiverHelp"));
+            this.previousPrivateReceiver = i
+        }
+        if (e = e.trim()) {
+            this.previousInput = e;
+            var r = l.getUnsendableCharacters(e);
+            if (r.length) {
+                var d = r[0] + " (" + r[0].codePointAt().toString(16) + ")";
+                return this._showNotification(u("tablet.chat.unsendableChars", d))
+            }
+            e = l.encode(e), e = f(e);
+            var p = [];
+            e = this.linkHelper.prepareForSending(e, p);
+            var m = c.sendMessage(e, t, i, p);
+            if (m)return this.inputChat.showNotification(m);
+            this.sentMessageHistory.addMessage(this.previousInput, this.linkHelper.previousLinks), this._setInput(""), this.emit("sentChatMsg")
+        }
+    }, n.prototype._setInput = function (e, t) {
+        this.outgoingChannel === T && this.previousPrivateReceiver ? (this.inputChat.setValue(this.previousPrivateReceiver + " " + e), t && this.inputChat.setCaretPosition(this.previousPrivateReceiver.length)) : this.inputChat.setValue(e), t && this.linkHelper.undoPrepareForSending()
+    }, n.prototype.startPrivateMessage = function (e, t) {
+        t && (e = "*" + e), this.outgoingChannel === T && e !== this.previousPrivateReceiver && o(this.inputChat, this.previousPrivateReceiver + " "), this.previousPrivateReceiver = e, this._selectOutgoingChannel(T, !0)
+    }
 }, function (e, t) {
-    function i(e, t) {
-        var i = e.indexOf(a, t + 1);
+    function i(e, t, i) {
+        for (var n = t; n <= i; n++)e[n] = !0
+    }
+
+    function n(e, t) {
+        var i = e.indexOf(l, t + 1);
         return i < 0 ? e.substring(t) : e.substring(t, i + 1)
     }
 
-    function n(e) {
-        return e >= 126976 && e <= 128767 || e >= 129280 && e <= 129535
-    }
-
     function o(e) {
-        return r.indexOf(e) !== -1
+        var t = m[e >> 16];
+        if (void 0 === t)return !1;
+        var i = t[e >> 8 & 255];
+        if (i === !0)return !0;
+        if (void 0 === i)return !1;
+        for (var n = 0; n < i.length; n++) {
+            var o = i[n];
+            if (e < o[0])break;
+            if (e <= o[1])return !0
+        }
+        return !1
     }
 
     function s(e) {
-        var t = e.length;
-        if (t < 3 || e[0] !== a || e[t - 1] !== a)return e;
-        var i = parseInt(e.substr(1, l), 16);
-        if (i.toString(16) !== e.substr(1, t - 2))return e;
-        var s = String.fromCodePoint(i);
-        return n(i) || o(s) ? s : e
+        return e > d || !o(e)
     }
 
-    var a = "~", r = a + "{}$", l = 6;
-    t.getUnsendableCharacters = function (e) {
-        for (var t = [], i = 0; i < e.length; i++)if (!(e.charCodeAt(i) <= 255)) {
-            var o = e.substr(i, 2), s = o.codePointAt();
-            s < 65536 || (i++, n(s) || t.push(o))
+    function a(e) {
+        return c.indexOf(e) !== -1
+    }
+
+    function r(e) {
+        var t = e.length;
+        if (t < 3 || e[0] !== l || e[t - 1] !== l)return e;
+        var i = parseInt(e.substr(1, u), 16);
+        if (i.toString(16) !== e.substr(1, t - 2))return e;
+        var n = String.fromCodePoint(i);
+        return (i <= 255 ? a(n) : o(i)) ? n : e
+    }
+
+    var l = "~", c = l + "{}$", d = 65535, u = 6, h = [], p = [], m = [h, p], f = 65532;
+    h[0] = [[10, 10], [32, 126], [160, 255]], h[1] = !0, h[2] = [[512, 591]], h[255] = [[f, f]], h[4] = !0, h[5] = [[1280, 1327]];
+    var g = 240, _ = 246, v = 249, y = 249;
+    i(p, g, _), i(p, v, y), t.getUnsendableCharacters = function (e) {
+        for (var t = [], i = 0; i < e.length; i++) {
+            var n = e.codePointAt(i);
+            n > 65535 && i++, o(n) || t.push(String.fromCodePoint(n))
         }
         return t
     }, t.encode = function (e) {
         for (var t = "", i = 0; i < e.length; i++) {
             var n = e[i];
             if (n.charCodeAt() > 255) {
-                var s = e.substr(i, 2), r = s.codePointAt();
-                r < 65536 ? t += n : (t += a + r.toString(16) + a, i++)
-            } else t += o(n) ? a + n.charCodeAt().toString(16) + a : n
+                var o = e.substr(i, 2), r = o.codePointAt();
+                r > 65535 && i++, t += s(r) ? l + r.toString(16) + l : n
+            } else t += a(n) ? l + n.charCodeAt().toString(16) + l : n
         }
         return t
     }, t.decode = function (e) {
-        for (var t = "", n = 0; n < e.length; n++) {
-            var o = e[n];
-            if (o !== a) t += o; else {
-                var r = i(e, n);
-                n += r.length - 1, t += s(r)
+        for (var t = "", i = 0; i < e.length; i++) {
+            var s = e[i];
+            if (s !== l) {
+                var a = s.charCodeAt();
+                t += o(a) ? s : "ï¿½"
+            } else {
+                var c = n(e, i);
+                i += c.length - 1, t += r(c)
             }
         }
         return t
+    }
+}, function (e, t, i) {
+    var n = i(38).getText, o = i(220);
+    t.sendMessage = function (e, t, i, s) {
+        var a = e.length - o.USER_MAX_CHAT_LEN;
+        if (a > 0)return n("tablet.chat.messageTooLong", a);
+        var r, l = {content: e};
+        return s && s.length > 0 ? (r = i ? "ChatClientPrivateWithObjectMessage" : "ChatClientMultiWithObjectMessage", l.objects = s) : r = i ? "ChatClientPrivateMessage" : "ChatClientMultiMessage", i ? l.receiver = i : l.channel = t, window.dofus.sendMessage(r, l), ""
+    }
+}, function (e, t, i) {
+    function n(e) {
+        return new RegExp(a("ui.chat.variable." + e).replace(/,/g, "|").replace(/ /g, ""), "g")
+    }
+
+    function o() {
+        r = {}, r.experience = n("experience"), r.level = n("level"), r.life = n("life"), r.maxlife = n("maxlife"), r.lifepercent = n("lifepercent"), r.myself = n("myself"), r.stats = n("stats"), r.area = n("area"), r.subarea = n("subarea"), r.position = n("position"), r.guild = n("guild"), r.achievement = n("achievement")
+    }
+
+    function s(e) {
+        var t = window.gui.playerData.characters.mainCharacter.characteristics, i = t[e];
+        if (!i)return "?";
+        var n = i.alignGiftBonus + i.contextModif + i.objectsAndMountBonus, o = n > 0 ? "+" : "";
+        return i.base + " (" + o + n + ")"
+    }
+
+    var a = i(38).getText, r = null;
+    e.exports = function (e) {
+        r || o();
+        var t = window.gui.playerData, i = t.characters.mainCharacter, n = i.characteristics;
+        if (!n)return e;
+        var l = n.experience - n.experienceLevelFloor, c = (n.experienceNextLevelFloor - n.experienceLevelFloor) / 100,
+            d = Math.round(l / c) + "%";
+        e = e.replace(r.experience, d);
+        var u = t.characterBaseInformations.level || 0;
+        e = e.replace(r.level, u);
+        var h = n.lifePoints || 0;
+        e = e.replace(r.life, h);
+        var p = n.maxLifePoints || 0;
+        e = e.replace(r.maxlife, p);
+        var m = Math.min(100, Math.max(0, Math.round(h / p * 100))) + "%";
+        e = e.replace(r.lifepercent, m);
+        var f = t.characterBaseInformations.name || "";
+        e = e.replace(r.myself, f);
+        var g = a("ui.chat.variable.statsresult", s("vitality"), s("wisdom"), s("strength"), s("intelligence"), s("chance"), s("agility"), s("initiative"), s("actionPoints"), s("movementPoints"));
+        e = e.replace(r.stats, g);
+        var _ = t.position.area.nameId;
+        e = e.replace(r.area, _);
+        var v = t.position.subArea.nameId;
+        e = e.replace(r.subarea, v);
+        var y = "{mapWithFlag," + t.position.mapPosition.posX + "," + t.position.mapPosition.posY + "," + window.gui.playerData.position.worldmapId + "}";
+        e = e.replace(r.position, y);
+        var b = t.guild.current && t.guild.current.guildName, M = b || a("ui.chat.variable.guilderror");
+        e = e.replace(r.guild, M);
+        var w = a("ui.chat.variable.achievementResult", t.achievements.points, t.achievements.getAchievementPercent());
+        return e = e.replace(r.achievement, w)
+    }
+}, function (e, t) {
+    function i() {
+        this.reset()
+    }
+
+    var n = 50, o = {message: "", links: []};
+    i.prototype.reset = function () {
+        this._buffer = [], this._currentIndex = 0
+    }, i.prototype.addMessage = function (e, t) {
+        this._buffer.unshift({
+            message: e,
+            links: t
+        }), this._buffer.length > n && this._buffer.pop(), this._currentIndex = 0
+    }, i.prototype.removeMessage = function () {
+        this._buffer.shift()
+    }, i.prototype.goBack = function () {
+        this._currentIndex++
+    }, i.prototype.goForward = function () {
+        this._currentIndex = Math.max(this._currentIndex - 1, 0)
+    }, i.prototype._getIndexInRange = function () {
+        return this._currentIndex % (this._buffer.length + 1)
+    }, i.prototype.getCurrentEntry = function () {
+        var e = this._getIndexInRange();
+        return 0 === e ? o : this._buffer[e - 1]
+    }, e.exports = i
+}, function (e, t, i) {
+    var n = i(220), o = i(38).getText, s = i(54), a = s.DofusDate;
+    e.exports = function (e, t) {
+        function i() {
+            return t = t || [], !(0 === t.length || t[0].length > n.MAX_PLAYER_OR_ACCOUNT_NAME_LEN) && (window.dofus.sendMessage("BasicWhoIsRequestMessage", {
+                search: t[0],
+                verbose: !0
+            }), !0)
+        }
+
+        if (e = e.toLowerCase(), "whois" === e)return i();
+        if ("whoami" === e)return window.dofus.sendMessage("BasicWhoAmIRequestMessage", {verbose: !0}), !0;
+        if ("mapid" === e) {
+            var r = window.isoEngine.mapRenderer.mapId, l = o("ui.chat.console.currentMap", null, r);
+            return window.gui.chat.logMsg(l), !0
+        }
+        if ("time" === e) {
+            var c = new a(s.now() / 1e3).getServerDate().toString(!0),
+                d = o("ui.time.dateLetters", c.day, c.monthName, c.year) + " - " + c.time;
+            return window.gui.chat.logMsg(d), !0
+        }
+        return !1
+    }
+}, function (e, t, i) {
+    function n(e) {
+        this.currentStatus = l.PLAYER_STATUS_AVAILABLE, this._createContent(e), this._setListeners()
+    }
+
+    function o(e) {
+        switch (e) {
+            case l.PLAYER_STATUS_AVAILABLE:
+                return "available";
+            case l.PLAYER_STATUS_IDLE:
+                return "away";
+            case l.PLAYER_STATUS_AFK:
+                return "away";
+            case l.PLAYER_STATUS_PRIVATE:
+                return "private";
+            case l.PLAYER_STATUS_SOLO:
+                return "solo";
+            default:
+                return console.error("getClassNameFromStatus got invalid state", e), "available"
+        }
+    }
+
+    var s = i(52), a = i(38).getText, r = i(37), l = i(468), c = i(215), d = {};
+    d[l.PLAYER_STATUS_AFK] = "ui.chat.status.away", d[l.PLAYER_STATUS_IDLE] = "ui.chat.status.idle", d[l.PLAYER_STATUS_PRIVATE] = "ui.chat.status.private", d[l.PLAYER_STATUS_SOLO] = "ui.chat.status.solo", d[l.PLAYER_STATUS_AVAILABLE] = "ui.chat.status.availiable", e.exports = n, n.prototype.initialize = function () {
+        this.currentStatus = l.PLAYER_STATUS_AVAILABLE
+    }, n.prototype._createContent = function (e) {
+        this.statusButton = e.createChild("div", {className: ["statusButton", "available"]});
+        var t = this;
+        c.addTooltip(this.statusButton, function () {
+            return a(d[t.currentStatus])
+        }), this.statusButton.on("tap", function () {
+            var e = this.rootElement.getBoundingClientRect();
+            window.gui.openContextualMenu("userStatus", null, {x: e.left + e.width, y: e.top})
+        })
+    }, n.prototype._setCurrentStatus = function (e) {
+        e !== l.PLAYER_STATUS_IDLE && (this.currentStatus = e), this.statusButton.replaceClassNames(["available", "away", "private", "solo"], [o(e)])
+    }, n.prototype._setListeners = function () {
+        var e = this;
+        s.on("PlayerStatusUpdateMessage", function (t) {
+            t.playerId === window.gui.playerData.characterBaseInformations.id && e._setCurrentStatus(t.status.statusId)
+        }), r.on("inactive", function (t) {
+            var i = t ? l.PLAYER_STATUS_IDLE : e.currentStatus;
+            window.dofus.sendMessage("PlayerStatusUpdateRequestMessage", {status: {statusId: i}})
+        })
     }
 }, function (e, t, i) {
     function n(e, t) {
@@ -25533,7 +25727,7 @@
         })
     }
 
-    i(481);
+    i(487);
     var o = i(28).inherits, s = i(199), a = i(35), r = i(98).playUiSound;
     o(n, s), e.exports = n, n.prototype.activate = function (e) {
         this._active = !0, this.addClassNames("on"), e || (this.emit("activate"), this.emit("change", !0))
@@ -25545,29 +25739,6 @@
         return this._active
     }
 }, function (e, t) {
-}, function (e, t) {
-    function i() {
-        this.reset()
-    }
-
-    var n = 50, o = {message: "", links: []};
-    i.prototype.reset = function () {
-        this._buffer = [], this._currentIndex = 0
-    }, i.prototype.addMessage = function (e, t) {
-        this._buffer.unshift({
-            message: e,
-            links: t
-        }), this._buffer.length > n && this._buffer.pop(), this._currentIndex = 0
-    }, i.prototype.goBack = function () {
-        this._currentIndex++
-    }, i.prototype.goForward = function () {
-        this._currentIndex = Math.max(this._currentIndex - 1, 0)
-    }, i.prototype._getIndexInRange = function () {
-        return this._currentIndex % (this._buffer.length + 1)
-    }, i.prototype.getCurrentEntry = function () {
-        var e = this._getIndexInRange();
-        return 0 === e ? o : this._buffer[e - 1]
-    }, e.exports = i
 }, function (e, t, i) {
     function n(e, t, i) {
         i = i || {};
@@ -25634,7 +25805,7 @@
         return t && (n = "ðŸ’©" + n + "ðŸ’©"), a(e, n)
     }
 
-    var h = i(479), p = i(484), m = i(38).getText, f = i(485), g = i(339), _ = i(39), v = i(24), y = i(199), b = i(35),
+    var h = i(480), p = i(489), m = i(38).getText, f = i(490), g = i(339), _ = i(39), v = i(24), y = i(199), b = i(35),
         M = i(326), w = i(217), T = 5e3, C = "\\$[a-zA-Z]+[0-9]+", A = "\\{[a-zA-Z]+[^\\}]*\\}",
         I = "<a href=[^>]+>.+</a>", S = [], E = [], x = [], N = [];
     t.newExternalLink = n, o(A, "\\{player,([^,]+),([0-9]+)\\}", function (e) {
@@ -25959,14 +26130,14 @@
         this._whoIsMap = {}, this._setEventListeners()
     }
 
-    var o = i(244), s = i(488), a = i(10), r = "#{", l = "}", c = ",", d = 2e3;
+    var o = i(244), s = i(481), a = i(493), r = i(10), l = "#{", c = "}", d = ",", u = 2e3;
     e.exports = n, n.prototype.processMsg = function (e, t) {
         if (e.channel !== o.PSEUDO_CHANNEL_PRIVATE)return !1;
         var i = e.content;
-        if (i.substr(0, r.length) !== r)return !1;
-        if (i.substr(i.length - l.length) !== l)return !1;
+        if (i.substr(0, l.length) !== l)return !1;
+        if (i.substr(i.length - c.length) !== c)return !1;
         if (t)return !0;
-        var n = i.substring(r.length, i.length - l.length), s = n.split(c);
+        var n = i.substring(l.length, i.length - c.length), s = n.split(d);
         switch (s[0]) {
             case"rejoinRequest":
                 var a = parseInt(s[1], 10);
@@ -25980,145 +26151,30 @@
         }
         return !0
     }, n.prototype.sendMsg = function (e, t) {
-        for (var i = r + t, n = 2; n < arguments.length; n++)i += c + arguments[n].toString();
-        i += l, window.gui.chat.sendChatMessage(i, o.PSEUDO_CHANNEL_PRIVATE, e)
+        for (var i = l + t, n = 2; n < arguments.length; n++)i += d + arguments[n].toString();
+        i += c, s.sendMessage(i, o.PSEUDO_CHANNEL_PRIVATE, e)
     }, n.prototype.checkPlayerOnline = function (e, t) {
         var i = this._whoIsMap[e];
         i ? i.cbs.push(t) : (window.dofus.sendMessage("BasicWhoIsRequestMessage", {
             search: e,
             verbose: !1
-        }), this._whoIsMap[e] = {cbs: [t], timeout: a.setTimeout(this._playerOnlineHandler.bind(this, e, !1), d)})
+        }), this._whoIsMap[e] = {cbs: [t], timeout: r.setTimeout(this._playerOnlineHandler.bind(this, e, !1), u)})
     }, n.prototype._playerOnlineHandler = function (e, t) {
         var i = this._whoIsMap[e];
-        delete this._whoIsMap[e], a.clearTimeout(i.timeout);
+        delete this._whoIsMap[e], r.clearTimeout(i.timeout);
         for (var n = i.cbs, o = 0; o < n.length; o++)n[o](e, t)
     }, n.prototype._setEventListeners = function () {
         var e = this;
         window.gui.on("disconnect", function () {
             e._whoIsMap = {}
         }), window.dofus.connectionManager.on("BasicWhoIsMessage", function (t) {
-            t.verbose || e._whoIsMap[t.playerName] && e._playerOnlineHandler(t.playerName, t.playerState !== s.NOT_CONNECTED)
+            t.verbose || e._whoIsMap[t.playerName] && e._playerOnlineHandler(t.playerName, t.playerState !== a.NOT_CONNECTED)
         })
     }
 }, function (e, t) {
     e.exports = {NOT_CONNECTED: 0, GAME_TYPE_ROLEPLAY: 1, GAME_TYPE_FIGHT: 2, UNKNOWN_STATE: 99}
 }, function (e, t, i) {
-    function n(e) {
-        this.currentStatus = l.PLAYER_STATUS_AVAILABLE, this._createContent(e), this._setListeners()
-    }
-
-    function o(e) {
-        switch (e) {
-            case l.PLAYER_STATUS_AVAILABLE:
-                return "available";
-            case l.PLAYER_STATUS_IDLE:
-                return "away";
-            case l.PLAYER_STATUS_AFK:
-                return "away";
-            case l.PLAYER_STATUS_PRIVATE:
-                return "private";
-            case l.PLAYER_STATUS_SOLO:
-                return "solo";
-            default:
-                return console.error("getClassNameFromStatus got invalid state", e), "available"
-        }
-    }
-
-    var s = i(52), a = i(38).getText, r = i(37), l = i(468), c = i(215), d = {};
-    d[l.PLAYER_STATUS_AFK] = "ui.chat.status.away", d[l.PLAYER_STATUS_IDLE] = "ui.chat.status.idle", d[l.PLAYER_STATUS_PRIVATE] = "ui.chat.status.private", d[l.PLAYER_STATUS_SOLO] = "ui.chat.status.solo", d[l.PLAYER_STATUS_AVAILABLE] = "ui.chat.status.availiable", e.exports = n, n.prototype.initialize = function () {
-        this.currentStatus = l.PLAYER_STATUS_AVAILABLE
-    }, n.prototype._createContent = function (e) {
-        this.statusButton = e.createChild("div", {className: ["statusButton", "available"]});
-        var t = this;
-        c.addTooltip(this.statusButton, function () {
-            return a(d[t.currentStatus])
-        }), this.statusButton.on("tap", function () {
-            var e = this.rootElement.getBoundingClientRect();
-            window.gui.openContextualMenu("userStatus", null, {x: e.left + e.width, y: e.top})
-        })
-    }, n.prototype._setCurrentStatus = function (e) {
-        e !== l.PLAYER_STATUS_IDLE && (this.currentStatus = e), this.statusButton.replaceClassNames(["available", "away", "private", "solo"], [o(e)])
-    }, n.prototype._setListeners = function () {
-        var e = this;
-        s.on("PlayerStatusUpdateMessage", function (t) {
-            t.playerId === window.gui.playerData.characterBaseInformations.id && e._setCurrentStatus(t.status.statusId)
-        }), r.on("inactive", function (t) {
-            var i = t ? l.PLAYER_STATUS_IDLE : e.currentStatus;
-            window.dofus.sendMessage("PlayerStatusUpdateRequestMessage", {status: {statusId: i}})
-        })
-    }
-}, function (e, t, i) {
-    var n = i(220), o = i(38).getText, s = i(54), a = s.DofusDate;
-    e.exports = function (e, t) {
-        function i() {
-            return t = t || [], !(0 === t.length || t[0].length > n.MAX_PLAYER_OR_ACCOUNT_NAME_LEN) && (window.dofus.sendMessage("BasicWhoIsRequestMessage", {
-                search: t[0],
-                verbose: !0
-            }), !0)
-        }
-
-        if (e = e.toLowerCase(), "whois" === e)return i();
-        if ("whoami" === e)return window.dofus.sendMessage("BasicWhoAmIRequestMessage", {verbose: !0}), !0;
-        if ("mapid" === e) {
-            var r = window.isoEngine.mapRenderer.mapId, l = o("ui.chat.console.currentMap", null, r);
-            return window.gui.chat.logMsg(l), !0
-        }
-        if ("time" === e) {
-            var c = new a(s.now() / 1e3).getServerDate().toString(!0),
-                d = o("ui.time.dateLetters", c.day, c.monthName, c.year) + " - " + c.time;
-            return window.gui.chat.logMsg(d), !0
-        }
-        return !1
-    }
-}, function (e, t, i) {
-    function n(e) {
-        return new RegExp(a("ui.chat.variable." + e).replace(/,/g, "|").replace(/ /g, ""), "g")
-    }
-
-    function o() {
-        r = {}, r.experience = n("experience"), r.level = n("level"), r.life = n("life"), r.maxlife = n("maxlife"), r.lifepercent = n("lifepercent"), r.myself = n("myself"), r.stats = n("stats"), r.area = n("area"), r.subarea = n("subarea"), r.position = n("position"), r.guild = n("guild"), r.achievement = n("achievement")
-    }
-
-    function s(e) {
-        var t = window.gui.playerData.characters.mainCharacter.characteristics, i = t[e];
-        if (!i)return "?";
-        var n = i.alignGiftBonus + i.contextModif + i.objectsAndMountBonus, o = n > 0 ? "+" : "";
-        return i.base + " (" + o + n + ")"
-    }
-
-    var a = i(38).getText, r = null;
-    e.exports = function (e) {
-        r || o();
-        var t = window.gui.playerData, i = t.characters.mainCharacter, n = i.characteristics;
-        if (!n)return e;
-        var l = n.experience - n.experienceLevelFloor, c = (n.experienceNextLevelFloor - n.experienceLevelFloor) / 100,
-            d = Math.round(l / c) + "%";
-        e = e.replace(r.experience, d);
-        var u = t.characterBaseInformations.level || 0;
-        e = e.replace(r.level, u);
-        var h = n.lifePoints || 0;
-        e = e.replace(r.life, h);
-        var p = n.maxLifePoints || 0;
-        e = e.replace(r.maxlife, p);
-        var m = Math.min(100, Math.max(0, Math.round(h / p * 100))) + "%";
-        e = e.replace(r.lifepercent, m);
-        var f = t.characterBaseInformations.name || "";
-        e = e.replace(r.myself, f);
-        var g = a("ui.chat.variable.statsresult", s("vitality"), s("wisdom"), s("strength"), s("intelligence"), s("chance"), s("agility"), s("initiative"), s("actionPoints"), s("movementPoints"));
-        e = e.replace(r.stats, g);
-        var _ = t.position.area.nameId;
-        e = e.replace(r.area, _);
-        var v = t.position.subArea.nameId;
-        e = e.replace(r.subarea, v);
-        var y = "{mapWithFlag," + t.position.mapPosition.posX + "," + t.position.mapPosition.posY + "," + window.gui.playerData.position.worldmapId + "}";
-        e = e.replace(r.position, y);
-        var b = t.guild.current && t.guild.current.guildName, M = b || a("ui.chat.variable.guilderror");
-        e = e.replace(r.guild, M);
-        var w = a("ui.chat.variable.achievementResult", t.achievements.points, t.achievements.getAchievementPercent());
-        return e = e.replace(r.achievement, w)
-    }
-}, function (e, t, i) {
-    var n = i(38).getText, o = i(493), s = i(488);
+    var n = i(38).getText, o = i(495), s = i(493);
     e.exports = function (e) {
         var t;
         t = e.areaId !== -1 ? e._areaName : n("ui.common.unknowArea");
@@ -26162,7 +26218,7 @@
         e.resizeHandle.on("dom.touchstart", i)
     }
 
-    i(495);
+    i(497);
     var o = i(26).dimensions, s = i(36), a = s.getPosition, r = i(50).requestInteractionHandle, l = 300, c = 300;
     e.exports = n
 }, function (e, t) {
@@ -26201,7 +26257,11 @@
         var t = this;
         window.gui.on("resize", function () {
             if (this.ipadRatio) t.setStyles({
-                left: s.posChatBtn + "px", right: "auto", top: "auto", bottom: 0, width: o.CHAT_BTN_MIN_WIDTH + "px",
+                left: s.posChatBtn + "px",
+                right: "auto",
+                top: "auto",
+                bottom: 0,
+                width: o.CHAT_BTN_MIN_WIDTH + "px",
                 height: s.bottomBarHeight + "px"
             }); else {
                 var e, i;
@@ -26217,7 +26277,7 @@
         })
     }
 
-    i(498);
+    i(500);
     var o = i(6), s = i(26).dimensions, a = i(28).inherits, r = i(199), l = i(213);
     a(n, r), e.exports = n
 }, function (e, t) {
@@ -26275,7 +26335,7 @@
         })
     }
 
-    var a = i(500), r = i(453), l = i(38).getText, c = i(501), d = i(24);
+    var a = i(502), r = i(453), l = i(38).getText, c = i(503), d = i(24);
     t.SMITHMAGIC_RUNE_ID = 78, t.SMITHMAGIC_POTION_ID = 26, t.SIGNATURE_RUNE_ID = 7508, t.SIGNATURE_AVAILABLE_LEVEL = 100;
     var u = "", h = "";
     t.initialize = function (e) {
@@ -26383,7 +26443,7 @@
         for (var t in c)this.mutedChannelsId[r[t]] = !0
     }
 
-    i(503);
+    i(505);
     var o = i(26).dimensions, s = i(28).inherits, a = i(199), r = i(244), l = 10, c = {PSEUDO_CHANNEL_FIGHT_LOG: !0};
     s(n, a), e.exports = n, n.prototype.add = function (e, t) {
         function i(e) {
@@ -26445,7 +26505,7 @@
         })
     }
 
-    i(506);
+    i(508);
     var s = i(213), a = i(26).dimensions, r = i(473), l = i(28).inherits, c = i(24), d = i(164), u = i(199);
     l(n, u), e.exports = n
 }, function (e, t) {
@@ -26479,8 +26539,8 @@
         })
     }
 
-    var s = i(18).EventEmitter, a = i(508), r = i(28).inherits, l = i(510), c = i(511), d = i(39), u = i(27),
-        h = i(38).getText, p = i(512), m = 1, f = 2, g = 12, _ = "fixed";
+    var s = i(18).EventEmitter, a = i(510), r = i(28).inherits, l = i(512), c = i(513), d = i(39), u = i(27),
+        h = i(38).getText, p = i(514), m = 1, f = 2, g = 12, _ = "fixed";
     r(n, s), n.prototype._requestUpdatePOI = function (e, t, i, n, o) {
         e.x === i && e.y === n || (e.x = i, e.y = n, o && (e.nameId = o), this.emit("updatePOI", e, t))
     }, n.prototype._updatePOI = function (e) {
@@ -26935,7 +26995,7 @@
         })
     }
 
-    var l = i(38).getText, c = i(39), d = i(27), u = i(509), h = i(484), p = "icon_1000", m = "icon_1001",
+    var l = i(38).getText, c = i(39), d = i(27), u = i(511), h = i(489), p = "icon_1000", m = "icon_1001",
         f = "icon_1002", g = "flag1", _ = 7, v = "hint";
     e.exports.init = function (e) {
         o(e), n(e), s(e), a(e), r(e)
@@ -27002,7 +27062,7 @@
         c.open("padlock", {fromInside: !0})
     }
 
-    i(514);
+    i(516);
     var a = i(28).inherits, r = i(213).DofusButton, l = i(38).getText, c = i(24);
     a(n, r), e.exports = n, n.prototype._reset = function () {
         this._locked = !1, this._myHouse = null, this._onSale = !1, this._tooltipParams = null
@@ -27074,9 +27134,9 @@
         }), {side: a, emblem: r, tag: d, characters: s, maps: o, time: n}
     }
 
-    i(516);
+    i(518);
     var s, a, r = i(351), l = i(215).addTooltip, c = i(458), d = i(26).dimensions, u = i(300), h = i(38).getText,
-        p = i(28).inherits, m = i(35), f = i(517).serverConstants, g = i(352), _ = i(642), v = i(199), y = i(644);
+        p = i(28).inherits, m = i(35), f = i(519).serverConstants, g = i(352), _ = i(644), v = i(199), y = i(646);
     p(n, v), n.prototype._createDom = function () {
         function e() {
             M.replaceClassNames(["full"], ["open"]), b = "open"
@@ -27190,8 +27250,8 @@
         return l
     }
 
-    var l = i(52), c = i(39), d = i(24), u = i(38).getText, h = i(55), p = i(518), m = i(519), f = i(520), g = i(5),
-        _ = i(521), v = 6e4, y = !1,
+    var l = i(52), c = i(39), d = i(24), u = i(38).getText, h = i(55), p = i(520), m = i(521), f = i(522), g = i(5),
+        _ = i(523), v = 6e4, y = !1,
         b = {401: !0, 402: !0, 407: !0, 403: !0, 404: !0, 405: !0, 406: !0, 408: !0, 409: !0, 410: !0}, M = [1, 2];
     e.exports = o, o.serverConstants = {
         SERVER_CONST_TIME_BEFORE_DISCONNECTION: 1,
@@ -27215,7 +27275,7 @@
             window.clearTimeout(t.failTimeout), t.failTimeout = null
         })
     }, o.prototype.showServerSelectionUi = function () {
-        this.serversWithMyCharacter.length > 0 ? d.open("serverSelection", this.serversWithMyCharacter) : d.open("serverSimpleSelection", this.serversRawData);
+        this.serversWithMyCharacter.length > 0 ? d.open("serverSelection", this.serversWithMyCharacter) : d.open("serverSimpleSelection", this.serversRawData)
     }, o.prototype._filterMyServersList = function () {
         this.serversWithMyCharacter = this.serversRawData.filter(function (e) {
             return e && e.charactersCount > 0
@@ -27454,8 +27514,8 @@
         SERVER_CONNECTION_ERROR_REGULAR_PLAYERS_ONLY: 6
     }
 }, function (e, t, i) {
-    var n = e.exports = i(522);
-    n.tz.load(i(641))
+    var n = e.exports = i(524);
+    n.tz.load(i(643))
 }, function (e, t, i) {
     var n, o, s;//! moment-timezone.js
 //! version : 0.5.5
@@ -27464,7 +27524,7 @@
 //! github.com/moment/moment-timezone
     !function (a, r) {
         "use strict";
-        o = [i(523)], n = r, s = "function" == typeof n ? n.apply(t, o) : n, !(void 0 !== s && (e.exports = s))
+        o = [i(525)], n = r, s = "function" == typeof n ? n.apply(t, o) : n, !(void 0 !== s && (e.exports = s))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -28261,7 +28321,7 @@
             function $e(t) {
                 var n = null;
                 if (!Po[t] && "undefined" != typeof e && e && e.exports)try {
-                    n = Lo._abbr, i(525)("./" + t), et(n)
+                    n = Lo._abbr, i(527)("./" + t), et(n)
                 } catch (o) {
                 }
                 return Po[t]
@@ -29310,7 +29370,7 @@
                 i._d = new Date(w(e))
             }), t.version = "2.18.1", n(Mt), t.fn = ss, t.min = Tt, t.max = Ct, t.now = Yo, t.utc = p, t.unix = Ui, t.months = Qi, t.isDate = c, t.locale = et, t.invalid = _, t.duration = Yt, t.isMoment = b, t.weekdays = Ji, t.parseZone = Gi, t.localeData = nt, t.isDuration = xt, t.monthsShort = Ki, t.weekdaysMin = $i, t.defineLocale = tt, t.updateLocale = it, t.locales = ot, t.weekdaysShort = Zi, t.normalizeUnits = z, t.relativeTimeRounding = _n, t.relativeTimeThreshold = vn, t.calendarFormat = Zt, t.prototype = ss, t
         })
-    }).call(t, i(524)(e))
+    }).call(t, i(526)(e))
 }, function (e, t) {
     e.exports = function (e) {
         return e.webpackPolyfill || (e.deprecate = function () {
@@ -29328,243 +29388,243 @@
     }
 
     var s = {
-        "./af": 526,
-        "./af.js": 526,
-        "./ar": 527,
-        "./ar-dz": 528,
-        "./ar-dz.js": 528,
-        "./ar-kw": 529,
-        "./ar-kw.js": 529,
-        "./ar-ly": 530,
-        "./ar-ly.js": 530,
-        "./ar-ma": 531,
-        "./ar-ma.js": 531,
-        "./ar-sa": 532,
-        "./ar-sa.js": 532,
-        "./ar-tn": 533,
-        "./ar-tn.js": 533,
-        "./ar.js": 527,
-        "./az": 534,
-        "./az.js": 534,
-        "./be": 535,
-        "./be.js": 535,
-        "./bg": 536,
-        "./bg.js": 536,
-        "./bn": 537,
-        "./bn.js": 537,
-        "./bo": 538,
-        "./bo.js": 538,
-        "./br": 539,
-        "./br.js": 539,
-        "./bs": 540,
-        "./bs.js": 540,
-        "./ca": 541,
-        "./ca.js": 541,
-        "./cs": 542,
-        "./cs.js": 542,
-        "./cv": 543,
-        "./cv.js": 543,
-        "./cy": 544,
-        "./cy.js": 544,
-        "./da": 545,
-        "./da.js": 545,
-        "./de": 546,
-        "./de-at": 547,
-        "./de-at.js": 547,
-        "./de-ch": 548,
-        "./de-ch.js": 548,
-        "./de.js": 546,
-        "./dv": 549,
-        "./dv.js": 549,
-        "./el": 550,
-        "./el.js": 550,
-        "./en-au": 551,
-        "./en-au.js": 551,
-        "./en-ca": 552,
-        "./en-ca.js": 552,
-        "./en-gb": 553,
-        "./en-gb.js": 553,
-        "./en-ie": 554,
-        "./en-ie.js": 554,
-        "./en-nz": 555,
-        "./en-nz.js": 555,
-        "./eo": 556,
-        "./eo.js": 556,
-        "./es": 557,
-        "./es-do": 558,
-        "./es-do.js": 558,
-        "./es.js": 557,
-        "./et": 559,
-        "./et.js": 559,
-        "./eu": 560,
-        "./eu.js": 560,
-        "./fa": 561,
-        "./fa.js": 561,
-        "./fi": 562,
-        "./fi.js": 562,
-        "./fo": 563,
-        "./fo.js": 563,
-        "./fr": 564,
-        "./fr-ca": 565,
-        "./fr-ca.js": 565,
-        "./fr-ch": 566,
-        "./fr-ch.js": 566,
-        "./fr.js": 564,
-        "./fy": 567,
-        "./fy.js": 567,
-        "./gd": 568,
-        "./gd.js": 568,
-        "./gl": 569,
-        "./gl.js": 569,
-        "./gom-latn": 570,
-        "./gom-latn.js": 570,
-        "./he": 571,
-        "./he.js": 571,
-        "./hi": 572,
-        "./hi.js": 572,
-        "./hr": 573,
-        "./hr.js": 573,
-        "./hu": 574,
-        "./hu.js": 574,
-        "./hy-am": 575,
-        "./hy-am.js": 575,
-        "./id": 576,
-        "./id.js": 576,
-        "./is": 577,
-        "./is.js": 577,
-        "./it": 578,
-        "./it.js": 578,
-        "./ja": 579,
-        "./ja.js": 579,
-        "./jv": 580,
-        "./jv.js": 580,
-        "./ka": 581,
-        "./ka.js": 581,
-        "./kk": 582,
-        "./kk.js": 582,
-        "./km": 583,
-        "./km.js": 583,
-        "./kn": 584,
-        "./kn.js": 584,
-        "./ko": 585,
-        "./ko.js": 585,
-        "./ky": 586,
-        "./ky.js": 586,
-        "./lb": 587,
-        "./lb.js": 587,
-        "./lo": 588,
-        "./lo.js": 588,
-        "./lt": 589,
-        "./lt.js": 589,
-        "./lv": 590,
-        "./lv.js": 590,
-        "./me": 591,
-        "./me.js": 591,
-        "./mi": 592,
-        "./mi.js": 592,
-        "./mk": 593,
-        "./mk.js": 593,
-        "./ml": 594,
-        "./ml.js": 594,
-        "./mr": 595,
-        "./mr.js": 595,
-        "./ms": 596,
-        "./ms-my": 597,
-        "./ms-my.js": 597,
-        "./ms.js": 596,
-        "./my": 598,
-        "./my.js": 598,
-        "./nb": 599,
-        "./nb.js": 599,
-        "./ne": 600,
-        "./ne.js": 600,
-        "./nl": 601,
-        "./nl-be": 602,
-        "./nl-be.js": 602,
-        "./nl.js": 601,
-        "./nn": 603,
-        "./nn.js": 603,
-        "./pa-in": 604,
-        "./pa-in.js": 604,
-        "./pl": 605,
-        "./pl.js": 605,
-        "./pt": 606,
-        "./pt-br": 607,
-        "./pt-br.js": 607,
-        "./pt.js": 606,
-        "./ro": 608,
-        "./ro.js": 608,
-        "./ru": 609,
-        "./ru.js": 609,
-        "./sd": 610,
-        "./sd.js": 610,
-        "./se": 611,
-        "./se.js": 611,
-        "./si": 612,
-        "./si.js": 612,
-        "./sk": 613,
-        "./sk.js": 613,
-        "./sl": 614,
-        "./sl.js": 614,
-        "./sq": 615,
-        "./sq.js": 615,
-        "./sr": 616,
-        "./sr-cyrl": 617,
-        "./sr-cyrl.js": 617,
-        "./sr.js": 616,
-        "./ss": 618,
-        "./ss.js": 618,
-        "./sv": 619,
-        "./sv.js": 619,
-        "./sw": 620,
-        "./sw.js": 620,
-        "./ta": 621,
-        "./ta.js": 621,
-        "./te": 622,
-        "./te.js": 622,
-        "./tet": 623,
-        "./tet.js": 623,
-        "./th": 624,
-        "./th.js": 624,
-        "./tl-ph": 625,
-        "./tl-ph.js": 625,
-        "./tlh": 626,
-        "./tlh.js": 626,
-        "./tr": 627,
-        "./tr.js": 627,
-        "./tzl": 628,
-        "./tzl.js": 628,
-        "./tzm": 629,
-        "./tzm-latn": 630,
-        "./tzm-latn.js": 630,
-        "./tzm.js": 629,
-        "./uk": 631,
-        "./uk.js": 631,
-        "./ur": 632,
-        "./ur.js": 632,
-        "./uz": 633,
-        "./uz-latn": 634,
-        "./uz-latn.js": 634,
-        "./uz.js": 633,
-        "./vi": 635,
-        "./vi.js": 635,
-        "./x-pseudo": 636,
-        "./x-pseudo.js": 636,
-        "./yo": 637,
-        "./yo.js": 637,
-        "./zh-cn": 638,
-        "./zh-cn.js": 638,
-        "./zh-hk": 639,
-        "./zh-hk.js": 639,
-        "./zh-tw": 640,
-        "./zh-tw.js": 640
+        "./af": 528,
+        "./af.js": 528,
+        "./ar": 529,
+        "./ar-dz": 530,
+        "./ar-dz.js": 530,
+        "./ar-kw": 531,
+        "./ar-kw.js": 531,
+        "./ar-ly": 532,
+        "./ar-ly.js": 532,
+        "./ar-ma": 533,
+        "./ar-ma.js": 533,
+        "./ar-sa": 534,
+        "./ar-sa.js": 534,
+        "./ar-tn": 535,
+        "./ar-tn.js": 535,
+        "./ar.js": 529,
+        "./az": 536,
+        "./az.js": 536,
+        "./be": 537,
+        "./be.js": 537,
+        "./bg": 538,
+        "./bg.js": 538,
+        "./bn": 539,
+        "./bn.js": 539,
+        "./bo": 540,
+        "./bo.js": 540,
+        "./br": 541,
+        "./br.js": 541,
+        "./bs": 542,
+        "./bs.js": 542,
+        "./ca": 543,
+        "./ca.js": 543,
+        "./cs": 544,
+        "./cs.js": 544,
+        "./cv": 545,
+        "./cv.js": 545,
+        "./cy": 546,
+        "./cy.js": 546,
+        "./da": 547,
+        "./da.js": 547,
+        "./de": 548,
+        "./de-at": 549,
+        "./de-at.js": 549,
+        "./de-ch": 550,
+        "./de-ch.js": 550,
+        "./de.js": 548,
+        "./dv": 551,
+        "./dv.js": 551,
+        "./el": 552,
+        "./el.js": 552,
+        "./en-au": 553,
+        "./en-au.js": 553,
+        "./en-ca": 554,
+        "./en-ca.js": 554,
+        "./en-gb": 555,
+        "./en-gb.js": 555,
+        "./en-ie": 556,
+        "./en-ie.js": 556,
+        "./en-nz": 557,
+        "./en-nz.js": 557,
+        "./eo": 558,
+        "./eo.js": 558,
+        "./es": 559,
+        "./es-do": 560,
+        "./es-do.js": 560,
+        "./es.js": 559,
+        "./et": 561,
+        "./et.js": 561,
+        "./eu": 562,
+        "./eu.js": 562,
+        "./fa": 563,
+        "./fa.js": 563,
+        "./fi": 564,
+        "./fi.js": 564,
+        "./fo": 565,
+        "./fo.js": 565,
+        "./fr": 566,
+        "./fr-ca": 567,
+        "./fr-ca.js": 567,
+        "./fr-ch": 568,
+        "./fr-ch.js": 568,
+        "./fr.js": 566,
+        "./fy": 569,
+        "./fy.js": 569,
+        "./gd": 570,
+        "./gd.js": 570,
+        "./gl": 571,
+        "./gl.js": 571,
+        "./gom-latn": 572,
+        "./gom-latn.js": 572,
+        "./he": 573,
+        "./he.js": 573,
+        "./hi": 574,
+        "./hi.js": 574,
+        "./hr": 575,
+        "./hr.js": 575,
+        "./hu": 576,
+        "./hu.js": 576,
+        "./hy-am": 577,
+        "./hy-am.js": 577,
+        "./id": 578,
+        "./id.js": 578,
+        "./is": 579,
+        "./is.js": 579,
+        "./it": 580,
+        "./it.js": 580,
+        "./ja": 581,
+        "./ja.js": 581,
+        "./jv": 582,
+        "./jv.js": 582,
+        "./ka": 583,
+        "./ka.js": 583,
+        "./kk": 584,
+        "./kk.js": 584,
+        "./km": 585,
+        "./km.js": 585,
+        "./kn": 586,
+        "./kn.js": 586,
+        "./ko": 587,
+        "./ko.js": 587,
+        "./ky": 588,
+        "./ky.js": 588,
+        "./lb": 589,
+        "./lb.js": 589,
+        "./lo": 590,
+        "./lo.js": 590,
+        "./lt": 591,
+        "./lt.js": 591,
+        "./lv": 592,
+        "./lv.js": 592,
+        "./me": 593,
+        "./me.js": 593,
+        "./mi": 594,
+        "./mi.js": 594,
+        "./mk": 595,
+        "./mk.js": 595,
+        "./ml": 596,
+        "./ml.js": 596,
+        "./mr": 597,
+        "./mr.js": 597,
+        "./ms": 598,
+        "./ms-my": 599,
+        "./ms-my.js": 599,
+        "./ms.js": 598,
+        "./my": 600,
+        "./my.js": 600,
+        "./nb": 601,
+        "./nb.js": 601,
+        "./ne": 602,
+        "./ne.js": 602,
+        "./nl": 603,
+        "./nl-be": 604,
+        "./nl-be.js": 604,
+        "./nl.js": 603,
+        "./nn": 605,
+        "./nn.js": 605,
+        "./pa-in": 606,
+        "./pa-in.js": 606,
+        "./pl": 607,
+        "./pl.js": 607,
+        "./pt": 608,
+        "./pt-br": 609,
+        "./pt-br.js": 609,
+        "./pt.js": 608,
+        "./ro": 610,
+        "./ro.js": 610,
+        "./ru": 611,
+        "./ru.js": 611,
+        "./sd": 612,
+        "./sd.js": 612,
+        "./se": 613,
+        "./se.js": 613,
+        "./si": 614,
+        "./si.js": 614,
+        "./sk": 615,
+        "./sk.js": 615,
+        "./sl": 616,
+        "./sl.js": 616,
+        "./sq": 617,
+        "./sq.js": 617,
+        "./sr": 618,
+        "./sr-cyrl": 619,
+        "./sr-cyrl.js": 619,
+        "./sr.js": 618,
+        "./ss": 620,
+        "./ss.js": 620,
+        "./sv": 621,
+        "./sv.js": 621,
+        "./sw": 622,
+        "./sw.js": 622,
+        "./ta": 623,
+        "./ta.js": 623,
+        "./te": 624,
+        "./te.js": 624,
+        "./tet": 625,
+        "./tet.js": 625,
+        "./th": 626,
+        "./th.js": 626,
+        "./tl-ph": 627,
+        "./tl-ph.js": 627,
+        "./tlh": 628,
+        "./tlh.js": 628,
+        "./tr": 629,
+        "./tr.js": 629,
+        "./tzl": 630,
+        "./tzl.js": 630,
+        "./tzm": 631,
+        "./tzm-latn": 632,
+        "./tzm-latn.js": 632,
+        "./tzm.js": 631,
+        "./uk": 633,
+        "./uk.js": 633,
+        "./ur": 634,
+        "./ur.js": 634,
+        "./uz": 635,
+        "./uz-latn": 636,
+        "./uz-latn.js": 636,
+        "./uz.js": 635,
+        "./vi": 637,
+        "./vi.js": 637,
+        "./x-pseudo": 638,
+        "./x-pseudo.js": 638,
+        "./yo": 639,
+        "./yo.js": 639,
+        "./zh-cn": 640,
+        "./zh-cn.js": 640,
+        "./zh-hk": 641,
+        "./zh-hk.js": 641,
+        "./zh-tw": 642,
+        "./zh-tw.js": 642
     };
     n.keys = function () {
         return Object.keys(s)
-    }, n.resolve = o, e.exports = n, n.id = 525
+    }, n.resolve = o, e.exports = n, n.id = 527
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("af", {
@@ -29621,7 +29681,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "Ù¡", 2: "Ù¢", 3: "Ù£", 4: "Ù¤", 5: "Ù¥", 6: "Ù¦", 7: "Ù§", 8: "Ù¨", 9: "Ù©", 0: "Ù "}, i = {
@@ -29712,7 +29772,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ar-dz", {
@@ -29759,7 +29819,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ar-kw", {
@@ -29806,7 +29866,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 0: "0"}, i = function (e) {
@@ -29884,7 +29944,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ar-ma", {
@@ -29931,7 +29991,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "Ù¡", 2: "Ù¢", 3: "Ù£", 4: "Ù¤", 5: "Ù¥", 6: "Ù¦", 7: "Ù§", 8: "Ù¨", 9: "Ù©", 0: "Ù "}, i = {
@@ -30006,7 +30066,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ar-tn", {
@@ -30053,7 +30113,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -30132,7 +30192,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t) {
@@ -30237,7 +30297,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("bg", {
@@ -30300,7 +30360,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à§§", 2: "à§¨", 3: "à§©", 4: "à§ª", 5: "à§«", 6: "à§¬", 7: "à§­", 8: "à§®", 9: "à§¯", 0: "à§¦"},
@@ -30375,7 +30435,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à¼¡", 2: "à¼¢", 3: "à¼£", 4: "à¼¤", 5: "à¼¥", 6: "à¼¦", 7: "à¼§", 8: "à¼¨", 9: "à¼©", 0: "à¼ "},
@@ -30450,7 +30510,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i) {
@@ -30533,7 +30593,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i) {
@@ -30625,7 +30685,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ca", {
@@ -30690,7 +30750,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -30813,7 +30873,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("cv", {
@@ -30864,7 +30924,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("cy", {
@@ -30917,7 +30977,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("da", {
@@ -30965,7 +31025,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -31029,7 +31089,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -31093,7 +31153,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -31157,7 +31217,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = ["Þ–Þ¬Þ‚ÞªÞ‡Þ¦ÞƒÞ©", "ÞŠÞ¬Þ„Þ°ÞƒÞªÞ‡Þ¦ÞƒÞ©", "Þ‰Þ§ÞƒÞ¨Þ—Þª", "Þ‡Þ­Þ•Þ°ÞƒÞ©ÞÞª", "Þ‰Þ­", "Þ–Þ«Þ‚Þ°", "Þ–ÞªÞÞ¦Þ‡Þ¨", "Þ‡Þ¯ÞŽÞ¦ÞÞ°Þ“Þª", "ÞÞ¬Þ•Þ°Þ“Þ¬Þ‰Þ°Þ„Þ¦ÞƒÞª", "Þ‡Þ®Þ†Þ°Þ“Þ¯Þ„Þ¦ÞƒÞª", "Þ‚Þ®ÞˆÞ¬Þ‰Þ°Þ„Þ¦ÞƒÞª", "Þ‘Þ¨ÞÞ¬Þ‰Þ°Þ„Þ¦ÞƒÞª"],
@@ -31218,7 +31278,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -31292,7 +31352,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("en-au", {
@@ -31344,7 +31404,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("en-ca", {
@@ -31395,7 +31455,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("en-gb", {
@@ -31447,7 +31507,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("en-ie", {
@@ -31499,7 +31559,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("en-nz", {
@@ -31551,7 +31611,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("eo", {
@@ -31606,7 +31666,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),
@@ -31664,7 +31724,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split("_"),
@@ -31722,7 +31782,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -31786,7 +31846,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("eu", {
@@ -31840,7 +31900,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "Û±", 2: "Û²", 3: "Û³", 4: "Û´", 5: "Ûµ", 6: "Û¶", 7: "Û·", 8: "Û¸", 9: "Û¹", 0: "Û°"}, i = {
@@ -31917,7 +31977,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, n, o) {
@@ -32008,7 +32068,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("fo", {
@@ -32056,7 +32116,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("fr", {
@@ -32120,7 +32180,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("fr-ca", {
@@ -32182,7 +32242,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("fr-ch", {
@@ -32245,7 +32305,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = "jan._feb._mrt._apr._mai_jun._jul._aug._sep._okt._nov._des.".split("_"),
@@ -32300,7 +32360,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = ["Am Faoilleach", "An Gearran", "Am MÃ rt", "An Giblean", "An CÃ¨itean", "An t-Ã’gmhios", "An t-Iuchar", "An LÃ¹nastal", "An t-Sultain", "An DÃ mhair", "An t-Samhain", "An DÃ¹bhlachd"],
@@ -32356,7 +32416,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("gl", {
@@ -32413,7 +32473,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -32501,7 +32561,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("he", {
@@ -32565,7 +32625,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à¥§", 2: "à¥¨", 3: "à¥©", 4: "à¥ª", 5: "à¥«", 6: "à¥¬", 7: "à¥­", 8: "à¥®", 9: "à¥¯", 0: "à¥¦"},
@@ -32641,7 +32701,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i) {
@@ -32736,7 +32796,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -32824,7 +32884,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("hy-am", {
@@ -32896,7 +32956,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("id", {
@@ -32949,7 +33009,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -33027,7 +33087,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("it", {
@@ -33084,7 +33144,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ja", {
@@ -33151,7 +33211,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("jv", {
@@ -33204,7 +33264,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ka", {
@@ -33265,7 +33325,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -33337,7 +33397,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("km", {
@@ -33383,7 +33443,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à³§", 2: "à³¨", 3: "à³©", 4: "à³ª", 5: "à³«", 6: "à³¬", 7: "à³­", 8: "à³®", 9: "à³¯", 0: "à³¦"},
@@ -33463,7 +33523,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ko", {
@@ -33522,7 +33582,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -33594,7 +33654,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -33688,7 +33748,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("lo", {
@@ -33745,7 +33805,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -33840,7 +33900,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i) {
@@ -33916,7 +33976,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -33993,7 +34053,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("mi", {
@@ -34045,7 +34105,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("mk", {
@@ -34108,7 +34168,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ml", {
@@ -34161,7 +34221,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -34298,7 +34358,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ms", {
@@ -34351,7 +34411,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ms-my", {
@@ -34404,7 +34464,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "á", 2: "á‚", 3: "áƒ", 4: "á„", 5: "á…", 6: "á†", 7: "á‡", 8: "áˆ", 9: "á‰", 0: "á€"},
@@ -34472,7 +34532,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("nb", {
@@ -34522,7 +34582,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à¥§", 2: "à¥¨", 3: "à¥©", 4: "à¥ª", 5: "à¥«", 6: "à¥¬", 7: "à¥­", 8: "à¥®", 9: "à¥¯", 0: "à¥¦"},
@@ -34599,7 +34659,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = "jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),
@@ -34663,7 +34723,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = "jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"),
@@ -34727,7 +34787,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("nn", {
@@ -34775,7 +34835,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à©§", 2: "à©¨", 3: "à©©", 4: "à©ª", 5: "à©«", 6: "à©¬", 7: "à©­", 8: "à©®", 9: "à©¯", 0: "à©¦"},
@@ -34850,7 +34910,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -34935,7 +34995,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("pt", {
@@ -34986,7 +35046,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("pt-br", {
@@ -35036,7 +35096,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i) {
@@ -35088,7 +35148,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t) {
@@ -35219,7 +35279,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = ["Ø¬Ù†ÙˆØ±ÙŠ", "ÙÙŠØ¨Ø±ÙˆØ±ÙŠ", "Ù…Ø§Ø±Ú†", "Ø§Ù¾Ø±ÙŠÙ„", "Ù…Ø¦ÙŠ", "Ø¬ÙˆÙ†", "Ø¬ÙˆÙ„Ø§Ø¡Ù", "Ø¢Ú¯Ø³Ù½", "Ø³ÙŠÙ¾Ù½Ù…Ø¨Ø±", "Ø¢ÚªÙ½ÙˆØ¨Ø±", "Ù†ÙˆÙ…Ø¨Ø±", "ÚŠØ³Ù…Ø¨Ø±"],
@@ -35280,7 +35340,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("se", {
@@ -35328,7 +35388,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("si", {
@@ -35385,7 +35445,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -35492,7 +35552,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -35593,7 +35653,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("sq", {
@@ -35649,7 +35709,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -35726,7 +35786,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -35803,7 +35863,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("ss", {
@@ -35859,7 +35919,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("sv", {
@@ -35912,7 +35972,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("sw", {
@@ -35959,7 +36019,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {1: "à¯§", 2: "à¯¨", 3: "à¯©", 4: "à¯ª", 5: "à¯«", 6: "à¯¬", 7: "à¯­", 8: "à¯®", 9: "à¯¯", 0: "à¯¦"},
@@ -36038,7 +36098,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("te", {
@@ -36094,7 +36154,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("tet", {
@@ -36146,7 +36206,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("th", {
@@ -36200,7 +36260,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("tl-ph", {
@@ -36250,7 +36310,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e) {
@@ -36330,7 +36390,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = {
@@ -36401,7 +36461,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t, i, n) {
@@ -36473,7 +36533,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("tzm", {
@@ -36519,7 +36579,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("tzm-latn", {
@@ -36565,7 +36625,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         function t(e, t) {
@@ -36681,7 +36741,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = ["Ø¬Ù†ÙˆØ±ÛŒ", "ÙØ±ÙˆØ±ÛŒ", "Ù…Ø§Ø±Ú†", "Ø§Ù¾Ø±ÛŒÙ„", "Ù…Ø¦ÛŒ", "Ø¬ÙˆÙ†", "Ø¬ÙˆÙ„Ø§Ø¦ÛŒ", "Ø§Ú¯Ø³Øª", "Ø³ØªÙ…Ø¨Ø±", "Ø§Ú©ØªÙˆØ¨Ø±", "Ù†ÙˆÙ…Ø¨Ø±", "Ø¯Ø³Ù…Ø¨Ø±"],
@@ -36742,7 +36802,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("uz", {
@@ -36788,7 +36848,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("uz-latn", {
@@ -36834,7 +36894,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("vi", {
@@ -36897,7 +36957,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("x-pseudo", {
@@ -36950,7 +37010,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("yo", {
@@ -36998,7 +37058,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("zh-cn", {
@@ -37072,7 +37132,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("zh-hk", {
@@ -37145,7 +37205,7 @@
     })
 }, function (e, t, i) {
     !function (e, t) {
-        t(i(523))
+        t(i(525))
     }(this, function (e) {
         "use strict";
         var t = e.defineLocale("zh-tw", {
@@ -37227,7 +37287,7 @@
         return e ? (o.call(this, "div", e), this.addClassNames(["Table", e.className]), this._rows = [], this._rowCount = 0, this._hiddenRowIds = [], this._clickable = !1, this._colIds = e.colIds, this._minRows = e.minRows || 0, this._colCount = this._colIds ? this._colIds.length : e.colCount || 1, this._defaultRowContent = e.defaultRowContent || [], this._highlightable = e.highlightable, this._disableAutoSelect = e.disableAutoSelect, this._autoUpdateRowColor = !e.disableRowColor, e.headerContent && (this.header = this.createChild("div", {className: ["container", "header"]}), this._addHeader(e.headerContent)), this.content = this.createChild("div", {className: ["container", "content"]}), e.footerContent && (this.footer = this.createChild("div", {className: ["container", "footer"]}), this._addFooter(e.footerContent)), e.onRowTap && (this._clickable = !0, this.on("selected", e.onRowTap)), void(e.minRows && this._setupDefaultRows())) : void console.error("Undefined Table 'options' parameter")
     }
 
-    i(643);
+    i(645);
     var o = i(199), s = i(35), a = i(28).inherits;
     a(n, o), e.exports = n, n.prototype.addRow = function (e, t) {
         var i;
@@ -37394,7 +37454,7 @@
         }), this.setupListeners(), this.createContent()
     }
 
-    i(646);
+    i(648);
     var o = i(26).dimensions, s = i(28).inherits, a = i(199), r = i(458), l = i(300), c = i(35), d = i(38).getText,
         u = i(352), h = i(34), p = 12;
     s(n, a), e.exports = n, n.prototype.createContent = function () {
@@ -37455,9 +37515,9 @@
         g.call(this, {autoClose: !0}), this.addClassNames("MenuBar"), this._sizeInIcons = -1, this._iconOrder = [], this._plusIconList = [], this._manualMode = !1, this._createDom(), this._listenToServerEvents(), this._listenToInternalEvents()
     }
 
-    i(648);
+    i(650);
     var r = i(326), l = i(6), c = i(26).dimensions, d = i(195), u = i(38).getText, h = i(28).inherits, p = i(213),
-        m = i(32), f = i(34), g = i(649), _ = i(24), v = i(164), y = l.MENU_ICON_SIZE, b = {narrow: 8, wide: 4},
+        m = i(32), f = i(34), g = i(651), _ = i(24), v = i(164), y = l.MENU_ICON_SIZE, b = {narrow: 8, wide: 4},
         M = {narrow: 35, wide: 45}, w = {
             Carac: {tooltip: "ui.banner.character", windowId: "characteristics"},
             Spell: {tooltip: "ui.grimoire.mySpell", windowId: "grimoire", tabId: "spells"},
@@ -37693,8 +37753,8 @@
         }), this.createChild("div", {className: "borderBox"})
     }
 
-    i(650);
-    var o = i(28).inherits, s = i(651), a = i(213), r = i(38).getText, l = i(32);
+    i(652);
+    var o = i(28).inherits, s = i(653), a = i(213), r = i(38).getText, l = i(32);
     o(n, s), e.exports = n, n.prototype._resize = function () {
     }
 }, function (e, t) {
@@ -37738,7 +37798,7 @@
         })), e.openingSide && this.setOpeningSide(e.openingSide)
     }
 
-    i(652);
+    i(654);
     var o = i(28).inherits, s = i(51), a = i(34), r = i(199), l = 1;
     o(n, r), e.exports = n, n.prototype.getCurrentDrawerSize = function () {
         return parseInt(this.getStyle(this._dimension), 10)
@@ -37861,9 +37921,9 @@
         })
     }
 
-    i(654);
+    i(656);
     var o = i(215).addTooltip, s = i(213), a = i(26).dimensions, r = i(38).getText, l = i(38).findText,
-        c = i(28).inherits, d = i(649), u = i(655), h = i(32), p = i(24), m = i(659), f = i(227);
+        c = i(28).inherits, d = i(651), u = i(657), h = i(32), p = i(24), m = i(661), f = i(227);
     c(n, d), e.exports = n, n.prototype._resize = function () {
         var e;
         window.gui.ipadRatio ? (this.setStyles({
@@ -37987,7 +38047,8 @@
             case"battle":
                 this.replaceClassNames(["roleplay", "battlePreparation"], ["battle"]), this.buttonBox.getChildren()[3] !== this._leaveButton && this._leaveButton.insertBefore(this._consoleButton), window.gui.playerData.isSpectator || this.playerPoints.actionAndMovement.show()
         }
-        this._consoleButton.toggleDisplay(window.gui.playerData.isModeratorOrMore()), this._nicknamesButton.toggleClassName("on", window.actorManager.areNicknamesOn()), t || (this._resize(), this.refresh())
+        var i = window.gui.playerData;
+        this._consoleButton.toggleDisplay(i.isModeratorOrMore() || i.isForcedAccount), this._nicknamesButton.toggleClassName("on", window.actorManager.areNicknamesOn()), t || (this._resize(), this.refresh())
     }, n.prototype._setPreferences = function () {
         var e = h.getValue("showMapCoordinates", !1);
         this._mapInfoButton.toggleClassName("on", e), window.gui.mapCoordinates.toggleDisplay(e);
@@ -38048,8 +38109,8 @@
         })
     }
 
-    i(656);
-    var o = i(215).addTooltip, s = i(28).inherits, a = i(38).getText, r = i(657), l = i(199), c = i(32);
+    i(658);
+    var o = i(215).addTooltip, s = i(28).inherits, a = i(38).getText, r = i(659), l = i(199), c = i(32);
     s(n, l), n.prototype.updateShieldUI = function () {
         this._shieldPoints > 0 ? this._addShieldColor() : this._removeShieldColor(), this.displayLifePoints()
     }, n.prototype._addShieldColor = function () {
@@ -38091,7 +38152,7 @@
         })
     }
 
-    i(658);
+    i(660);
     var o = i(28).inherits, s = i(199), a = 1500, r = 800;
     o(n, s), e.exports = n, n.prototype._currentServerLag = function (e) {
         e > a ? (this.setClassNames(["networkIndicator", "bad"]), console.debug("Current server lag is bad:", e)) : e > r ? this.setClassNames(["networkIndicator", "slow"]) : this.setClassNames(["networkIndicator", "good"])
@@ -38128,9 +38189,9 @@
         })
     }
 
-    i(661);
+    i(663);
     var o = i(5), s = i(28).inherits, a = i(473), r = i(212), l = i(34), c = i(213), d = i(199), u = i(98).playUiSound,
-        h = i(662), p = h.notificationImageInfo, m = 12, f = "blue";
+        h = i(664), p = h.notificationImageInfo, m = 12, f = "blue";
     s(n, d), e.exports = n, n.prototype._updateCounter = function () {
         var e = this.container.getChildren().length;
         this.counter.setText(e), this.toggleDisplay(e)
@@ -38339,7 +38400,7 @@
         }), e.show()
     }
 
-    i(665);
+    i(667);
     var d = i(213), u = i(26).dimensions, h = i(217), p = i(28).inherits, m = i(438), f = i(199), g = 150, _ = 10,
         v = 4, y = 10, b = 4, M = 22, w = 50, T = 70, C = {1: "100%", 2: "50%", 3: "33.3%", 4: "25%"}, A = "25%",
         I = {1: "40%", 2: "60%"}, S = "100%";
@@ -38473,7 +38534,7 @@
         this.numberInput._tapOnDisplay(this.id)
     }
 
-    i(667);
+    i(669);
     var a, r = i(213), l = i(213).DofusButton, c = i(26).dimensions, d = i(38).getText, u = i(473), h = i(217),
         p = i(28).inherits, m = i(220), f = i(35), g = i(215), _ = i(199), v = m.MAX_NUMBER, y = v.toString().length,
         b = {DISPLAY: 0, INSERT: 1, EDIT: 2},
@@ -38599,8 +38660,8 @@
         return e === f.PARTY_TYPE_ARENA ? f.PARTY_TYPE_CLASSICAL : f.PARTY_TYPE_ARENA
     }
 
-    i(669);
-    var s = i(215).addTooltip, a = i(26).dimensions, r = i(483), l = i(28).inherits, c = i(199), d = i(213), u = i(473),
+    i(671);
+    var s = i(215).addTooltip, a = i(26).dimensions, r = i(488), l = i(28).inherits, c = i(199), d = i(213), u = i(473),
         h = i(38), p = h.getText, m = h.processTextWithModifier, f = i(450), g = i(247), _ = i(288), v = i(244),
         y = i(24);
     l(n, c), e.exports = n, n.prototype._reset = function () {
@@ -38909,18 +38970,18 @@
 
         o.call(this);
         var t = this;
-        this.loginName = null, this.identification = {}, this.characterBaseInformations = {}, this.accountCapabilities = {}, this.achievements = {}, this.lifePoints = 0, this.maxLifePoints = 0, this.movementPoints = 0, this.actionPoints = 0, this.isFightLeader = !1, this.isFighting = !1, this.isSpectator = !1, this.state = r.STATUS_ALIVE_AND_KICKING, this.experienceFactor = 0, this.alliance = new h, this.characters = new p, this.emoteData = new m, this.fightRequests = new f, this.guild = new g, this.inventory = new _, this.jobs = new v, this.achievements = new y, this.position = new b, this.partyData = new M, this.quests = new w, this.socialData = new T, this.myShop = new C, this.alignment = new A, this.adminMenu = new I, window.dofus.connectionManager.on("IdentificationSuccessMessage", e), window.dofus.connectionManager.on("IdentificationSuccessWithLoginTokenMessage", e)
+        this.loginName = null, this.identification = {}, this.characterBaseInformations = {}, this.accountCapabilities = {}, this.achievements = {}, this.lifePoints = 0, this.maxLifePoints = 0, this.movementPoints = 0, this.actionPoints = 0, this.isFightLeader = !1, this.isFighting = !1, this.isSpectator = !1, this.state = r.STATUS_ALIVE_AND_KICKING, this.experienceFactor = 0, this.isForcedAccount = !1, this.alliance = new h, this.characters = new p, this.emoteData = new m, this.fightRequests = new f, this.guild = new g, this.inventory = new _, this.jobs = new v, this.achievements = new y, this.position = new b, this.partyData = new M, this.quests = new w, this.socialData = new T, this.myShop = new C, this.alignment = new A, this.adminMenu = new I, window.dofus.connectionManager.on("IdentificationSuccessMessage", e), window.dofus.connectionManager.on("IdentificationSuccessWithLoginTokenMessage", e)
     }
 
-    var o = i(18).EventEmitter, s = i(217), a = i(28).inherits, r = i(455), l = i(493), c = i(24), d = i(38).getText,
-        u = i(351), h = i(671), p = i(673), m = i(674), f = i(675), g = i(677), _ = i(679), v = i(685), y = i(686),
-        b = i(687), M = i(688), w = i(692), T = i(695), C = i(696), A = i(697), I = i(698), S = {};
+    var o = i(18).EventEmitter, s = i(217), a = i(28).inherits, r = i(455), l = i(495), c = i(24), d = i(38).getText,
+        u = i(351), h = i(673), p = i(675), m = i(676), f = i(677), g = i(679), _ = i(681), v = i(687), y = i(688),
+        b = i(689), M = i(690), w = i(694), T = i(697), C = i(698), A = i(699), I = i(700), S = {};
     a(n, o), e.exports = n, n.prototype.initialize = function (e) {
         this.alliance.initialize(e), this.characters.initialize(e), this.emoteData.initialize(e), this.fightRequests.initialize(e), this.guild.initialize(e), this.inventory.initialize(e), this.jobs.initialize(e), this.achievements.initialize(e), this.position.initialize(e), this.partyData.initialize(e), this.quests.initialize(e), this.socialData.initialize(e), this.myShop.initialize(e), this.alignment.initialize(e), this.adminMenu.initialize(), this._setupListeners(e)
     }, n.prototype.connectModules = function (e, t) {
         this._selectCharacter(e), this.alliance.connect(), this.characters.connect(e), this.inventory.connect(), this.partyData.connect(), this.quests.connect(t), this.socialData.connect(), this.alignment.connect(window.gui.databases.AlignmentSides), this.adminMenu.connect(this.isModerator())
     }, n.prototype.disconnectModules = function () {
-        this.characters.disconnect(), this.emoteData.disconnect(), this.fightRequests.disconnect(), this.guild.disconnect(), this.inventory.disconnect(), this.jobs.disconnect(), this.achievements.disconnect(), this.position.disconnect(), this.partyData.disconnect(), this.quests.disconnect(), this.socialData.disconnect(), this.myShop.disconnect(), this.adminMenu.disconnect(), this.experienceFactor = 0, this.accountCapabilities = {}, this.loginName = null, this.characterBaseInformations = {}, this._removeMount()
+        this.characters.disconnect(), this.emoteData.disconnect(), this.fightRequests.disconnect(), this.guild.disconnect(), this.inventory.disconnect(), this.jobs.disconnect(), this.achievements.disconnect(), this.position.disconnect(), this.partyData.disconnect(), this.quests.disconnect(), this.socialData.disconnect(), this.myShop.disconnect(), this.adminMenu.disconnect(), this.experienceFactor = 0, this.accountCapabilities = {}, this.loginName = null, this.characterBaseInformations = {}, this.isForcedAccount = !1, this._removeMount()
     }, n.prototype._selectCharacter = function (e) {
         this.id = e.id, s.storeMapAndEmit(this, this.characterBaseInformations, e, "characterInfosUpdated"), this.emit("characterSelectedSuccess"), this.emit("lookUpdate", e.entityLook)
     }, n.prototype._removeMount = function () {
@@ -38977,6 +39038,8 @@
         }), e.on("GameRolePlayGameOverMessage", function () {
             c.openDialog(["hardcoreDeath"])
         })
+    }, n.prototype.setForcedAccount = function (e) {
+        this.isForcedAccount = e
     }, n.prototype.setLoginName = function (e) {
         return e ? void(this.loginName = e) : console.error(new Error("PlayerData.setLoginName: login is emtpy"))
     }, n.prototype.isAlive = function () {
@@ -39014,7 +39077,7 @@
         s.call(this), this.current = null
     }
 
-    var o = i(458), s = i(18).EventEmitter, a = i(38).getText, r = i(28).inherits, l = i(672), c = i(24);
+    var o = i(458), s = i(18).EventEmitter, a = i(38).getText, r = i(28).inherits, l = i(674), c = i(24);
     r(n, s), e.exports = n, n.prototype.connect = function () {
         this.current = null
     }, n.prototype.hasAlliance = function () {
@@ -39242,7 +39305,7 @@
         o.call(this), this._targetInfo = {}
     }
 
-    var o = i(18).EventEmitter, s = i(38).getText, a = i(28).inherits, r = i(501), l = i(676), c = i(303);
+    var o = i(18).EventEmitter, s = i(38).getText, a = i(28).inherits, r = i(503), l = i(678), c = i(303);
     a(n, o), e.exports = n, n.prototype.disconnect = function () {
         this._targetInfo = {}
     }, n.prototype.initialize = function (e) {
@@ -39385,8 +39448,8 @@
         l.call(this), this.current = null
     }
 
-    var o = i(52), s = i(355), a = s.GuildRightsBitEnum, r = i(512), l = i(18).EventEmitter, c = i(38).getText,
-        d = i(217), u = i(28).inherits, h = i(672), p = i(24), m = i(468), f = i(678), g = 1;
+    var o = i(52), s = i(355), a = s.GuildRightsBitEnum, r = i(514), l = i(18).EventEmitter, c = i(38).getText,
+        d = i(217), u = i(28).inherits, h = i(674), p = i(24), m = i(468), f = i(680), g = 1;
     u(n, l), e.exports = n, n.prototype._reset = function () {
         this.current = null
     }, n.prototype.disconnect = function () {
@@ -39403,14 +39466,12 @@
         return this.current.members.hasOwnProperty(e)
     }, n.prototype._initPerceptors = function () {
         return this.current.perceptors = {
-            nbcollectorMax: 0,
-            informationsOrderList: [],
+            nbcollectorMax: 0, informationsOrderList: [],
             perceptorsMap: {}
         }, this.current.perceptors
     }, n.prototype.getPerceptors = function () {
         var e = this.current.perceptors;
-        return e || (e = this._initPerceptors()),
-            e
+        return e || (e = this._initPerceptors()), e
     }, n.prototype.getPerceptor = function (e) {
         var t = this.getPerceptors();
         return t.perceptorsMap[e]
@@ -39506,8 +39567,8 @@
         o.call(this), this.objects = {}, this.isLoaded = !1, this.presets = {}, this.kamas = 0, this.goultines = 0, this.weight = 0, this.maxWeight = 0, this.quantityList = {}, this.equippedItems = {}, this._lastUpdatedPosition = {}, this.itemSets = {}
     }
 
-    var o = i(18).EventEmitter, s = i(217), a = i(38).getText, r = i(28).inherits, l = i(680), c = i(339),
-        d = i(98).playUiSound, u = c.positions, h = i(681), p = i(682), m = i(683), f = i(684), g = 113;
+    var o = i(18).EventEmitter, s = i(217), a = i(38).getText, r = i(28).inherits, l = i(682), c = i(339),
+        d = i(98).playUiSound, u = c.positions, h = i(683), p = i(684), m = i(685), f = i(686), g = 113;
     r(n, o), e.exports = n, n.prototype.connect = function () {
         window.dofus.send("moneyGoultinesAmountRequest")
     }, n.prototype.isOverloaded = function () {
@@ -40272,8 +40333,8 @@
         this._partyId = t, this._partyType = e, this._leaderId = i, this._myCharacterId = n, this._timeWhenDisconnected = 0, this._inviterName = null, this._members = {}, this._guests = {}, this._pastMembers = {}
     }
 
-    var s = i(18).EventEmitter, a = i(28).inherits, r = i(38).getText, l = i(689), c = i(450), d = i(659), u = i(220),
-        h = i(690), p = i(691), m = i(32), f = c.PARTY_TYPE_CLASSICAL, g = c.PARTY_TYPE_ARENA, _ = 3e5, v = 1;
+    var s = i(18).EventEmitter, a = i(28).inherits, r = i(38).getText, l = i(691), c = i(450), d = i(661), u = i(220),
+        h = i(692), p = i(693), m = i(32), f = c.PARTY_TYPE_CLASSICAL, g = c.PARTY_TYPE_ARENA, _ = 3e5, v = 1;
     a(n, s), e.exports = n, n.NUM_SLOTS_ARENA = 3, n.NUM_SLOTS_CLASSIC = u.MAX_MEMBERS_PER_PARTY, n.prototype._reset = function () {
         this._partyFromId = {}, this.arenaStats = {}, this.arenaRegistered = !1, this.arenaStep = h.ARENA_STEP_UNREGISTER, this._followedCharacterId = 0, this._partyFights = {}
     }, n.prototype.connect = function () {
@@ -40341,7 +40402,7 @@
     }, n.prototype.getClassicalParty = function () {
         return this._getPartyFromType(f)
     }, n.prototype.getArenaParty = function () {
-        return this._getPartyFromType(g)
+        return this._getPartyFromType(g);
     }, n.prototype.getMemberName = function (e) {
         var t = window.gui.playerData;
         if (e === t.id)return t.characterBaseInformations.name;
@@ -40611,7 +40672,7 @@
         s.call(this), this._reset()
     }
 
-    var o = i(14), s = i(18).EventEmitter, a = i(693), r = i(28).inherits, l = i(217).createFifo();
+    var o = i(14), s = i(18).EventEmitter, a = i(695), r = i(28).inherits, l = i(217).createFifo();
     r(n, s), e.exports = n, n.prototype._reset = function () {
         this.finished = {}, this.active = {}, this.all = {}, this.initialized = !1
     }, n.prototype.connect = function (e) {
@@ -40705,7 +40766,7 @@
         })
     }
 
-    var s = i(14), a = i(38).processText, r = i(39), l = i(694), c = {
+    var s = i(14), a = i(38).processText, r = i(39), l = i(696), c = {
         QuestObjectiveBringItemToNpc: [{type: "table", id: "Npcs"}, {type: "table", id: "Items"}],
         QuestObjectiveBringSoulToNpc: [{type: "table", id: "Npcs"}, {type: "table", id: "Monsters"}],
         QuestObjectiveDiscoverMap: [{type: "getText", id: "GetText"}],
@@ -41139,7 +41200,7 @@
         s.call(this, "div", {className: "progressGauge"}), this.gaugeBg = this.createChild("div", {className: "gaugeBg"}), this.gaugeMask = this.createChild("div", {className: "gaugeMask"}), this.gaugeFill = this.gaugeMask.createChild("div", {className: "gaugeFill"}), this._resetAnimInfo(), this._initEvents()
     }
 
-    i(701);
+    i(703);
     var o = i(28).inherits, s = i(199), a = i(26).dimensions, r = i(217), l = i(38).getText, c = i(32), d = {
         PLAYER_EXPERIENCE: "playerExperience",
         GUILD_EXPERIENCE: "guildExperience",
@@ -41254,8 +41315,8 @@
         }
 
         var i = this, n = [];
-        t(l("ui.banner.xpCharacter"), "playerExperience"), t(l("ui.common.weight"), "inventoryPods"), window.gui.playerData.guild.current && t(l("ui.banner.xpGuild"), "guildExperience"),
-        window.gui.playerData.equippedMount && t(l("ui.banner.xpMount"), "mountExperience");
+        t(l("ui.banner.xpCharacter"), "playerExperience"),
+            t(l("ui.common.weight"), "inventoryPods"), window.gui.playerData.guild.current && t(l("ui.banner.xpGuild"), "guildExperience"), window.gui.playerData.equippedMount && t(l("ui.banner.xpMount"), "mountExperience");
         for (var o in window.gui.playerData.jobs.list) {
             var s = window.gui.playerData.jobs.list[o];
             t(l("ui.common.xp") + " " + s.info.nameId, "job" + s.id)
@@ -41278,7 +41339,7 @@
         })
     }
 
-    i(703);
+    i(705);
     var o = i(28).inherits, s = i(199), a = i(213), r = i(24), l = i(26).dimensions, c = i(98).playUiSound;
     o(n, s), e.exports = n, n.prototype._initPosition = function () {
         this.setStyle("left", l.mapLeft + l.mapWidth / 2 - 32 + "px"), this.setStyle("top", l.mapBottom - 64 + "px")
@@ -41300,7 +41361,7 @@
         })
     }
 
-    var o = i(28).inherits, s = i(18).EventEmitter, a = i(36).position, r = i(705), l = i(708), c = i(711), d = 4e3;
+    var o = i(28).inherits, s = i(18).EventEmitter, a = i(36).position, r = i(707), l = i(710), c = i(713), d = 4e3;
     o(n, s), e.exports = n, n.prototype.PING_CELL_COLOR = {
         r: 240,
         g: 160,
@@ -41372,9 +41433,9 @@
         })), this._setupEvents(), this._resize(), this.exclusiveSelector = d("shortcutSlots"), this.exclusiveSelector.register(this)
     }
 
-    i(706);
+    i(708);
     var o = i(213), s = i(199), a = i(38).getText, r = i(28).inherits, l = i(26).dimensions, c = i(6),
-        d = i(707).getExclusiveSelectorByGroup;
+        d = i(709).getExclusiveSelectorByGroup;
     r(n, s), e.exports = n, n.prototype._setupEvents = function () {
         var e = this, t = window.gui;
         t.on("resize", function () {
@@ -41478,9 +41539,9 @@
         })
     }
 
-    i(709);
+    i(711);
     var o = i(213), s = i(199), a = i(38).getText, r = i(28).inherits, l = i(244), c = i(34),
-        d = i(212).getElementPositionCenteredAt, u = i(26).dimensions, h = i(710), p = i(5), m = i(35);
+        d = i(212).getElementPositionCenteredAt, u = i(26).dimensions, h = i(712), p = i(5), m = i(35);
     r(n, s), e.exports = n, n.prototype._addSmileys = function () {
         function e(e, i) {
             function n() {
@@ -41589,8 +41650,8 @@
         }), this.isOpen = !1, this._emoteBoxSize = 85, this._time = 200, this._delay = 0, this._easing = "ease-out"
     }
 
-    i(712);
-    var o = i(713), s = i(199), a = i(28).inherits, r = i(26).dimensions, l = i(6), c = i(34);
+    i(714);
+    var o = i(715), s = i(199), a = i(28).inherits, r = i(26).dimensions, l = i(6), c = i(34);
     a(n, s), e.exports = n, n.prototype.refreshPosition = function () {
         window.gui.ipadRatio ? (this._chatIcons.setPanelsStyle("right", "auto"), this._chatIcons.setPanelsStyle("left", r.pingEmoteBtnSize + "px"), this._chatIcons.setPanelsStyle("bottom", this._emoteBoxSize + "px"), this.setStyle("left", l.CHAT_BTN_MIN_WIDTH + "px"), this.setStyle("width", r.pingEmoteBtnSize + "px"), this.setStyle("height", this._emoteBoxSize + "px"), this.setStyle("bottom", r.bottomBarHeight + "px"), this.setStyle("line-height", "inherit")) : (this._chatIcons.setPanelsStyle("left", "auto"), this._chatIcons.setPanelsStyle("right", this._emoteBoxSize + "px"), this._chatIcons.setPanelsStyle("bottom", r.pingEmoteBtnSize + "px"), this.setStyle("left", r.mapRight - this._emoteBoxSize + "px"), this.setStyle("width", this._emoteBoxSize + "px"), this.setStyle("height", r.pingEmoteBtnSize + "px"), this.setStyle("bottom", "0px"), this.setStyle("line-height", r.pingEmoteBtnSize + "px"))
     }, n.prototype.getChatIcons = function () {
@@ -41643,9 +41704,9 @@
         }), this.once("open", this.loadIcons), this.attitudeList = {}, this.currentMood = null, this.previousMood = -1, this.setMessageHandlers()
     }
 
-    i(714);
+    i(716);
     var o = i(215).addTooltip, s = i(38).getText, a = i(28).inherits, r = i(199), l = i(35), c = i(5),
-        d = i(212).getElementPositionAround, u = i(313), h = i(195), p = i(678);
+        d = i(212).getElementPositionAround, u = i(313), h = i(195), p = i(680);
     a(n, r), e.exports = n, n.prototype.setMessageHandlers = function () {
         var e = this, t = window.gui;
         t.on("MoodSmileyResultMessage", function (i) {
@@ -41824,10 +41885,10 @@
         e.exclusiveSelector && (e.exclusiveSelector.unregister(e), delete e.exclusiveSelector)
     }
 
-    i(717);
-    var r = i(718), l = i(213), c = i(6), d = i(26).dimensions, u = i(217), h = i(195), p = i(27), m = i(38).getText,
-        f = i(28).inherits, g = i(649), _ = i(719), v = i(438), y = i(290), b = i(215), M = i(34), w = i(199),
-        T = i(52), C = i(98).playUiSound, A = i(707).getExclusiveSelectorByGroup, I = i(721), S = i(722), E = i(728),
+    i(719);
+    var r = i(720), l = i(213), c = i(6), d = i(26).dimensions, u = i(217), h = i(195), p = i(27), m = i(38).getText,
+        f = i(28).inherits, g = i(651), _ = i(721), v = i(438), y = i(290), b = i(215), M = i(34), w = i(199),
+        T = i(52), C = i(98).playUiSound, A = i(709).getExclusiveSelectorByGroup, I = i(723), S = i(724), E = i(730),
         x = i(109), N = {};
     N[r.GENERAL_SHORTCUT_BAR] = "item", N[r.SPELL_SHORTCUT_BAR] = "spell";
     var L = {item: r.GENERAL_SHORTCUT_BAR, spell: r.SPELL_SHORTCUT_BAR}, O = c.SHORTCUT_ICON_SIZE, D = 30, R = 3;
@@ -42006,9 +42067,10 @@
         if (!this._isShortcutValid(e))return console.error(new Error("ShortcutBar._setShortcutRequest: invalid shortcut"));
         var t = this, i = e.getShortcutBarPanelType(), n = this._panels[i], o = e.slotIndex, s = n.slotList[o],
             a = s.shorcut;
-        this._setShortcutClient(e), T.removeAllListeners("ShortcutBarAddErrorMessage"), T.once("ShortcutBarAddErrorMessage", function () {
-            s.isEmpty() ? t._removeShortcutClient(i, o) : t._setShortcutClient(a);
-        }), window.dofus.sendMessage("ShortcutBarAddRequestMessage", {barType: L[s.type], shortcut: e.serialize()})
+        this._setShortcutClient(e), T.removeAllListeners("ShortcutBarAddErrorMessage"),
+            T.once("ShortcutBarAddErrorMessage", function () {
+                s.isEmpty() ? t._removeShortcutClient(i, o) : t._setShortcutClient(a)
+            }), window.dofus.sendMessage("ShortcutBarAddRequestMessage", {barType: L[s.type], shortcut: e.serialize()})
     }, n.prototype._setShortcutClient = function (e) {
         if (!this._isShortcutValid(e))return console.error(new Error("ShortcutBar._setShortcutClient: invalid shortcut"));
         var t = e.getShortcutBarPanelType(), i = this._panels[t], n = i.slotList[e.slotIndex];
@@ -42191,7 +42253,7 @@
         }), this._pageCountLabel = this._centeringContainer.createChild("div", {className: "pageCount"}), this._rightArrow = n("next", this, e.soundNext)
     }
 
-    i(720);
+    i(722);
     var s = i(28).inherits, a = i(218), r = i(199), l = i(213), c = 200;
     s(o, r), o.prototype.setDirection = function (e) {
         this.toggleClassName("vertical", "vertical" === e)
@@ -42264,7 +42326,7 @@
         r.call(this, {scaleOnPress: !0}), this.type = "item", l.constructor.call(this, e, t)
     }
 
-    var o = i(5), s = i(28).inherits, a = i(339), r = i(723), l = i(727);
+    var o = i(5), s = i(28).inherits, a = i(339), r = i(725), l = i(729);
     s(n, r), e.exports = n, n.prototype.setShortcut = function (e) {
         var t = this;
         if (!this._isShortcutValid(e))return !this.isEmpty() && this.unset();
@@ -42337,8 +42399,8 @@
         e = e || {}, o.call(this, e), this.addClassNames("ItemSlot"), this.itemTypeStyle = "", this.descriptionOptions = e.descriptionOptions, this.on("doubletap", this._useItem), this.setItem(e.itemData, e.quantity)
     }
 
-    i(724);
-    var o = i(725), s = i(411), a = i(215), r = i(28).inherits, l = i(5), c = i(339).isEquippable, d = i(38), u = 0,
+    i(726);
+    var o = i(727), s = i(411), a = i(215), r = i(28).inherits, l = i(5), c = i(339).isEquippable, d = i(38), u = 0,
         h = [1, 9, 10, 11, 16, 17, 81, 26, 78];
     r(n, o), e.exports = n, n.prototype._getContextualMenuProperties = function () {
         return this._contextMenuParams.item = this.data, o.prototype._getContextualMenuProperties.call(this)
@@ -42388,7 +42450,7 @@
         }), a(this), this._quantity = 0, e.errorIcon && (this.errorIcon = this.createChild("div", {className: "errorIcon"})), this.icon = this.createChild("div", {className: "slotIcon"}), this.quantityBox = this.createChild("div", {className: "quantity"}), this.forceQuantity = e.forceQuantity, e.quantity && this.setQuantity(e.quantity), e.image && this.setImage(e.image), this.tooltipOptions = e.tooltipOptions, e.tooltip && this.setTooltip(e.tooltip, this.tooltipOptions), this.on("destroy", this._onDestroy), this.on("tap", this._openContextMenu), this.on("tooltipOn", this._removeHoverStyle), this.on("tooltipOut", this._applyHoverStyle), e.scaleOnPress && (this.on("tapstart", this._showAsPressed), this.on("tapend", this._showAsReleased)), this.enableContextMenu(!e.hasOwnProperty("enableContextMenu") || e.enableContextMenu)
     }
 
-    i(726);
+    i(728);
     var o = i(215), s = i(28).inherits, a = i(35), r = i(199), l = i(5);
     s(n, r), e.exports = n, n.prototype._onDestroy = function () {
         this.destroyed = !0
@@ -42438,7 +42500,7 @@
     }
 }, function (e, t) {
 }, function (e, t, i) {
-    var n = i(195), o = i(721), s = {prototype: {}};
+    var n = i(195), o = i(723), s = {prototype: {}};
     s.appendPrototypeTo = function (e) {
         for (var t in s.prototype) {
             if (e.prototype[t])return console.error("ShortcutBarSlot: class " + e.name + ' already has a method called "' + t + '"');
@@ -42505,7 +42567,7 @@
         })
     }
 
-    var o = i(28).inherits, s = i(729), a = i(727);
+    var o = i(28).inherits, s = i(731), a = i(729);
     o(n, s), e.exports = n, n.prototype._resetDelayedSetShortcut = function () {
         if (this.delayedSetShortcutData) {
             var e = this.delayedSetShortcutData.character;
@@ -42529,8 +42591,8 @@
         e = e || {}, o.call(this, e), this.addClassNames("SpellSlot"), this.setSpell(e.spellData, e.descriptionOptions), this.customScale = null, this.customXOffset = null, this.customYOffset = null, this.customRotation = null, this._setSpellCount = 0
     }
 
-    i(730);
-    var o = i(725), s = i(290), a = i(731), r = i(28).inherits, l = i(5);
+    i(732);
+    var o = i(727), s = i(290), a = i(733), r = i(28).inherits, l = i(5);
     r(n, o), e.exports = n, n.prototype.setSpell = function (e, t) {
         if (this.descriptionOptions = t || this.descriptionOptions, !e)return this.unset();
         var i = ++this._setSpellCount, n = this.spellInstance = e._uid ? e : null, o = this.dbSpell = n ? n.spell : e,
@@ -42643,7 +42705,7 @@
         this._domElements.description.setText(e.getProperty("descriptionId", t))
     }
 
-    i(732);
+    i(734);
     var w = i(413), T = i(38).getText, C = i(28).inherits, A = i(199), I = i(27), S = {
         spellTooltipName: ["spellName"],
         spellTooltipApRange: ["pointsLine"],
@@ -42706,12 +42768,12 @@
         }
     }
 
-    i(734);
-    var a = i(217), r = i(483), l = i(28).inherits, c = i(35), d = i(215), u = i(34), h = i(199), p = 250, m = 150,
+    i(736);
+    var a = i(217), r = i(488), l = i(28).inherits, c = i(35), d = i(215), u = i(34), h = i(199), p = 250, m = 150,
         f = 150, g = 150, _ = .85, v = 2e3, y = .6, b = 150, M = 450, w = .3, T = .6, C = "Â Â Â ",
         A = ["\n", ". ", "... ", "? ", "! "], I = [" ", ", ", ": ", "; "], S = "...";
     l(n, h), e.exports = n, n.prototype._createContent = function (e) {
-        this.addClassNames("speechBubble"), this.isLocked && this.addClassNames("frozen"), c(this, {doubletapTimeout: 1}), this.on("tap", this._tapHandler), e.title && (this.title = this.createChild("div", {className: "title"})), this.content = this.createChild("div", {className: "content"}), this.arrow = this.createChild("div"), e.channel && this.addClassNames("channel" + e.channel)
+        this.addClassNames("speechBubble"), this.isLocked && this.addClassNames("frozen"), c(this, {doubletapTimeout: 1}), this.on("tap", this._tapHandler), e.title && (this.title = this.createChild("div", {className: "title"})), this.content = this.createChild("div", {className: "content"}), this.arrow = this.createChild("div"), e.channel && this.addClassNames("channel" + e.channel);
     }, n.prototype._resize = function () {
         var e = this.content, t = e.rootElement.clientWidth;
         if (t > m) {
@@ -42790,8 +42852,8 @@
         }), this._createContent(), this.statsDetails = null, this.currentFighter = null, this.selectedFighter = null, this.isCollapsed = !1, this._registerListeners(window.gui), this.timerTimestamp = null, this.timerDuration = null, this.timerTween = null, this._previousFighter = null
     }
 
-    i(736);
-    var o = i(28).inherits, s = i(27), a = i(199), r = i(473), l = i(737), c = i(739), d = i(215).addTooltip,
+    i(738);
+    var o = i(28).inherits, s = i(27), a = i(199), r = i(473), l = i(739), c = i(741), d = i(215).addTooltip,
         u = i(38).getText, h = i(226), p = i(314), m = i(34), f = i(195), g = i(242), _ = 55, v = 45, y = 0;
     o(n, a), e.exports = n, n.prototype._registerListeners = function (e) {
         function t(e, t, i) {
@@ -43005,7 +43067,7 @@
         }), window.gui.on("GameFightTurnStartMessage", i), window.gui.on("GameFightTurnStartSlaveMessage", i), window.gui.on("GameFightTurnResumeMessage", i), window.gui.on("GameFightTurnEndMessage", n), window.gui.on("GameFightEndMessage", o), window.gui.on("disconnect", o)
     }
 
-    i(738);
+    i(740);
     var o = i(28).inherits, s = i(38).getText, a = i(199), r = i(213);
     o(n, a), e.exports = n, n.prototype.toggleReadyForFight = function () {
         window.dofus.sendMessage("GameFightReadyMessage", {isReady: !this._isReadyForFight})
@@ -43034,8 +43096,8 @@
         s.call(this, "div", {className: "FightBuffs"}), this.buffList = this.createChild("div", {className: "buffList"}), this.buffItems = {}, this._registerListeners(window.gui.fightManager), this.fighter = null, this.lastWasPlayer = !1, this.buffDescription = new l, this.hide()
     }
 
-    i(740);
-    var o = i(28).inherits, s = i(199), a = i(741), r = i(215).addTooltip, l = i(742);
+    i(742);
+    var o = i(28).inherits, s = i(199), a = i(743), r = i(215).addTooltip, l = i(744);
     o(n, s), e.exports = n, n.prototype._registerListeners = function (e) {
         var t = this;
         e.on("GameFightTurnStart", function (e) {
@@ -43182,7 +43244,7 @@
         this._domElements.effectsAndDamage.setEffects(e)
     }
 
-    i(743);
+    i(745);
     var r = i(413), l = i(38).getText, c = i(28).inherits, d = i(199);
     c(n, d), e.exports = n, n.prototype._buildDomElements = function (e, t) {
         var i = this._domElements = {};
@@ -43210,7 +43272,7 @@
         e.close(), e._selectionFn(t.value, t.index)
     }
 
-    i(745);
+    i(747);
     var s = i(213), a = i(26).dimensions, r = i(28).inherits, l = i(314), c = i(35), d = i(199), u = 30, h = 15;
     r(n, d), e.exports = n, n.prototype.setupDropDown = function (e, t, i, n) {
         var o = e.rootElement.getBoundingClientRect();
@@ -43259,8 +43321,8 @@
         r.call(this, "div", {className: "Compass"}), this.markers = {}
     }
 
-    i(747);
-    var o = i(26).dimensions, s = i(28).inherits, a = i(215).addTooltip, r = i(199), l = i(748), c = i(27), d = 50,
+    i(749);
+    var o = i(26).dimensions, s = i(28).inherits, a = i(215).addTooltip, r = i(199), l = i(750), c = i(27), d = 50,
         u = 2, h = {"-5,-1": -5, "-4,0": -4, "-3,1": -3, "-2,2": -2};
     s(n, r), e.exports = n, n.arrowType = {QUEST: 4, PARTY: 2}, n.prototype.addMarker = function (e) {
         return this.markers[e.type] = {
@@ -43369,7 +43431,7 @@
         }), this.arrow = this.createChild("div", {className: "arrow"})
     }
 
-    i(750);
+    i(752);
     var o = i(28).inherits, s = i(199);
     o(n, s), e.exports = n, n.prototype.showArrow = function (e, t, i) {
         i = i || "downRight", this.arrow.setClassNames(["arrow", i]), this.setStyles({
@@ -43389,7 +43451,7 @@
         window.gui.transmitMessage({_messageType: "_tutorialGameMapMovementMessage", actorId: e.actorId, isInFight: !0})
     }
 
-    var s = i(18).EventEmitter, a = i(28).inherits, r = i(752), l = i(753), c = i(476), d = i(32);
+    var s = i(18).EventEmitter, a = i(28).inherits, r = i(754), l = i(755), c = i(476), d = i(32);
     a(n, s), e.exports = n, n.prototype.initialize = function (e) {
         var t = this;
         this.tutorialStep = new l, e.on("disconnect", function () {
@@ -43459,8 +43521,8 @@
         window.gui.tutorialManager.isChangingMap = !0, window.isoEngine.addArrowOnCell(u.TUTORIAL_STEP_CHANGE_MAP_ARROW_CELL_ID, 0, 0, "upLeft")
     }
 
-    var a = i(28).inherits, r = i(18).EventEmitter, l = i(195), c = i(485), d = i(483), u = i(752), h = i(24),
-        p = i(754), m = i(164), f = i(190), g = i(32), _ = 0;
+    var a = i(28).inherits, r = i(18).EventEmitter, l = i(195), c = i(490), d = i(488), u = i(754), h = i(24),
+        p = i(756), m = i(164), f = i(190), g = i(32), _ = 0;
     a(o, r), e.exports = o, o.prototype.start = function () {
         this.initialized || (this._setupHandlerFunctions(), this._setupListeners(), this.initialized = !0), window.gui.playerData.quests.initialized ? this._requestQuestStatus() : window.gui.playerData.quests.once("listUpdated", this._requestQuestStatus), this.tutorialPopup = new p, this.tutorialPopup.open()
     }, o.prototype._requestQuestStatus = function () {
@@ -43629,7 +43691,7 @@
     }
 
     var o = i(26).dimensions, s = i(38).getText, a = i(28).inherits, r = i(199);
-    i(755), a(n, r), e.exports = n, n.prototype.setContent = function (e) {
+    i(757), a(n, r), e.exports = n, n.prototype.setContent = function (e) {
         this.content.clearContent(), e instanceof r ? this.content.appendChild(e) : this.content.setText(e), this.show()
     }, n.prototype.open = function () {
         this.setStyle("bottom", o.screenHeight - o.mapHeight + 7 + "px"), this.hide(), window.gui.windowsContainer.appendChild(this)
@@ -43775,7 +43837,7 @@
         for (var t = 0; t < e.length; t += 1)for (var i = e[t], n = 0; n < 32; n += 1)A[n + 32 * t] = !!(1 & i), i >>= 1
     }
 
-    var v = i(757), y = i(27), b = i(483), M = i(39), w = i(32), T = i(24), C = {}, A = {}, I = {}, S = {}, E = [],
+    var v = i(759), y = i(27), b = i(488), M = i(39), w = i(32), T = i(24), C = {}, A = {}, I = {}, S = {}, E = [],
         x = !0, N = !1;
     t.initialize = function (e) {
         e.once("initialized", function () {
@@ -43807,9 +43869,9 @@
         return e.position === u.INVENTORY_POSITION_MUTATION || e.position === u.INVENTORY_POSITION_BOOST_FOOD || e.position === u.INVENTORY_POSITION_FIRST_BONUS || e.position === u.INVENTORY_POSITION_SECOND_BONUS || e.position === u.INVENTORY_POSITION_FIRST_MALUS || e.position === u.INVENTORY_POSITION_SECOND_MALUS || e.position === u.INVENTORY_POSITION_ROLEPLAY_BUFFER || e.position === u.INVENTORY_POSITION_FOLLOWER
     }
 
-    i(759);
-    var s = i(28).inherits, a = i(199), r = i(723), l = i(473), c = i(230).isEmptyObject, d = i(26).dimensions,
-        u = i(760);
+    i(761);
+    var s = i(28).inherits, a = i(199), r = i(725), l = i(473), c = i(230).isEmptyObject, d = i(26).dimensions,
+        u = i(762);
     s(n, a), e.exports = n, n.prototype._setupListeners = function (e) {
         var t = this;
         window.gui.on("connected", function () {
@@ -43923,8 +43985,8 @@
         return t
     }
 
-    i(762);
-    var h, p, m = i(109), f = i(763), g = i(784), _ = i(785), v = i(783), y = !0, b = !1;
+    i(764);
+    var h, p, m = i(109), f = i(765), g = i(786), _ = i(787), v = i(785), y = !0, b = !1;
     t.initialize = n, t.isBeginnerAssistantRequired = l, t.adminCommand = u, t.openDialog = g.openDialog, t.setRequired = c, t.removeAndClean = d
 }, function (e, t) {
 }, function (e, t, i) {
@@ -44332,8 +44394,8 @@
         })
     }
 
-    var ae, re, le, ce, de, ue, he, pe, me, fe, ge, _e, ve, ye, be, Me, we = i(18).EventEmitter, Te = i(761),
-        Ce = i(764), Ae = i(781), Ie = i(782), Se = i(783), Ee = 3192, xe = {
+    var ae, re, le, ce, de, ue, he, pe, me, fe, ge, _e, ve, ye, be, Me, we = i(18).EventEmitter, Te = i(763),
+        Ce = i(766), Ae = i(783), Ie = i(784), Se = i(785), Ee = 3192, xe = {
             HandWave: "AnimAttaque1",
             LookOnFloor: "AnimAttaque2",
             LookAround: "AnimAttaque3",
@@ -44366,9 +44428,9 @@
         }, Oe = 8, De = 3e3, Re = 4e3, Pe = .75, Be = 1e3, ke = new we;
     t.initialize = u, t.stopMoving = Q, t.freeze = ee, t.unfreeze = te, t.getActor = c, t.setAnimation = se, t.removeAndClean = m, t.on = ke.on.bind(ke), t.once = ke.once.bind(ke), t.removeListener = ke.removeListener.bind(ke)
 }, function (e, t, i) {
-    i(765), i(767), i(769), i(770), i(771), i(772), i(774), i(775), e.exports = i(766)
+    i(767), i(769), i(771), i(772), i(773), i(774), i(776), i(777), e.exports = i(768)
 }, function (e, t, i) {
-    var n = i(766), o = i(6), s = o.ANIM_SYMBOLS;
+    var n = i(768), o = i(6), s = o.ANIM_SYMBOLS;
     n.prototype.getAnimSymbol = function (e, t) {
         return t || 0 === t || (t = this.direction), {id: e + "_" + s[t], base: e, direction: t}
     }, n.prototype.finalizeAnimationSymbol = function (e) {
@@ -44395,8 +44457,7 @@
         var t = this;
         this.moving && (console.warn("kill a moving actor"), this.pathTween.stop()), this.animated && console.warn("kill an animated actor");
         var i = this.getAnimSymbol("AnimMort");
-        this.animSymbol = i, this.animated = !0, t.actorManager.userActor === this && this.animManager.cleanupAnimationsAndRemoveSubentities(),
-            this.isDead = !0, this.animManager.assignSymbol(i, !1, function () {
+        this.animSymbol = i, this.animated = !0, t.actorManager.userActor === this && this.animManager.cleanupAnimationsAndRemoveSubentities(), this.isDead = !0, this.animManager.assignSymbol(i, !1, function () {
             return t.animated = !1, t.fighterIndicator && t.fighterIndicator.remove(), t.removeTeamCircle(), t.actorManager.removeActor(t.actorId), e && e()
         })
     }, n.prototype.testAnimation = function (e, t) {
@@ -44508,7 +44569,7 @@
         this.c = e, this.x = t, this.y = i, this.d = n, this.a = o, this.m = s
     }
 
-    var o = i(766), s = i(6), a = i(768), r = i(109), l = s.TIME_UNITS_PER_SECOND, c = {
+    var o = i(768), s = i(6), a = i(770), r = i(109), l = s.TIME_UNITS_PER_SECOND, c = {
         mounted: {linear: 135, horizontal: 200, vertical: 120, symbolId: "AnimCourse"},
         parable: {linear: 400, horizontal: 500, vertical: 450, symbolId: "FX"},
         running: {linear: 170, horizontal: 255, vertical: 150, symbolId: "AnimCourse"},
@@ -44604,7 +44665,7 @@
     var l = [];
     e.exports.cellCoord = o()
 }, function (e, t, i) {
-    var n = i(766), o = i(38).getText, s = i(446).npcActionRequest, a = i(761), r = i(24);
+    var n = i(768), o = i(38).getText, s = i(446).npcActionRequest, a = i(763), r = i(24);
     n.prototype.tap = function (e, t) {
         var i = this.actorId, n = this.cellId, l = this.data, c = this.scene.convertSceneToCanvasCoordinate(e, t),
             d = {x: c.x, y: c.y, isCanvasCoordinate: !0};
@@ -44679,7 +44740,7 @@
         }
     }
 }, function (e, t, i) {
-    var n = i(766), o = i(270).Tween, s = {red: 0, green: 0, blue: 0, alpha: 0},
+    var n = i(768), o = i(270).Tween, s = {red: 0, green: 0, blue: 0, alpha: 0},
         a = {red: 1, green: 1, blue: 1, alpha: .6};
     n.prototype.setInvisibility = function (e, t) {
         if (this.showTeamCircle(1 !== e), 3 === e) this.removeHighlight(), this.isInvisible = !1, this.actorManager.addActorOccupation(this); else {
@@ -44691,7 +44752,7 @@
         this.setHighlight(e), o(this.highlight, ["alpha"]).from({alpha: 1}).to({alpha: 0}, 30).start(!1)
     }
 }, function (e, t, i) {
-    var n = i(766), o = i(251), s = i(272), a = i(275), r = a.HOOK_POINT_CATEGORY_MOUNT_DRIVER,
+    var n = i(768), o = i(251), s = i(272), a = i(275), r = a.HOOK_POINT_CATEGORY_MOUNT_DRIVER,
         l = a.HOOK_POINT_CATEGORY_LIFTED_ENTITY;
     n.prototype.addSubentity = function (e, t, i) {
         var n = this;
@@ -44750,7 +44811,7 @@
         })
     }
 
-    var r = i(766), l = i(6), c = i(257), d = i(773), u = i(262), h = i(258), p = i(352), m = i(270).Delay, f = i(362),
+    var r = i(768), l = i(6), c = i(257), d = i(775), u = i(262), h = i(258), p = i(352), m = i(270).Delay, f = i(362),
         g = i(351), _ = i(39), v = l.CELL_HEIGHT, y = v / 2, b = 24,
         M = {QUEST: 1, DEFAULT: 2, AVA: 3, SMILEY: 4, UI: 5}, w = {
             miniBoss: "archmonsters",
@@ -44914,7 +44975,7 @@
         return {base: "AnimAttaque", type: 0, param: null, direction: e.direction}
     }
 
-    var a = i(766), r = i(251), l = i(109), c = {1: !0, 113: !0, 44: !0, 1575: !0, 1576: !0},
+    var a = i(768), r = i(251), l = i(109), c = {1: !0, 113: !0, 44: !0, 1575: !0, 1576: !0},
         d = [1097, 1111, 1112, 3451], u = null;
     a.prototype.getCreatureBones = function () {
         switch (this.data.type) {
@@ -44963,7 +45024,7 @@
         }
     }
 }, function (e, t, i) {
-    var n = i(766), o = i(262), s = i(6), a = i(773), r = i(776), l = i(221), c = i(777), d = i(780),
+    var n = i(768), o = i(262), s = i(6), a = i(775), r = i(778), l = i(221), c = i(779), d = i(782),
         u = "ui/embedded/teamCircleRed.png", h = "ui/embedded/teamCircleBlue.png";
     n.prototype.addTeamCircle = function () {
         function e(e) {
@@ -45085,7 +45146,7 @@
         o.call(this, e - c, t - d, i)
     }
 
-    var o = i(778), s = i(6), a = i(28).inherits, r = s.CELL_WIDTH, l = s.CELL_HEIGHT, c = r / 2, d = l / 4;
+    var o = i(780), s = i(6), a = i(28).inherits, r = s.CELL_WIDTH, l = s.CELL_HEIGHT, c = r / 2, d = l / 4;
     a(n, o), e.exports = n, n.prototype.updatePosition = function (e, t) {
         this._textImage.x = e - c, this._textImage.y = t - d
     }
@@ -45094,7 +45155,7 @@
         this._text = i, this._textImage = new o(i), this._textImage.x = e, this._textImage.y = t
     }
 
-    var o = i(779);
+    var o = i(781);
     e.exports = n, n.prototype.updatePosition = function (e, t) {
         this._textImage.x = e, this._textImage.y = t
     }, n.prototype.updateText = function (e) {
@@ -45114,7 +45175,7 @@
         this._text = e, this.canvas = document.createElement("canvas"), this.canvas.height = t.h = r + c + 2, this.canvasContext = this.canvas.getContext("2d"), this.canvasContext.font = r + "px " + d, this.canvas.width = t.w = Math.ceil(this.canvasContext.measureText(e.toString()).width) + c, this.canvasContext.font = r + "px " + d, this.canvasContext.shadowBlur = 2, this.canvasContext.shadowColor = "rgba(0, 0, 0, 1)", this.canvasContext.shadowOffsetX = 1, this.canvasContext.shadowOffsetY = 1, s.call(this, t), this.setForegroundColor("rgb(255, 255, 255)"), this.show()
     }
 
-    var o = i(28).inherits, s = i(773), a = i(6), r = 20, l = 0, c = 2, d = "Verdana";
+    var o = i(28).inherits, s = i(775), a = i(6), r = 20, l = 0, c = 2, d = "Verdana";
     o(n, s), e.exports = n, n.prototype.setForegroundColor = function (e) {
         this._foregroundColor = e, this.canvasContext.fillStyle = e, this.canvasContext.textAlign = "left", this.canvasContext.fillText(this._text, 1, r - c), this._setTexture()
     }, n.prototype.setBackgroundColor = function (e) {
@@ -45129,7 +45190,7 @@
         o.call(this, e, t, i), this.setForegroundColor(n), this.setBackgroundColor("rgba(0, 0, 0, 0.3)"), this._centerText()
     }
 
-    var o = i(778), s = i(28).inherits;
+    var o = i(780), s = i(28).inherits;
     s(n, o), e.exports = n, n.prototype.updatePosition = function (e, t) {
         this._textImage.x = e, this._textImage.y = t, this._centerText()
     }
@@ -45167,7 +45228,8 @@
 
     function c(e, t, i, n, o) {
         var s = e.i, c = e.j, d = y[s][c], u = y[s - 1][c], h = y[s][c - 1], p = y[s][c + 1], m = y[s + 1][c], f = 1;
-        a(d, u) && l(u, f, t, i, n, e), a(d, m) && l(m, f, t, i, n, e), a(d, h) && l(h, f, t, i, n, e), a(d, p) && l(p, f, t, i, n, e);
+        a(d, u) && l(u, f, t, i, n, e),
+        a(d, m) && l(m, f, t, i, n, e), a(d, h) && l(h, f, t, i, n, e), a(d, p) && l(p, f, t, i, n, e);
         var g = y[s - 1][c - 1], _ = y[s - 1][c + 1], v = y[s + 1][c - 1], b = y[s + 1][c + 1], M = Math.sqrt(2);
         o && (r(d, g, u, h) && l(g, M, t, i, n, e), r(d, v, m, h) && l(v, M, t, i, n, e), r(d, _, u, p) && l(_, M, t, i, n, e), r(d, b, m, p) && l(b, M, t, i, n, e))
     }
@@ -45197,7 +45259,7 @@
         return t
     }
 
-    for (var h = i(782), p = h.getMapPointFromCellId, m = h.getCellIdFromMapPoint, f = 10, g = 11.825, _ = 35, v = 36,
+    for (var h = i(784), p = h.getMapPointFromCellId, m = h.getCellIdFromMapPoint, f = 10, g = 11.825, _ = 35, v = 36,
              y = [], b = 0; b < _; b += 1) {
         for (var M = [], w = 0; w < v; w += 1)M[w] = new n(b, w);
         y[b] = M
@@ -45921,9 +45983,9 @@
         oe.playerData.position.mapId === fe.incarnamDungeon.firstMapId && (De.dungeonKeyHintShown = !0, Ae.setValue(oe.playerData.id + "-dungeonKeyHintShown", 1)), ue && ue.mapId === oe.playerData.position.mapId && $()
     }
 
-    var ne, oe, se, ae, re, le, ce, de, ue, he, pe = i(52), me = i(763), fe = i(783), ge = i(199), _e = i(38),
-        ve = _e.getText, ye = _e.processText, be = i(484), Me = i(455), we = i(483), Te = i(339), Ce = Te.positions,
-        Ae = i(32), Ie = i(761), Se = i(754), Ee = 3,
+    var ne, oe, se, ae, re, le, ce, de, ue, he, pe = i(52), me = i(765), fe = i(785), ge = i(199), _e = i(38),
+        ve = _e.getText, ye = _e.processText, be = i(489), Me = i(455), we = i(488), Te = i(339), Ce = Te.positions,
+        Ae = i(32), Ie = i(763), Se = i(756), Ee = 3,
         xe = [{key: "numPlayersMet", type: "int"}, {key: "maxWeightHintShown", type: "bool"}, {
             key: "tackleHintShown",
             type: "bool"
@@ -46040,7 +46102,7 @@
         return !0
     }
 
-    var A, I, S = i(52), E = i(761), x = i(783), N = i(32), L = i(483), O = i(38).getText, D = {
+    var A, I, S = i(52), E = i(763), x = i(785), N = i(32), L = i(488), O = i(38).getText, D = {
         spells: {
             alreadyUnlocked: !1, jorisDialog: "tablet.joris.uiUnlocker.spells", evaluateCurrent: function () {
                 return A.playerData.characterBaseInformations.level >= 3
@@ -46132,7 +46194,7 @@
         this.handlerMap = {}, this.handlerMap[c] = this.kamaConvertHandler, this.handlerMap[d] = this.kamaConvertHandler, this.handlerMap[u] = this.kamaLostHandler, this.handlerMap[l] = this.guestLimitHandler, this.handlerMap[h] = this.overweightHandler, this.previousConvertedKamaAmount = null
     }
 
-    var o = i(244), s = i(38).getText, a = i(699), r = i(787), l = 10418, c = 221, d = 220, u = 46, h = 10012;
+    var o = i(244), s = i(38).getText, a = i(701), r = i(789), l = 10418, c = 221, d = 220, u = 46, h = 10012;
     n.prototype.initialize = function () {
         var e = this, t = window.dofus.connectionManager, i = {};
         i[r.TEXT_INFORMATION_MESSAGE] = o.PSEUDO_CHANNEL_INFO, i[r.TEXT_INFORMATION_PVP] = o.CHANNEL_ALLIANCE, i[r.TEXT_INFORMATION_FIGHT] = o.PSEUDO_CHANNEL_FIGHT_LOG, t.on("TextInformationMessage", function (t) {
@@ -46245,8 +46307,7 @@
         var o = this.isFeatureLocked(e), s = this.lockStatus[e], a = s.base;
         if (i) {
             var r = -1;
-            s.customLockedReasons && (r = s.customLockedReasons.indexOf(i)), t ? r === -1 && (s.customLockedReasons || (s.customLockedReasons = []),
-                    s.customLockedReasons.push(i)) : (r !== -1 && (s.customLockedReasons.splice(r, 1), 0 === s.customLockedReasons.length && (s.customLockedReasons = null)), s.base = n.evaluateCurrent())
+            s.customLockedReasons && (r = s.customLockedReasons.indexOf(i)), t ? r === -1 && (s.customLockedReasons || (s.customLockedReasons = []), s.customLockedReasons.push(i)) : (r !== -1 && (s.customLockedReasons.splice(r, 1), 0 === s.customLockedReasons.length && (s.customLockedReasons = null)), s.base = n.evaluateCurrent())
         } else s.base = t;
         var l = this.isFeatureLocked(e), c = s.base;
         l === o && c === a || this.emit("updated", {
@@ -46562,7 +46623,7 @@
         })
     }
 
-    var z, F, H, q, W = i(190), U = i(14), G = i(790), j = i(184), Y = i(7), V = i(38).getText, X = i(217), Q = i(699),
+    var z, F, H, q, W = i(190), U = i(14), G = i(792), j = i(184), Y = i(7), V = i(38).getText, X = i(217), Q = i(701),
         K = i(24), J = i(164);
     G.config({ROUNDING_MODE: G.ROUND_HALF_EVEN, ERRORS: !0});
     var Z = window.dofus.connectionManager;
@@ -47035,16 +47096,16 @@
         }.call(t, i, t, e), !(void 0 !== n && (e.exports = n))
     }(this)
 }, function (e, t, i) {
-    var n = i(24), o = i(792), s = i(798), a = i(801), r = i(804), l = i(806), c = i(826), d = i(830), u = i(837),
-        h = i(849), p = i(828), m = i(851), f = i(857), g = i(861), _ = i(864), v = i(866), y = i(868), b = i(871),
-        M = i(873), w = i(900), T = i(902), C = i(908), A = i(910), I = i(912), S = i(914), E = i(916), x = i(918),
-        N = i(922), L = i(924), O = i(926), D = i(928), R = i(930), P = i(932), B = i(934), k = i(936), z = i(938),
-        F = i(939), H = i(941), q = i(945), W = i(949), U = i(953), G = i(955), j = i(958), Y = i(960), V = i(962),
-        X = i(967), Q = i(969), K = i(971), J = i(973), Z = i(975), $ = i(326), ee = i(979), te = i(1001), ie = i(1037),
-        ne = i(1039), oe = i(1041), se = i(1043), ae = i(1045), re = i(1047), le = i(1050), ce = i(1052), de = i(1061),
-        ue = i(1068), he = i(1069), pe = i(1071), me = i(1074), fe = i(1078), ge = i(1080), _e = i(1085), ve = i(1087),
-        ye = i(1093), be = i(1095), Me = i(1097), we = i(1099), Te = i(1103), Ce = i(1105), Ae = i(1107), Ie = i(1114),
-        Se = i(1125), Ee = i(1127), xe = i(1129);
+    var n = i(24), o = i(794), s = i(800), a = i(803), r = i(806), l = i(808), c = i(828), d = i(832), u = i(839),
+        h = i(851), p = i(830), m = i(853), f = i(859), g = i(863), _ = i(866), v = i(868), y = i(870), b = i(873),
+        M = i(875), w = i(902), T = i(904), C = i(910), A = i(912), I = i(914), S = i(916), E = i(918), x = i(920),
+        N = i(924), L = i(926), O = i(928), D = i(930), R = i(932), P = i(934), B = i(936), k = i(938), z = i(940),
+        F = i(941), H = i(943), q = i(947), W = i(951), U = i(955), G = i(957), j = i(960), Y = i(962), V = i(964),
+        X = i(969), Q = i(971), K = i(973), J = i(975), Z = i(977), $ = i(326), ee = i(981), te = i(1003), ie = i(1039),
+        ne = i(1041), oe = i(1043), se = i(1045), ae = i(1047), re = i(1049), le = i(1052), ce = i(1054), de = i(1063),
+        ue = i(1070), he = i(1071), pe = i(1073), me = i(1076), fe = i(1080), ge = i(1082), _e = i(1087), ve = i(1089),
+        ye = i(1095), be = i(1097), Me = i(1099), we = i(1101), Te = i(1105), Ce = i(1107), Ae = i(1109), Ie = i(1116),
+        Se = i(1127), Ee = i(1129), xe = i(1131);
     e.exports = function () {
         var e = new o({enablePresets: !0, dataHandler: window.gui.playerData.inventory}),
             t = new o({enablePresets: !1, dataHandler: null}),
@@ -47060,7 +47121,8 @@
     }
 
     function o(e) {
-        h.call(this), e = e || {}, this.itemList = {}, this.itemsQuantityList = {}, this.slotList = {}, this._filters = [n], this.weight = 0, this.maxWeight = 1, this.enablePresets = e.enablePresets;
+        h.call(this), e = e || {}, this.itemList = {}, this.itemsQuantityList = {},
+            this.slotList = {}, this._filters = [n], this.weight = 0, this.maxWeight = 1, this.enablePresets = e.enablePresets;
         var t = e.dataHandler;
         t && (this._setupEvents(t), this.enablePresets && this.on("StorageViewerOpen", function () {
             this.setWeight(t.weight, t.maxWeight), this.setKamas(t.kamas)
@@ -47094,9 +47156,9 @@
         return 0
     }
 
-    i(793);
+    i(795);
     var d = i(215).addTooltip, u = i(195), h = i(18).EventEmitter, p = i(38).getText, m = i(217), f = i(28).inherits,
-        g = i(339), _ = i(723), v = i(405), y = i(719), b = i(794), M = i(432), w = i(36).events, T = i(35), C = i(199),
+        g = i(339), _ = i(725), v = i(405), y = i(721), b = i(796), M = i(432), w = i(36).events, T = i(35), C = i(199),
         A = 40, I = g.positions.notEquipped;
     f(o, h), e.exports = o, o.prototype._updatePageSystem = function () {
         var e = this.currentOpenedWindow;
@@ -47618,10 +47680,10 @@
         }), D.on("setMount", N), D.on("unsetMount", N)
     }
 
-    i(795);
-    var o = i(215).addTooltip, s = i(5), a = i(213).DofusButton, r = i(195), l = i(38).getText, c = i(339), d = i(725),
-        u = i(723), h = i(28), p = i(24), m = i(199), f = i(796).actionsEnum, g = 8, _ = 16, v = 27, y = 40,
-        b = i(718).GENERAL_SHORTCUT_BAR, M = c.positions.pets, w = 3;
+    i(797);
+    var o = i(215).addTooltip, s = i(5), a = i(213).DofusButton, r = i(195), l = i(38).getText, c = i(339), d = i(727),
+        u = i(725), h = i(28), p = i(24), m = i(199), f = i(798).actionsEnum, g = 8, _ = 16, v = 27, y = 40,
+        b = i(720).GENERAL_SHORTCUT_BAR, M = c.positions.pets, w = 3;
     h.inherits(n, m), e.exports = n, n.prototype._getItemPosMap = function (e) {
         if (e) {
             for (var t = e.objects || e, i = window.gui.playerData.inventory, n = {}, o = 0; o < t.length; o += 1) {
@@ -47740,7 +47802,7 @@
         this.message = t.createChild("div", {className: "message"})
     }
 
-    i(797);
+    i(799);
     var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(38).getText,
         c = {NO: 0, YES: 1, IGNORE: 2};
     o(n, s), e.exports = n, e.exports.actionsEnum = c, n.prototype.createDom = function () {
@@ -47825,9 +47887,9 @@
         i && t.setOpacity(i)
     }
 
-    i(799);
+    i(801);
     var o = i(469), s = i(28).inherits, a = i(418), r = i(213), l = i(407), c = i(432), d = i(38).getText, u = i(313),
-        h = i(761), p = i(314), m = i(480), f = i(494), g = i(217), _ = i(199), v = i(36).events, y = i(32), b = i(800),
+        h = i(763), p = i(314), m = i(486), f = i(496), g = i(217), _ = i(199), v = i(36).events, y = i(32), b = i(802),
         M = 100, w = "Admin Console", T = "adminOpacity", C = new b, A = "incarnam", I = 45,
         S = ["Info", "Warn", "Error"], E = ["Debug", "Debug", "Info", "Warn", "Error", "Fatal"], x = 3;
     s(n, a), e.exports = n, n.prototype._createDom = function () {
@@ -48064,8 +48126,8 @@
         })
     }
 
-    i(802);
-    var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(642), l = i(38).getText, c = i(690), d = i(803);
+    i(804);
+    var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(644), l = i(38).getText, c = i(692), d = i(805);
     o(n, s), e.exports = n, n.prototype.createContent = function () {
         this.messageContainerSetup(), this.tableSetup(), this.informationSetup(), this.buttonsSetup()
     }, n.prototype.messageContainerSetup = function () {
@@ -48221,9 +48283,9 @@
         h.showNotification(s("tablet.common.longTapForTooltip"), this)
     }
 
-    i(805);
-    var s = i(38).getText, a = i(28).inherits, r = i(314), l = i(217).showProgressively, c = i(731), d = i(290),
-        u = i(729), h = i(215), p = i(418),
+    i(807);
+    var s = i(38).getText, a = i(28).inherits, r = i(314), l = i(217).showProgressively, c = i(733), d = i(290),
+        u = i(731), h = i(215), p = i(418),
         m = [[], [10, 7, 3], [34, 31, 27], [60, 58, 50], [72, 80, 67], [88, 81, 95], [105, 101, 109], [126, 130, 140], [142, 159, 153], [179, 168, 174], [191, 190, 186], [434, 446, 431], [686, 705, 696], [2778, 2806, 2810], [2890, 2897, 2872], [3212, 3211, 3218]],
         f = {spellTooltipAll: !0}, g = {visibilityOptions: {spellTooltipName: !0, spellTooltipDescription: !0}};
     a(n, p), e.exports = n, n.prototype.freeContent = function () {
@@ -48298,10 +48360,10 @@
         e._setFilterBoxVisible(!1), e._selectTile(this.room, this)
     }
 
-    i(807);
-    var s = i(213), a = i(480), r = i(808), l = i(195), c = i(810), d = i(812), u = i(425), h = i(38).getText,
-        p = i(28).inherits, m = i(423), f = i(813), g = i(815), _ = i(819), v = i(333), y = i(820), b = i(409),
-        M = i(822), w = i(824), T = i(418), C = i(24), A = i(199), I = r.DRAG_ID, S = "c", E = 150, x = 1, N = 200,
+    i(809);
+    var s = i(213), a = i(486), r = i(810), l = i(195), c = i(812), d = i(814), u = i(425), h = i(38).getText,
+        p = i(28).inherits, m = i(423), f = i(815), g = i(817), _ = i(821), v = i(333), y = i(822), b = i(409),
+        M = i(824), w = i(826), T = i(418), C = i(24), A = i(199), I = r.DRAG_ID, S = "c", E = 150, x = 1, N = 200,
         L = "paddock", O = m.EFFECT_INVALID_CERTIF, D = 996, R = 997, P = 998, B = {id: !0, name: !0, model: !0}, k = 2,
         z = !0, F = 6e5;
     p(n, T), e.exports = n, n.prototype._reset = function () {
@@ -48542,19 +48604,15 @@
         for (var t = this._extractCertificates(e), i = [], n = 0; n < t.length; n++) {
             var o = t[n], s = o.mountInfo, a = S + o.objectUID, r = this.mountDataFromCertifId[a];
             r || this.nonLoadedCertifCount++, i.push({
-                id: a,
-                certificate: o,
-                model: s.modelId,
-                name: s.name,
-                receivedData: r
+                id: a, certificate: o, model: s.modelId,
+                name: s.name, receivedData: r
             })
         }
         this._addMountsToRoom(this.rooms.certificate, i)
     }, n.prototype._removeCertificates = function (e) {
         for (var t = [], i = 0; i < e.length; i += 1) {
             var n = S + e[i].objectUID, o = this.mountDataFromCertifId[n];
-            o ? delete this.mountDataFromCertifId[n] : this.nonLoadedCertifCount--,
-                t.push(n)
+            o ? delete this.mountDataFromCertifId[n] : this.nonLoadedCertifCount--, t.push(n)
         }
         this._removeMountsFromRoom(this.rooms.certificate, t)
     }, n.prototype._extractCertificates = function (e) {
@@ -48720,7 +48778,7 @@
         s.setDraggable(t, this, r, this.sourceData, i)
     }
 
-    i(809);
+    i(811);
     var s = i(195), a = i(199), r = "mountRoom", l = 7, c = -4, d = 4, u = 138, h = 118;
     e.exports = o, o.DRAG_ID = r, o.prototype.setMount = function (e, t) {
         this.sourceData.mount = e, this.imgElement = t || this.imgElement
@@ -48744,8 +48802,8 @@
         this.mountData = null, this.box = e.createChild("div", {className: "equipBox"}), this._createTile(t, i), this.placeholder = new r(this.box), this.placeholder.setText(a("tablet.mount.noEquipped"))
     }
 
-    i(811);
-    var o = i(5), s = i(808), a = i(38).getText, r = i(333), l = i(35);
+    i(813);
+    var o = i(5), s = i(810), a = i(38).getText, r = i(333), l = i(35);
     e.exports = n, n.prototype._createTile = function (e, t) {
         var i = this.tile = this.box.createChild("div", {className: ["mount", "neutralTile"]});
         e.getTile = function (e) {
@@ -48835,8 +48893,8 @@
         return n
     }
 
-    i(814);
-    var l = i(5), c = i(808), d = i(426), u = i(38).getText, h = i(28).inherits, p = i(423), m = i(434), f = i(436),
+    i(816);
+    var l = i(5), c = i(810), d = i(426), u = i(38).getText, h = i(28).inherits, p = i(423), m = i(434), f = i(436),
         g = i(35), _ = i(215), v = i(199), y = 27, b = 4, M = 2, w = 0, T = 1, C = 2, A = {};
     A.shed = [], A.paddock = [], A.certificate = [];
     var I = {};
@@ -48955,9 +49013,9 @@
         this.mountFilterBox[this.filterName].reset()
     }
 
-    i(816);
+    i(818);
     var u, h = i(213), p = i(320), m = i(336), f = i(38).getText, g = i(28).inherits, _ = i(220), v = i(421),
-        y = i(434), b = i(35), M = i(817), w = i(199),
+        y = i(434), b = i(35), M = i(819), w = i(199),
         T = [["maleBtn", "femaleBtn"], ["newbornBtn", "rideableBtn"], ["fertileBtn", "sterilizedBtn"], ["pregnantBtn", "fertileBtn"], ["pregnantBtn", "sterilizedBtn"]],
         C = {
             maleBtn: {filterId: "sex", isReversed: !0, label: "ui.common.animalMale", addIcon: !0},
@@ -49143,7 +49201,7 @@
         a.call(this, "div"), this.name = e, this.tapHandler = t, this.states = i.states || r, this._createDom(i), this._setValueByIndex(0), s(this), this.on("tap", this._changeToNextValue)
     }
 
-    i(818);
+    i(820);
     var o = i(28).inherits, s = i(35), a = i(199), r = [{value: !1}, {value: !0, className: "active"}];
     o(n, a), e.exports = n, n.prototype._createDom = function (e) {
         e.addIcon && (this.icon = this.createChild("div", {className: "btnIcon"})), e.text && (this.labelElement = this.createChild("div", {
@@ -49319,7 +49377,7 @@
             }
         }, {
             id: "serenity", name: d("ui.common.serenity"), "do": function (e, t, i) {
-                return i ? this.serenity < e || this.serenity > t : this.serenity >= e && this.serenity <= t;
+                return i ? this.serenity < e || this.serenity > t : this.serenity >= e && this.serenity <= t
             }
         }, {
             id: "fatigue", name: d("ui.common.tire"), "do": function (e, t) {
@@ -49395,8 +49453,8 @@
         return c
     }
 
-    i(821);
-    var c = i(18), d = i(28).inherits, u = i(813), h = i(314), p = 4, m = 37, f = 14, g = 1.5, _ = 90, v = 100, y = 2;
+    i(823);
+    var c = i(18), d = i(28).inherits, u = i(815), h = i(314), p = 4, m = 37, f = 14, g = 1.5, _ = 90, v = 100, y = 2;
     d(n, c), e.exports = n, n.prototype.reset = function () {
         this.delayedSetup = 0, this._stopTicker(), this.refreshInterval = null, this.lastRenderedScrollY = -1, this.scrollStartTime = 0, this.isScrolling = !1, this.isRefreshComplete = !0, this.numMounts = 0, this.mountMap = {}, this.selectedTiles = {}, this.numSelected = 0, this.isLocked = !1, this.needsScrollerRefresh = !1, this.needRefilter = !1, this.hasNoFilter = !0, this.hasNoSorter = !0, this.currentSorter = "", this.tilesPerPage = 0, this.allTiles = [], this.allVisibleTiles = [], this.box && (this.box.clearContent(), this.scroller.goToTop())
     }, n.prototype.createBox = function (e) {
@@ -49510,7 +49568,7 @@
         s.call(this, "div", {className: "tabs"}), e = e || {}, this.addClassNames(e.className), this.options = e, this.tabsMap = {}, this.tabsOrderIds = [], this.curentTabId = null, this.nextId = 0
     }
 
-    i(823);
+    i(825);
     var o = i(28).inherits, s = i(199), a = i(35), r = i(98).playUiSound;
     o(n, s), e.exports = n, n.prototype.addTab = function (e, t, i) {
         var n = this, o = i, s = !1;
@@ -49592,7 +49650,7 @@
         }), this.labelElt = t.createChild("div", {className: "label", text: ""})
     }
 
-    i(825);
+    i(827);
     var o = i(28).inherits, s = i(428), a = i(199), r = 70, l = 7, c = "#58b", d = "#555";
     o(n, a), e.exports = n, n.prototype.setLabel = function (e) {
         this.labelElt.setText(e)
@@ -49753,9 +49811,9 @@
         }), t.createChild("td", {className: "total", text: M("ui.common.total")})
     }
 
-    i(827);
-    var g, _ = i(28).inherits, v = i(418), y = i(822), b = i(432), M = i(38).getText, w = i(35), T = i(24),
-        C = i(215).addTooltip, A = i(199), I = i(828).getStatCost, S = i(98).playUiSound, E = i(213);
+    i(829);
+    var g, _ = i(28).inherits, v = i(418), y = i(824), b = i(432), M = i(38).getText, w = i(35), T = i(24),
+        C = i(215).addTooltip, A = i(199), I = i(830).getStatCost, S = i(98).playUiSound, E = i(213);
     _(n, v), e.exports = n, n.prototype.alignWithEquipment = function () {
         var e = T.getWindow("equipment");
         e.openState && (this.setStyles({
@@ -49790,8 +49848,8 @@
         })
     }
 
-    i(829);
-    var o = i(28).inherits, s = i(418), a = i(213), r = i(642), l = i(24), c = i(38).getText, d = i(98).playUiSound,
+    i(831);
+    var o = i(28).inherits, s = i(418), a = i(213), r = i(644), l = i(24), c = i(38).getText, d = i(98).playUiSound,
         u = i(313), h = i(218), p = {vitality: 11, wisdom: 12, strength: 10, intelligence: 15, chance: 13, agility: 14},
         m = 0, f = 1;
     o(n, s), e.exports = n, n.prototype.updateContent = function (e) {
@@ -49999,9 +50057,9 @@
         return Math.min(t, 4)
     }
 
-    i(831);
-    var s = i(215).addTooltip, a = i(476), r = i(28).inherits, l = i(418), c = i(24), d = i(38).getText, u = i(832),
-        h = i(213), p = i(35), m = i(642), f = i(55), g = i(247), _ = i(836);
+    i(833);
+    var s = i(215).addTooltip, a = i(476), r = i(28).inherits, l = i(418), c = i(24), d = i(38).getText, u = i(834),
+        h = i(213), p = i(35), m = i(644), f = i(55), g = i(247), _ = i(838);
     r(n, l), e.exports = n, n.prototype.updateCharacterList = function (e) {
         var t = o(e);
         this.leftColumn.setClassNames(["leftColumn", "x" + t + "Bubble"]), this.charactersTable.clearContent();
@@ -50016,7 +50074,7 @@
 }, function (e, t) {
 }, function (e, t, i) {
     !function () {
-        var t = i(833), n = i(834).utf8, o = i(835), s = i(834).bin, a = function (e, i) {
+        var t = i(835), n = i(836).utf8, o = i(837), s = i(836).bin, a = function (e, i) {
             e.constructor == String ? e = i && "binary" === i.encoding ? s.stringToBytes(e) : n.stringToBytes(e) : o(e) ? e = Array.prototype.slice.call(e, 0) : Array.isArray(e) || (e = e.toString());
             for (var r = t.bytesToWords(e), l = 8 * e.length, c = 1732584193, d = -271733879, u = -1732584194,
                      h = 271733878,
@@ -50024,8 +50082,7 @@
             r[l >>> 5] |= 128 << l % 32, r[(l + 64 >>> 9 << 4) + 14] = l;
             for (var m = a._ff, f = a._gg, g = a._hh, _ = a._ii, p = 0; p < r.length; p += 16) {
                 var v = c, y = d, b = u, M = h;
-                c = m(c, d, u, h, r[p + 0], 7, -680876936), h = m(h, c, d, u, r[p + 1], 12, -389564586), u = m(u, h, c, d, r[p + 2], 17, 606105819), d = m(d, u, h, c, r[p + 3], 22, -1044525330), c = m(c, d, u, h, r[p + 4], 7, -176418897),
-                    h = m(h, c, d, u, r[p + 5], 12, 1200080426), u = m(u, h, c, d, r[p + 6], 17, -1473231341), d = m(d, u, h, c, r[p + 7], 22, -45705983), c = m(c, d, u, h, r[p + 8], 7, 1770035416), h = m(h, c, d, u, r[p + 9], 12, -1958414417), u = m(u, h, c, d, r[p + 10], 17, -42063), d = m(d, u, h, c, r[p + 11], 22, -1990404162), c = m(c, d, u, h, r[p + 12], 7, 1804603682), h = m(h, c, d, u, r[p + 13], 12, -40341101), u = m(u, h, c, d, r[p + 14], 17, -1502002290), d = m(d, u, h, c, r[p + 15], 22, 1236535329), c = f(c, d, u, h, r[p + 1], 5, -165796510), h = f(h, c, d, u, r[p + 6], 9, -1069501632), u = f(u, h, c, d, r[p + 11], 14, 643717713), d = f(d, u, h, c, r[p + 0], 20, -373897302), c = f(c, d, u, h, r[p + 5], 5, -701558691), h = f(h, c, d, u, r[p + 10], 9, 38016083), u = f(u, h, c, d, r[p + 15], 14, -660478335), d = f(d, u, h, c, r[p + 4], 20, -405537848), c = f(c, d, u, h, r[p + 9], 5, 568446438), h = f(h, c, d, u, r[p + 14], 9, -1019803690), u = f(u, h, c, d, r[p + 3], 14, -187363961), d = f(d, u, h, c, r[p + 8], 20, 1163531501), c = f(c, d, u, h, r[p + 13], 5, -1444681467), h = f(h, c, d, u, r[p + 2], 9, -51403784), u = f(u, h, c, d, r[p + 7], 14, 1735328473), d = f(d, u, h, c, r[p + 12], 20, -1926607734), c = g(c, d, u, h, r[p + 5], 4, -378558), h = g(h, c, d, u, r[p + 8], 11, -2022574463), u = g(u, h, c, d, r[p + 11], 16, 1839030562), d = g(d, u, h, c, r[p + 14], 23, -35309556), c = g(c, d, u, h, r[p + 1], 4, -1530992060), h = g(h, c, d, u, r[p + 4], 11, 1272893353), u = g(u, h, c, d, r[p + 7], 16, -155497632), d = g(d, u, h, c, r[p + 10], 23, -1094730640), c = g(c, d, u, h, r[p + 13], 4, 681279174), h = g(h, c, d, u, r[p + 0], 11, -358537222), u = g(u, h, c, d, r[p + 3], 16, -722521979), d = g(d, u, h, c, r[p + 6], 23, 76029189), c = g(c, d, u, h, r[p + 9], 4, -640364487), h = g(h, c, d, u, r[p + 12], 11, -421815835), u = g(u, h, c, d, r[p + 15], 16, 530742520), d = g(d, u, h, c, r[p + 2], 23, -995338651), c = _(c, d, u, h, r[p + 0], 6, -198630844), h = _(h, c, d, u, r[p + 7], 10, 1126891415), u = _(u, h, c, d, r[p + 14], 15, -1416354905), d = _(d, u, h, c, r[p + 5], 21, -57434055), c = _(c, d, u, h, r[p + 12], 6, 1700485571), h = _(h, c, d, u, r[p + 3], 10, -1894986606), u = _(u, h, c, d, r[p + 10], 15, -1051523), d = _(d, u, h, c, r[p + 1], 21, -2054922799), c = _(c, d, u, h, r[p + 8], 6, 1873313359), h = _(h, c, d, u, r[p + 15], 10, -30611744), u = _(u, h, c, d, r[p + 6], 15, -1560198380), d = _(d, u, h, c, r[p + 13], 21, 1309151649), c = _(c, d, u, h, r[p + 4], 6, -145523070), h = _(h, c, d, u, r[p + 11], 10, -1120210379), u = _(u, h, c, d, r[p + 2], 15, 718787259), d = _(d, u, h, c, r[p + 9], 21, -343485551), c = c + v >>> 0, d = d + y >>> 0, u = u + b >>> 0, h = h + M >>> 0
+                c = m(c, d, u, h, r[p + 0], 7, -680876936), h = m(h, c, d, u, r[p + 1], 12, -389564586), u = m(u, h, c, d, r[p + 2], 17, 606105819), d = m(d, u, h, c, r[p + 3], 22, -1044525330), c = m(c, d, u, h, r[p + 4], 7, -176418897), h = m(h, c, d, u, r[p + 5], 12, 1200080426), u = m(u, h, c, d, r[p + 6], 17, -1473231341), d = m(d, u, h, c, r[p + 7], 22, -45705983), c = m(c, d, u, h, r[p + 8], 7, 1770035416), h = m(h, c, d, u, r[p + 9], 12, -1958414417), u = m(u, h, c, d, r[p + 10], 17, -42063), d = m(d, u, h, c, r[p + 11], 22, -1990404162), c = m(c, d, u, h, r[p + 12], 7, 1804603682), h = m(h, c, d, u, r[p + 13], 12, -40341101), u = m(u, h, c, d, r[p + 14], 17, -1502002290), d = m(d, u, h, c, r[p + 15], 22, 1236535329), c = f(c, d, u, h, r[p + 1], 5, -165796510), h = f(h, c, d, u, r[p + 6], 9, -1069501632), u = f(u, h, c, d, r[p + 11], 14, 643717713), d = f(d, u, h, c, r[p + 0], 20, -373897302), c = f(c, d, u, h, r[p + 5], 5, -701558691), h = f(h, c, d, u, r[p + 10], 9, 38016083), u = f(u, h, c, d, r[p + 15], 14, -660478335), d = f(d, u, h, c, r[p + 4], 20, -405537848), c = f(c, d, u, h, r[p + 9], 5, 568446438), h = f(h, c, d, u, r[p + 14], 9, -1019803690), u = f(u, h, c, d, r[p + 3], 14, -187363961), d = f(d, u, h, c, r[p + 8], 20, 1163531501), c = f(c, d, u, h, r[p + 13], 5, -1444681467), h = f(h, c, d, u, r[p + 2], 9, -51403784), u = f(u, h, c, d, r[p + 7], 14, 1735328473), d = f(d, u, h, c, r[p + 12], 20, -1926607734), c = g(c, d, u, h, r[p + 5], 4, -378558), h = g(h, c, d, u, r[p + 8], 11, -2022574463), u = g(u, h, c, d, r[p + 11], 16, 1839030562), d = g(d, u, h, c, r[p + 14], 23, -35309556), c = g(c, d, u, h, r[p + 1], 4, -1530992060), h = g(h, c, d, u, r[p + 4], 11, 1272893353), u = g(u, h, c, d, r[p + 7], 16, -155497632), d = g(d, u, h, c, r[p + 10], 23, -1094730640), c = g(c, d, u, h, r[p + 13], 4, 681279174), h = g(h, c, d, u, r[p + 0], 11, -358537222), u = g(u, h, c, d, r[p + 3], 16, -722521979), d = g(d, u, h, c, r[p + 6], 23, 76029189), c = g(c, d, u, h, r[p + 9], 4, -640364487), h = g(h, c, d, u, r[p + 12], 11, -421815835), u = g(u, h, c, d, r[p + 15], 16, 530742520), d = g(d, u, h, c, r[p + 2], 23, -995338651), c = _(c, d, u, h, r[p + 0], 6, -198630844), h = _(h, c, d, u, r[p + 7], 10, 1126891415), u = _(u, h, c, d, r[p + 14], 15, -1416354905), d = _(d, u, h, c, r[p + 5], 21, -57434055), c = _(c, d, u, h, r[p + 12], 6, 1700485571), h = _(h, c, d, u, r[p + 3], 10, -1894986606), u = _(u, h, c, d, r[p + 10], 15, -1051523), d = _(d, u, h, c, r[p + 1], 21, -2054922799), c = _(c, d, u, h, r[p + 8], 6, 1873313359), h = _(h, c, d, u, r[p + 15], 10, -30611744), u = _(u, h, c, d, r[p + 6], 15, -1560198380), d = _(d, u, h, c, r[p + 13], 21, 1309151649), c = _(c, d, u, h, r[p + 4], 6, -145523070), h = _(h, c, d, u, r[p + 11], 10, -1120210379), u = _(u, h, c, d, r[p + 2], 15, 718787259), d = _(d, u, h, c, r[p + 9], 21, -343485551), c = c + v >>> 0, d = d + y >>> 0, u = u + b >>> 0, h = h + M >>> 0
             }
             return t.endian([c, d, u, h])
         };
@@ -50136,8 +50193,8 @@
         })
     }
 
-    i(838);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(839), l = i(845), c = i(213).DofusButton, d = i(34);
+    i(840);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(841), l = i(847), c = i(213).DofusButton, d = i(34);
     o(n, s), e.exports = n, n.prototype._reset = function () {
         this._charactersSpace && this._charactersSpace.reset(), this.windowBody.clearContent(), this._hasDom = !1, this._giftListIndex = 0, this._giftList = [], this._itemSpace = null, this._charactersSpace = null, this._selectedCharaId = null
     }, n.prototype._setupEvents = function () {
@@ -50213,8 +50270,8 @@
         })
     }
 
-    i(840);
-    var o = i(28).inherits, s = i(199), a = i(841), r = i(843), l = i(38).getText;
+    i(842);
+    var o = i(28).inherits, s = i(199), a = i(843), r = i(845), l = i(38).getText;
     o(n, s), e.exports = n, n.prototype.update = function (e) {
         e = e || {}, this._title.setText(e.title), this._description.setText(e.text);
         var t = e.items || [], i = t[0];
@@ -50351,10 +50408,10 @@
         for (var i = 0; i < e.length; i++)t.addRow([e[i]])
     }
 
-    i(842);
+    i(844);
     var m = i(215).addTooltip, f = i(5), g = i(326), _ = i(233), v = i(415), y = i(215).enableTooltip,
         b = i(38).getText, M = i(411), w = i(339), T = w.Item, C = w.ItemInstance, A = i(423), I = i(432), S = i(39),
-        E = i(642), x = i(822), N = i(213), L = i(28), O = i(314), D = i(199), R = i(24), P = i(210), B = i(35),
+        E = i(644), x = i(824), N = i(213), L = i(28), O = i(314), D = i(199), R = i(24), P = i(210), B = i(35),
         k = A.EFFECT_MOUNT, z = 812, F = 5;
     L.inherits(c, D), c.prototype._toggleItemActions = function (e) {
         if (this.showItemActions) {
@@ -50406,8 +50463,8 @@
         a.call(this, "div", {className: "RewardBoxes"}), e = e || {}, this._NB_REWARDS = e.nbRewards || 6, this._slotList = [], this._rewardNextSlot = 0, this._content = this.createChild("div", {className: "rewardContent"}), this.reset()
     }
 
-    i(844);
-    var o = i(725), s = i(418), a = i(199), r = i(28).inherits, l = i(723);
+    i(846);
+    var o = i(727), s = i(418), a = i(199), r = i(28).inherits, l = i(725);
     r(n, s), e.exports = n, n.prototype.reset = function () {
         this._slotList = [], this._rewardNextSlot = 0, this._content.clearContent();
         for (var e = 0; e < this._NB_REWARDS; e += 1)this._slotList.push(this._content.appendChild(new o))
@@ -50442,8 +50499,8 @@
         })
     }
 
-    i(846);
-    var o = i(28).inherits, s = i(199), a = i(847), r = i(314), l = i(38).getText, c = i(247);
+    i(848);
+    var o = i(28).inherits, s = i(199), a = i(849), r = i(314), l = i(38).getText, c = i(247);
     o(n, s), e.exports = n, n.prototype.update = function (e) {
         function t() {
             i._deselecteAll(), this.addClassNames("selected"), i.emit("selectTile", this.id), i._characterDisplayWebGL.release(), i._characterDisplayWebGL.setLook(this.entityLook, {
@@ -50483,7 +50540,7 @@
         this.createChild("div", {className: "level", text: l})
     }
 
-    i(848);
+    i(850);
     var o = i(28).inherits, s = i(213), a = i(38).getText;
     o(n, s), e.exports = n
 }, function (e, t) {
@@ -50537,8 +50594,8 @@
         })
     }
 
-    i(850);
-    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(38).getText, c = i(407), d = i(832),
+    i(852);
+    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(38).getText, c = i(407), d = i(834),
         u = i(26).dimensions, h = i(313), p = {w: 380, h: 250};
     o(n, s), e.exports = n, n.prototype.setPosition = function (e) {
         var t = u.screenHeight - e, i = {left: "c", top: (t - p.h) / 2, width: p.w, height: p.h};
@@ -50565,12 +50622,12 @@
         });
         var n, o = this;
         window.gui.once("DocumentReadingBeginMessage", function (s) {
-            n = i(856), o.windowBody.appendChild(c), o.windowBody.appendChild(n), c.on("close", e), n.on("close", e), window.gui.on("DocumentReadingBeginMessage", t), t(s)
+            n = i(858), o.windowBody.appendChild(c), o.windowBody.appendChild(n), c.on("close", e), n.on("close", e), window.gui.on("DocumentReadingBeginMessage", t), t(s)
         })
     }
 
-    i(852);
-    var o = i(28).inherits, s = i(418), a = i(39), r = i(24), l = i(98).playUiSound, c = i(853), d = 1, u = 2;
+    i(854);
+    var o = i(28).inherits, s = i(418), a = i(39), r = i(24), l = i(98).playUiSound, c = i(855), d = 1, u = 2;
     o(n, s), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -50587,7 +50644,7 @@
         return null !== t
     }
 
-    var s = i(28).inherits, a = i(854), r = i(213), l = i(855), c = i(5), d = /(<[a-zA-Z]+\s*[^>]*>)+([^<].*?)/gi;
+    var s = i(28).inherits, a = i(856), r = i(213), l = i(857), c = i(5), d = /(<[a-zA-Z]+\s*[^>]*>)+([^<].*?)/gi;
     s(n, a), e.exports = new n, n.prototype.open = function (e) {
         if (this._title = e.titleId, this._page = e.contentId, this._image = this._getImageData(this._page), !this._page)return console.warn("Scroll does not exist", e.id), this.close();
         e.contentCSS && this._styleSheet.create(this._formatText(e.contentCSS), ".Scroll");
@@ -50623,7 +50680,7 @@
         o.call(this, "div", {hidden: !0}), this._styleSheet = null, this._title = null, this._author = null, this._subTitle = null, this._pages = null
     }
 
-    var o = i(199), s = i(484), a = i(28).inherits, r = i(36).events, l = i(217), c = /(.*?)(<img.*?\/?>)/gi, d = /#+/g,
+    var o = i(199), s = i(489), a = i(28).inherits, r = i(36).events, l = i(217), c = /(.*?)(<img.*?\/?>)/gi, d = /#+/g,
         u = /<a\shref=['"](.*?)['"]\s*>(.*?)<\/a>/gi,
         h = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))/g, p = "startquest",
         m = "validateobjective", f = "map", g = "url";
@@ -50729,7 +50786,7 @@
         })
     }
 
-    var o = i(854), s = i(855), a = i(28).inherits, r = i(213), l = i(210), c = i(5), d = i(98).playUiSound,
+    var o = i(856), s = i(857), a = i(28).inherits, r = i(213), l = i(210), c = i(5), d = i(98).playUiSound,
         u = "linkpage", h = 840;
     a(n, o), e.exports = new n, n.prototype.open = function (e) {
         this._title = e.titleId, this._author = e.authorId, this._subTitle = e.subTitleId, e.contentCSS && this._styleSheet.create(this._formatText(e.contentCSS), ".ReadingBook"), this._pages = e.contentId.split("<pagefeed/>"), this._lastIndex = -1, this._currentIndex = -1, this._nbPages = this._pages.length, this._initBook();
@@ -50760,7 +50817,7 @@
         if (this._currentIndex < this._nbPages) {
             this.pageRight.isVisible() || this.pageRight.show();
             var e = "";
-            e = this._styleSheet && this._currentIndex !== -1 ? this._formatText(this._pages[this._currentIndex]) : this._pages[this._currentIndex], this._insertContent(this.pageRight, e), this.lblPageNumberRight.setText(this._currentIndex + 2);
+            e = this._styleSheet && this._currentIndex !== -1 ? this._formatText(this._pages[this._currentIndex]) : this._pages[this._currentIndex], this._insertContent(this.pageRight, e), this.lblPageNumberRight.setText(this._currentIndex + 2)
         } else this.pageRight.hide(), this.lblPageNumberRight.setText("")
     }, n.prototype._updateButtons = function () {
         var e = this._currentIndex === -1, t = this._currentIndex + 1 >= this._nbPages;
@@ -50823,8 +50880,8 @@
         })
     }
 
-    i(858);
-    var o = i(195), s = i(859), a = i(38).getText, r = i(28).inherits, l = i(339), c = o.setDroppable, d = i(418),
+    i(860);
+    var o = i(195), s = i(861), a = i(38).getText, r = i(28).inherits, l = i(339), c = o.setDroppable, d = i(418),
         u = i(24);
     r(n, d), e.exports = n, n.prototype.alignWithCharacteristics = function () {
         var e = u.getWindow("characteristics");
@@ -50880,8 +50937,8 @@
         })
     }
 
-    i(860);
-    var a = i(247), r = i(35), l = i(195), c = i(38).getText, d = i(28).inherits, u = i(841), h = i(339), p = i(723),
+    i(862);
+    var a = i(247), r = i(35), l = i(195), c = i(38).getText, d = i(28).inherits, u = i(843), h = i(339), p = i(725),
         m = i(5), f = i(199), g = h.positions, _ = {
             bottom: [g.amulet, g.shield, g.ringLeft, g.ringRight, g.belt, g.boots],
             left: [g.dofus1, g.dofus2, g.dofus3, g.dofus4, g.dofus5, g.dofus6],
@@ -51064,9 +51121,9 @@
         h.open("estateInformation", this.data)
     }
 
-    i(862);
+    i(864);
     var r = i(28).inherits, l = i(418), c = i(213).DofusButton, d = i(218), u = i(39), h = i(24), p = i(217),
-        m = i(409), f = i(863), g = i(38).getText, _ = i(416);
+        m = i(409), f = i(865), g = i(38).getText, _ = i(416);
     r(n, l), e.exports = n, n.prototype.setupRoomSelector = function () {
         var e = this, t = 4;
         this.roomSelector.addOption(g("ui.estate.filter.atLeastNbRoom"), 0);
@@ -51242,7 +51299,7 @@
         })
     }
 
-    i(865);
+    i(867);
     var o = i(28).inherits, s = i(213).DofusButton, a = i(38).getText, r = i(418), l = i(24), c = i(5);
     o(n, r), e.exports = n, n.prototype.setupDom = function () {
         var e = this, t = this.windowBody.createChild("div", {className: ["container", "container1"]}),
@@ -51426,9 +51483,9 @@
         })
     }
 
-    i(867);
+    i(869);
     var o, s, a = i(215).addTooltip, r = i(98), l = i(26).dimensions, c = i(28).inherits, d = i(418), u = i(199),
-        h = i(432), p = i(24), m = i(757), f = i(339).getItems, g = i(38).getText, _ = i(295), v = i(217), y = i(723),
+        h = i(432), p = i(24), m = i(759), f = i(339).getItems, g = i(38).getText, _ = i(295), v = i(217), y = i(725),
         b = i(416), M = i(213), w = {0: 29099, 2: 29098}, T = 5, C = 80;
     c(n, d), e.exports = n, n.prototype.addChallenge = function (e, t, i, n, o, s) {
         function r() {
@@ -51804,9 +51861,9 @@
         })
     }
 
-    i(869);
+    i(871);
     var o = i(28).inherits, s = i(199), a = i(215).addTooltip, r = i(303), l = i(213).DofusButton, c = i(227),
-        d = i(659), u = i(225), h = i(38).getText, p = i(217), m = i(642), f = i(870), g = i(418), _ = i(24), v = i(5);
+        d = i(661), u = i(225), h = i(38).getText, p = i(217), m = i(644), f = i(872), g = i(418), _ = i(24), v = i(5);
     o(n, g), e.exports = n
 }, function (e, t) {
 }, function (e, t) {
@@ -51830,7 +51887,7 @@
         })
     }
 
-    i(872);
+    i(874);
     var o = i(28).inherits, s = i(55), a = i(418), r = i(24), l = i(213).DofusButton, c = i(38).getText, d = i(409),
         u = i(476);
     o(n, a), e.exports = n, n.prototype._createContent = function () {
@@ -51922,9 +51979,9 @@
         })
     }
 
-    i(874);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(875), l = i(877), c = i(879), d = i(881), u = i(885),
-        h = i(887), p = i(889), m = i(892), f = i(894);
+    i(876);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(877), l = i(879), c = i(881), d = i(883), u = i(887),
+        h = i(889), p = i(891), m = i(894), f = i(896);
     o(n, s), e.exports = n, n.prototype._initTabs = function () {
         var e = this.tabsDefinitions;
         e.spells.title = a("ui.grimoire.mySpell"), e.quests.title = a("ui.common.quests"), e.alignment.title = a("ui.common.alignment"), e.jobs.title = a("ui.common.myJobs"), e.almanax.title = a("ui.almanax.almanax"), e.achievements.title = a("ui.achievement.achievement"), e.ornaments.title = a("ui.common.titles"), e.bestiary.title = a("ui.common.bestiary");
@@ -51943,8 +52000,8 @@
         s.call(this, {className: "WindowSideTabs"}), this.delClassNames("tabs")
     }
 
-    i(876);
-    var o = i(28).inherits, s = i(822);
+    i(878);
+    var o = i(28).inherits, s = i(824);
     o(n, s), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -51962,8 +52019,8 @@
         })
     }
 
-    i(878);
-    var o = i(28).inherits, s = i(199), a = i(642), r = i(432), l = i(213).DofusButton, c = i(38).getText, d = i(247),
+    i(880);
+    var o = i(28).inherits, s = i(199), a = i(644), r = i(432), l = i(213).DofusButton, c = i(38).getText, d = i(247),
         u = i(288), h = i(215).addTooltip;
     o(n, s), e.exports = n, n.prototype.updateCharacter = function () {
         var e = window.gui.playerData.characterBaseInformations.entityLook;
@@ -52081,9 +52138,9 @@
         })
     }
 
-    i(880);
+    i(882);
     var o = i(28).inherits, s = i(432), a = i(213), r = i(199), l = i(217), c = i(215), d = c.addTooltip,
-        u = c.enableTooltip, h = i(38).getText, p = i(339), m = i(484), f = i(483), g = i(39), _ = i(5), v = i(24),
+        u = c.enableTooltip, h = i(38).getText, p = i(339), m = i(489), f = i(488), g = i(39), _ = i(5), v = i(24),
         y = i(32), b = 365, M = 954, w = -4, T = -24, C = 13344, A = 13345;
     o(n, r), e.exports = n, n.prototype._refreshIfNeeded = function () {
         var e = (new Date).getUTCDate();
@@ -52226,9 +52283,9 @@
         window.dofus.sendMessage("AchievementRewardRequestMessage", {achievementId: this.achievementId})
     }
 
-    i(882);
-    var a = i(28).inherits, r = i(199), l = i(39), c = i(883), d = i(213), u = i(407), h = i(725), p = i(35),
-        m = i(480), f = i(432), g = i(38).getText, _ = i(5), v = i(217);
+    i(884);
+    var a = i(28).inherits, r = i(199), l = i(39), c = i(885), d = i(213), u = i(407), h = i(727), p = i(35),
+        m = i(486), f = i(432), g = i(38).getText, _ = i(5), v = i(217);
     a(n, r), e.exports = n, n.prototype.selectFirstTab = function () {
         this.categoriesList.activate(this.categoriesList.items.mainProgressBar)
     }, n.prototype.showRightSideDisplay = function (e) {
@@ -52521,7 +52578,7 @@
         e = e || {}, s.call(this, "ul", e), this.addClassNames("List"), e.cannotActivate && (this._cannotActivate = e.cannotActivate), this.activeItem = null, this.items = {}
     }
 
-    i(884);
+    i(886);
     var o = i(28).inherits, s = i(199), a = i(217), r = i(35), l = i(98).playUiSound;
     o(n, s), e.exports = n, n.prototype.addItem = function (e, t, i) {
         var n = this, o = this.createChild("li", {name: e, className: e});
@@ -52630,9 +52687,9 @@
         return e += "\n" + g("ui.monster.obtaining"), e += " (" + r + " " + g("ui.short.prospection") + ") : ", e += s(d, u) + "%", e += "\n" + g("ui.monster.obtaining"), e += " (" + g("ui.common.base") + ") : ", e += s(l, c) + "%", this.dropInfo.findCeil && (e += "\n" + g("ui.monster.prospectionThreshold") + " : " + this.dropInfo.findCeil), e
     }
 
-    i(886);
-    var l = i(28).inherits, c = i(822), d = i(199), u = i(39), h = i(883), p = i(330).SingleSelectionList, m = i(339),
-        f = i(723), g = i(38).getText, _ = i(5), v = i(98).playUiSound, y = i(217), b = i(421), M = i(215), w = i(480);
+    i(888);
+    var l = i(28).inherits, c = i(824), d = i(199), u = i(39), h = i(885), p = i(330).SingleSelectionList, m = i(339),
+        f = i(725), g = i(38).getText, _ = i(5), v = i(98).playUiSound, y = i(217), b = i(421), M = i(215), w = i(486);
     l(n, d), e.exports = n, n.prototype.addToList = function (e, t) {
         var i = this, n = new d("div", {className: "label"});
         n.createChild("div", {className: "arrow"}), n.createChild("div", {className: "text", text: t.nameId});
@@ -52757,9 +52814,9 @@
         })
     }
 
-    i(888);
-    var o = i(5), s = i(213).DofusButton, a = i(247), r = i(480), l = i(38).getText, c = i(28).inherits, d = i(298),
-        u = i(330).SingleSelectionList, h = i(39), p = i(822), m = i(32), f = i(199);
+    i(890);
+    var o = i(5), s = i(213).DofusButton, a = i(247), r = i(486), l = i(38).getText, c = i(28).inherits, d = i(298),
+        u = i(330).SingleSelectionList, h = i(39), p = i(824), m = i(32), f = i(199);
     c(n, f), e.exports = n, n.prototype._selectOnceReady = function () {
         this._ornamentIdToSelect ? (this.tabs.openTab("ornaments"), this.ornamentList.selectItem(this._ornamentIdToSelect)) : this._titleIdToSelect ? (this.tabs.openTab("titles"), this.titleList.selectItem(this._titleIdToSelect)) : this._selectActiveTitleAndOrnament()
     }, n.prototype._setupEvents = function () {
@@ -53003,9 +53060,9 @@
         })
     }
 
-    i(890);
-    var a = i(5), r = i(480), l = i(38).getText, c = i(483), d = i(28).inherits, u = i(339), h = i(723), p = i(330),
-        m = i(98).playUiSound, f = i(891), g = i(314), _ = i(409), v = i(725), y = i(39), b = i(35), M = i(32),
+    i(892);
+    var a = i(5), r = i(486), l = i(38).getText, c = i(488), d = i(28).inherits, u = i(339), h = i(725), p = i(330),
+        m = i(98).playUiSound, f = i(893), g = i(314), _ = i(409), v = i(727), y = i(39), b = i(35), M = i(32),
         w = i(24), T = i(199), C = i(215).addTooltip, A = {}, I = [];
     d(n, T), e.exports = n, n.prototype._onOpen = function (e) {
         var t = this;
@@ -53056,12 +53113,11 @@
         A.on("questUpdate", function (t) {
             e.isVisible() && e.currentQuest && t === e.currentQuest.questId && e._selectQuest(e.currentQuest.dbQuest.categoryId, e.currentQuest.questId)
         }), A.on("questFinished", function (t) {
-            e._endQuest(t.questId), e._sortSublist(t.questId), e._showCompletedQuest(), e._updateQuestCounter(), e.currentQuest && t.questId === e.currentQuest.questId && e._reset()
+            e._endQuest(t.questId), e._sortSublist(t.questId), e._showCompletedQuest(), e._updateQuestCounter(), e.currentQuest && t.questId === e.currentQuest.questId && e._reset();
         }), A.on("questStarted", function (t) {
             e._addQuest(t), e._sortSublist(t), e._showCompletedQuest(), e._updateQuestCounter(), e.currentQuest || (e.currentQuest = A.all[t], e.isVisible() && e._selectQuest(e.currentQuest.dbQuest.categoryId, e.currentQuest.questId))
         }), t.on("disconnect", function () {
-            e.currentQuest = null, e.selectedQuestElement = null,
-                e.updateRequired = !0, e.questsListUpdated = !1, e.params = {}, e.locateButtonMap = {}
+            e.currentQuest = null, e.selectedQuestElement = null, e.updateRequired = !0, e.questsListUpdated = !1, e.params = {}, e.locateButtonMap = {}
         }), i.on("addDestination", function (t) {
             var i = e.locateButtonMap[t.id];
             i && i.rootElement && i.addClassNames("selected")
@@ -53266,9 +53322,9 @@
         })
     }
 
-    i(893);
+    i(895);
     var r = i(28).inherits, l = i(35), c = i(38).getText, d = i(213).DofusButton, u = i(416), h = i(409), p = i(199),
-        m = i(731), f = i(195), g = i(290), _ = i(5), v = i(98).playUiSound, y = i(293).SpellData.SPELL_STATUS;
+        m = i(733), f = i(195), g = i(290), _ = i(5), v = i(98).playUiSound, y = i(293).SpellData.SPELL_STATUS;
     r(a, p), e.exports = a, a.prototype._createDom = function () {
         function e(e) {
             var t = new p("div", {className: "icon"}), i = e.getIconUrl();
@@ -53479,9 +53535,9 @@
         null === t ? (i = null, n = null) : (i = t.id, n = t.experience ? t.experience.jobLevel : 1), e.jobId = i, s(e), o(e, n)
     }
 
-    i(895);
-    var r = i(28).inherits, l = i(199), c = i(39), d = i(432), u = i(213), h = i(883), p = i(38).getText, m = i(339),
-        f = i(725), g = i(723), _ = i(24), v = i(896), y = i(5), b = i(215).addTooltip, M = 3, w = 3, T = {};
+    i(897);
+    var r = i(28).inherits, l = i(199), c = i(39), d = i(432), u = i(213), h = i(885), p = i(38).getText, m = i(339),
+        f = i(727), g = i(725), _ = i(24), v = i(898), y = i(5), b = i(215).addTooltip, M = 3, w = 3, T = {};
     r(n, l), e.exports = n, n.prototype._reset = function () {
         this.mustRefreshJobs = !0, this.numRefreshTasks = 0
     }, n.prototype._refreshJobs = function (e) {
@@ -53689,9 +53745,9 @@
         }
     }
 
-    i(897);
-    var o = i(28).inherits, s = i(199), a = i(314), r = i(38).getText, l = i(480), c = i(407), d = i(339), u = i(14),
-        h = i(35), p = i(898), m = i(195), f = i(217).simplifyString, g = 8, _ = 3;
+    i(899);
+    var o = i(28).inherits, s = i(199), a = i(314), r = i(38).getText, l = i(486), c = i(407), d = i(339), u = i(14),
+        h = i(35), p = i(900), m = i(195), f = i(217).simplifyString, g = 8, _ = 3;
     o(n, s), e.exports = n, n.prototype.addRecipes = function (e, t, i) {
         t = t || {}, this._recipesPlaceholder.hide(), this.recipesList.clearContent();
         var n = this;
@@ -53804,8 +53860,8 @@
         })
     }
 
-    i(899);
-    var o = i(38).getText, s = i(339), a = i(723), r = i(28).inherits, l = i(199), c = i(213),
+    i(901);
+    var o = i(38).getText, s = i(339), a = i(725), r = i(28).inherits, l = i(199), c = i(213),
         d = i(217).simplifyString, u = {1: 1, 2: 10, 3: 25, 4: 50, 5: 100, 6: 250, 7: 500, 8: 1e3};
     r(n, l), e.exports = n, n.prototype.setupRecipe = function (e) {
         function t() {
@@ -53818,10 +53874,8 @@
             if (l)return console.error(l), e(l);
             var u = s.items[r];
             if (!u)return e();
-            i._item.setItem(u), i._item.on("tap", t), i._recipeLeft.createChild("div", {
-                className: "recipeSkillName",
-                text: u.nameId
-            });
+            i._item.setItem(u), i._item.on("tap", t),
+                i._recipeLeft.createChild("div", {className: "recipeSkillName", text: u.nameId});
             for (var h = u.nameId, p = {}, m = 0; m < c; m += 1) {
                 var f = s.items[n.ingredientIds[m]];
                 if (f) {
@@ -53831,9 +53885,7 @@
                         var v = o.getGenericItemCount(f.id);
                         _ = v >= g ? "quantityGood" : "quantityNoGood", g = v + "/" + g
                     }
-                    var y = new a({
-                        itemData: f, quantity: g, forceQuantity: !0
-                    });
+                    var y = new a({itemData: f, quantity: g, forceQuantity: !0});
                     _ && y.addClassNames(_), i._ingredientsList.appendChild(y), y.on("tap", t), p[f.id] = g
                 }
             }
@@ -53881,8 +53933,8 @@
         })
     }
 
-    i(901);
-    var o = i(28).inherits, s = i(38).getText, a = i(409), r = i(517).serverConstants, l = i(213).DofusButton,
+    i(903);
+    var o = i(28).inherits, s = i(38).getText, a = i(409), r = i(519).serverConstants, l = i(213).DofusButton,
         c = i(418), d = i(54), u = i(24), h = {0: 0, 30: 2};
     o(n, c), e.exports = n
 }, function (e, t) {
@@ -53922,9 +53974,9 @@
         return !(o < t || o > i) || (window.gui.openSimplePopup(c(n, t, i)), !1)
     }
 
-    i(903);
+    i(905);
     var s = i(215).addTooltip, a = i(28).inherits, r = i(418), l = i(38).getText, c = i(38).processText, d = i(24),
-        u = i(409), h = i(213).DofusButton, p = i(904), m = i(407), f = i(39), g = i(213), _ = i(314), v = i(438),
+        u = i(409), h = i(213).DofusButton, p = i(906), m = i(407), f = i(39), g = i(213), _ = i(314), v = i(438),
         y = i(300), b = i(220), M = i(5), w = i(199), T = 250, C = 110, A = 20;
     a(n, r), e.exports = n, n.prototype._setupUI = function () {
         if ("alliance" === this.mode ? (this.tagNameBox.show(), this.tagInput.show(), this.nameLabel.setText(l("ui.alliance.name") + l("ui.common.colon")), this.setTitle(l("ui.alliance.creation"))) : (this.tagNameBox.hide(), this.tagInput.hide(), this.nameLabel.setText(l("ui.social.guildName") + l("ui.common.colon")), this.setTitle(l("ui.social.guildCreation"))), !this.modification)return this._generateRandomEmblem(), this.nameInput.enable(), this.nameInput.setValue(""), this.tagInput.enable(), this.tagInput.setValue(""), void this.cover.hide();
@@ -54137,8 +54189,8 @@
         this.lumCanvas.picker = f, f.dark = f.createChild("div", {className: ["triangle", "black"]}), f.bright = f.createChild("div", {className: ["triangle", "white"]}), u || this.updateDimensions(this.params.tintWidth + this.params.lumWidth + h, this.params.tintHeight, this.params.lumWidth)
     }
 
-    i(905);
-    var o = i(256), s = i(51), a = i(35), r = i(28).inherits, l = i(199), c = i(906), d = i(256), u = 40, h = 10,
+    i(907);
+    var o = i(256), s = i(51), a = i(35), r = i(28).inherits, l = i(199), c = i(908), d = i(256), u = 40, h = 10,
         p = 1e-5, m = 127.5,
         f = [[255, 0, 0], [255, 255, 0], [0, 255, 0], [0, 255, 255], [0, 0, 255], [255, 0, 255], [255, 0, 0]];
     r(n, l), e.exports = n, n.prototype.updateDimensions = function (e, t, i) {
@@ -54241,7 +54293,7 @@
         })
     }
 
-    i(907);
+    i(909);
     var o = i(212).getElementPositionAt, s = i(28).inherits, a = i(213), r = i(407), l = i(34), c = i(199),
         d = {opacity: 0, webkitTransform: "scale(0.8)"}, u = {opacity: 1, webkitTransform: "scale(1)"};
     s(n, c), e.exports = n, n.prototype.position = function (e, t) {
@@ -54292,8 +54344,8 @@
         }), [t, i, e.guildLevel]
     }
 
-    i(909);
-    var s = i(54).DofusDate, a = i(300), r = i(355), l = i(38).getText, c = i(28).inherits, d = i(642), u = i(418),
+    i(911);
+    var s = i(54).DofusDate, a = i(300), r = i(355), l = i(38).getText, c = i(28).inherits, d = i(644), u = i(418),
         h = i(199), p = i(24), m = i(35);
     c(n, u), n.prototype._createDom = function () {
         var e = this.windowBody.createChild("div", {className: "description"});
@@ -54347,9 +54399,9 @@
         }), [t, e.level]
     }
 
-    i(911);
+    i(913);
     var s = i(458), a = i(215).addTooltip, r = i(54).DofusDate, l = i(300), c = i(38).getText, d = i(28).inherits,
-        u = i(642), h = i(418), p = i(199), m = i(24), f = i(35);
+        u = i(644), h = i(418), p = i(199), m = i(24), f = i(35);
     d(n, h), n.prototype._createDom = function () {
         var e = this.windowBody.createChild("div", {className: "description"});
         this.emblem = e.appendChild(new l({width: 70, height: 70}));
@@ -54402,8 +54454,8 @@
         }), this.rights = [], this.rightsText = [a("ui.guildHouse.Right1"), a("ui.guildHouse.Right2"), a("ui.guildHouse.Right4"), a("ui.guildHouse.Right8"), a("ui.guildHouse.Right16"), a("ui.guildHouse.Right32"), a("ui.guildHouse.Right64"), a("ui.guildHouse.Right128"), a("ui.guildHouse.Right256")], this.setupDom(), this.on("open", this.open)
     }
 
-    i(913);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(822), l = i(642), c = i(39), d = 9;
+    i(915);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(824), l = i(644), c = i(39), d = 9;
     o(n, s), e.exports = n, n.prototype.setupDom = function () {
         this.tabs = this.windowBody.appendChild(new r({className: "tabs"}));
         var e = {colIds: ["content"], minRows: 10};
@@ -54431,8 +54483,8 @@
         })
     }
 
-    i(915);
-    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(480), c = i(38).getText, d = i(300);
+    i(917);
+    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(486), c = i(38).getText, d = i(300);
     o(n, s), e.exports = n, n.prototype._setupDom = function () {
         var e = this, t = this.windowBody.createChild("div", {className: ["container", "topContainer"]});
         this.emblemLogo = t.appendChild(new d({width: 100, height: 100}));
@@ -54516,20 +54568,20 @@
         }, {
             right: m.GUILD_RIGHT_MANAGE_XP_CONTRIBUTION,
             label: a("ui.social.guildRightsPercentXP")
-        }, {
-            right: m.GUILD_RIGHT_MANAGE_MY_XP_CONTRIBUTION,
-            label: a("ui.social.guildRightManageOwnXP")
-        }, {
-            right: m.GUILD_RIGHT_MANAGE_RANKS,
-            label: a("ui.social.guildRightsRank")
+        }, {right: m.GUILD_RIGHT_MANAGE_MY_XP_CONTRIBUTION, label: a("ui.social.guildRightManageOwnXP")}, {
+            right: m.GUILD_RIGHT_MANAGE_RANKS, label: a("ui.social.guildRightsRank")
         }, {
             right: m.GUILD_RIGHT_DEFENSE_PRIORITY,
             label: a("ui.social.guildRightsPrioritizeMe")
         }, {
             right: m.GUILD_RIGHT_HIRE_TAX_COLLECTOR,
             label: a("ui.social.guildRightsHiretax")
-        }, {right: m.GUILD_RIGHT_COLLECT, label: a("ui.social.guildRightsCollect")}, {
-            right: m.GUILD_RIGHT_COLLECT_MY_TAX_COLLECTOR, label: a("ui.social.guildRightsCollectMy")
+        }, {
+            right: m.GUILD_RIGHT_COLLECT,
+            label: a("ui.social.guildRightsCollect")
+        }, {
+            right: m.GUILD_RIGHT_COLLECT_MY_TAX_COLLECTOR,
+            label: a("ui.social.guildRightsCollectMy")
         }, {
             right: m.GUILD_RIGHT_USE_PADDOCKS,
             label: a("ui.social.guildRightsMountParkUse")
@@ -54552,9 +54604,9 @@
         })
     }
 
-    i(917);
-    var o = i(418), s = i(28).inherits, a = i(38).getText, r = i(213).DofusButton, l = i(480), c = i(409), d = i(217),
-        u = i(642), h = i(210), p = i(24), m = i(355).GuildRightsBitEnum;
+    i(919);
+    var o = i(418), s = i(28).inherits, a = i(38).getText, r = i(213).DofusButton, l = i(486), c = i(409), d = i(217),
+        u = i(644), h = i(210), p = i(24), m = i(355).GuildRightsBitEnum;
     s(n, o), e.exports = n, n.prototype._updateContent = function (e) {
         var t = this.selector;
         if (t) {
@@ -54682,9 +54734,9 @@
         }), this.setupSocketEvents()
     }
 
-    i(919);
+    i(921);
     var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(218), l = i(24), c = i(217), d = i(38).getText,
-        u = i(39), h = i(5), p = i(920), m = i(699), f = i(789), g = "soft", _ = "hard";
+        u = i(39), h = i(5), p = i(922), m = i(701), f = i(791), g = "soft", _ = "hard";
     o(n, s), e.exports = n, n.prototype.setupSocketEvents = function () {
         var e = this, t = window.gui, i = window.dofus.connectionManager;
         t.on("PurchasableDialogMessage", function (t) {
@@ -54754,7 +54806,7 @@
         }), this.addClassNames("button", "SwitchCurrencyButton", a)
     }
 
-    i(921);
+    i(923);
     var o = i(28).inherits, s = i(213), a = "soft", r = "hard";
     o(n, s), e.exports = n, n.prototype.toggleCurrency = function () {
         this.setCurrency(this.currency === a ? r : a)
@@ -54811,8 +54863,8 @@
         })
     }
 
-    i(923);
-    var o = i(213).DofusButton, s = i(38).getText, a = i(28).inherits, r = i(725), l = i(39), c = i(418), d = i(24),
+    i(925);
+    var o = i(213).DofusButton, s = i(38).getText, a = i(28).inherits, r = i(727), l = i(39), c = i(418), d = i(24),
         u = i(5), h = 20;
     a(n, c), e.exports = n, n.prototype._displayItem = function (e) {
         this.itemInstance = e;
@@ -54869,8 +54921,8 @@
         })
     }
 
-    i(925);
-    var o = i(28).inherits, s = i(418), a = i(841), r = i(339);
+    i(927);
+    var o = i(28).inherits, s = i(418), a = i(843), r = i(339);
     o(n, s), e.exports = n, n.prototype._createDom = function () {
         var e = this.windowBody;
         this._itemBox = e.appendChild(new a), this._itemBox.hide(), this._domCreated = !0
@@ -54934,8 +54986,8 @@
         })
     }
 
-    i(927);
-    var o = i(215).addTooltip, s = i(213).DofusButton, a = i(38).getText, r = i(28).inherits, l = i(723), c = i(432),
+    i(929);
+    var o = i(215).addTooltip, s = i(213).DofusButton, a = i(38).getText, r = i(28).inherits, l = i(725), c = i(432),
         d = i(418), u = i(24), h = i(199), p = {MOOD_LEAN: 0, MOOD_SATISFIED: 1, MOOD_FAT: 2};
     r(n, d), e.exports = n, n.prototype._updateMood = function (e) {
         var t;
@@ -54979,8 +55031,8 @@
         e._displayItem(t)
     }
 
-    i(929);
-    var a = i(38).getText, r = i(28).inherits, l = i(841), c = i(339), d = i(898), u = i(896), h = i(39), p = i(418),
+    i(931);
+    var a = i(38).getText, r = i(28).inherits, l = i(843), c = i(339), d = i(900), u = i(898), h = i(39), p = i(418),
         m = i(213);
     r(n, p), e.exports = n, n.prototype._onOpen = function (e) {
         this.itemBox || this._createContent();
@@ -55073,8 +55125,8 @@
         })
     }
 
-    i(931);
-    var o = i(480), s = i(233), a = i(38).getText, r = i(28).inherits, l = i(841), c = i(723), d = i(339), u = i(409),
+    i(933);
+    var o = i(486), s = i(233), a = i(38).getText, r = i(28).inherits, l = i(843), c = i(725), d = i(339), u = i(409),
         h = i(39), p = i(416), m = i(418), f = 1, g = -1;
     r(n, m), e.exports = n, n.prototype._getEquippedItemById = function (e) {
         var t = window.gui.playerData.inventory.equippedItems;
@@ -55187,8 +55239,8 @@
         })
     }
 
-    i(933);
-    var s = i(28).inherits, a = i(418), r = i(24), l = i(38).getText, c = i(731), d = i(215).addTooltip, u = i(247),
+    i(935);
+    var s = i(28).inherits, a = i(418), r = i(24), l = i(38).getText, c = i(733), d = i(215).addTooltip, u = i(247),
         h = i(288), p = i(5), m = i(270).Delay;
     s(n, a), e.exports = n, n.prototype._setupSpellData = function () {
         var e = window.gui.playerData.characters.mainCharacter.spellData.spells,
@@ -55277,7 +55329,7 @@
         }), e.setupListeners()
     }
 
-    i(935);
+    i(937);
     var o = i(28).inherits, s = i(418), a = i(35), r = i(213).DofusButton, l = i(38).getText, c = i(24);
     o(n, s), e.exports = n, n.prototype.setupButtonEvents = function () {
         var e = this;
@@ -55285,7 +55337,7 @@
             for (var t = "",
                      i = 0; i < e.padlockInfo.codeSize; i++)t += isNaN(parseInt(e.codeDigit[i].getText(), 10)) ? "_" : e.codeDigit[i].getText();
             var n = {code: t};
-            return e.fromInside ? (window.dofus.sendMessage("HouseLockFromInsideRequestMessage", n), void c.close(e.id)) : void(e.padlockInfo.changeOrUse ? window.dofus.sendMessage("LockableChangeCodeMessage", n) : window.dofus.sendMessage("LockableUseCodeMessage", n));
+            return e.fromInside ? (window.dofus.sendMessage("HouseLockFromInsideRequestMessage", n), void c.close(e.id)) : void(e.padlockInfo.changeOrUse ? window.dofus.sendMessage("LockableChangeCodeMessage", n) : window.dofus.sendMessage("LockableUseCodeMessage", n))
         }), this.resetButton.on("tap", function () {
             e.resetCode()
         }), this.resetButton.on("tapstart", function () {
@@ -55323,8 +55375,8 @@
         })
     }
 
-    i(937);
-    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(35), c = i(38).getText, d = i(688),
+    i(939);
+    var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(35), c = i(38).getText, d = i(690),
         u = i(450), h = i(247), p = i(288), m = i(314), f = 563, g = 904,
         _ = {left: "c", top: "c", minWidth: f, height: 375};
     o(n, s), e.exports = n, n.prototype.showPartyDetails = function (e) {
@@ -55450,7 +55502,7 @@
         })
     }
 
-    var o = i(213).DofusButton, s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(796).actionsEnum;
+    var o = i(213).DofusButton, s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(798).actionsEnum;
     a(n, r), e.exports = n
 }, function (e, t, i) {
     function n() {
@@ -55483,8 +55535,8 @@
         })
     }
 
-    i(940);
-    var o = i(14), s = i(28).inherits, a = i(418), r = i(38).getText, l = i(213).DofusButton, c = i(725), d = i(35),
+    i(942);
+    var o = i(14), s = i(28).inherits, a = i(418), r = i(38).getText, l = i(213).DofusButton, c = i(727), d = i(35),
         u = i(24), h = i(39), p = i(226), m = i(5), f = i(217);
     s(n, a), e.exports = n, n.prototype.addReward = function (e, t) {
         function i(t) {
@@ -55611,8 +55663,8 @@
         })
     }
 
-    i(942);
-    var o = i(28).inherits, s = i(943), a = i(418), r = i(24), l = i(213).DofusButton, c = i(38).getText;
+    i(944);
+    var o = i(28).inherits, s = i(945), a = i(418), r = i(24), l = i(213).DofusButton, c = i(38).getText;
     o(n, a), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -55653,8 +55705,8 @@
         this._descContent = m.createChild("div", {className: "descContent"}), this._rulesContent = m.createChild("div", {className: "rulesContent"}), h.addClassNames("selected"), this._rulesContent.hide()
     }
 
-    i(944);
-    var o = i(28).inherits, s = i(199), a = i(35), r = i(38).getText, l = i(517);
+    i(946);
+    var o = i(28).inherits, s = i(199), a = i(35), r = i(38).getText, l = i(519);
     o(n, s), e.exports = n, n.prototype.setServer = function (e) {
         var t = this, i = {
             0: r("ui.server.state.unknown"),
@@ -55800,8 +55852,8 @@
         })
     }
 
-    i(946);
-    var o = i(28).inherits, s = i(418), a = i(35), r = i(947), l = i(943), c = i(213).DofusButton, d = i(38).getText,
+    i(948);
+    var o = i(28).inherits, s = i(418), a = i(35), r = i(949), l = i(945), c = i(213).DofusButton, d = i(38).getText,
         u = i(24), h = i(407);
     o(n, s), e.exports = n
 }, function (e, t) {
@@ -55814,7 +55866,7 @@
         this._status = n.createChild("div", {className: "statusImage"}), this.setServer(e)
     }
 
-    i(948);
+    i(950);
     var o = i(28).inherits, s = i(199), a = i(35), r = i(5);
     o(n, s), e.exports = n, n.prototype.setServer = function (e) {
         if (!e)return this._flag.hide(), this._serverName.setText(""), this._population.setText(""), void this._status.hide();
@@ -55910,8 +55962,8 @@
         }))
     }
 
-    i(950);
-    var o = i(28).inherits, s = i(213), a = i(418), r = i(24), l = i(951), c = i(38).getText, d = i(518), u = i(32);
+    i(952);
+    var o = i(28).inherits, s = i(213), a = i(418), r = i(24), l = i(953), c = i(38).getText, d = i(520), u = i(32);
     o(n, a), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -55932,8 +55984,8 @@
         this._statusIcon = i.createChild("div", {className: "statusIcon"}), this._statusText = i.createChild("div", {className: "statusText"}), this.setServer(e)
     }
 
-    i(952);
-    var o = i(28).inherits, s = i(199), a = i(35), r = i(38).getText, l = i(517), c = i(518);
+    i(954);
+    var o = i(28).inherits, s = i(199), a = i(35), r = i(38).getText, l = i(519), c = i(520);
     o(n, s), e.exports = n, n.prototype.setServer = function (e) {
         var t = this;
         if (this.delClassNames("placeHolder"), this._placeholder.hide(), !e)return this.addClassNames("placeHolder"), this.disable(), this._content.hide(), this._placeholder.show(), void this._title.setText("");
@@ -55958,7 +56010,7 @@
         }), this.once("open", n.prototype._createContent)
     }
 
-    i(954);
+    i(956);
     var o = i(28).inherits, s = i(418), a = i(24), r = i(213), l = r.DofusButton, c = i(38).getText, d = i(5);
     o(n, s), e.exports = n, n.prototype._createContent = function () {
         var e = this, t = this.windowBody, i = t.createChild("div", {className: "bg"});
@@ -56012,9 +56064,9 @@
         })
     }
 
-    i(956);
+    i(958);
     var o, s, a, r = i(28).inherits, l = i(418), c = i(199), d = i(213), u = i(35), h = i(24), p = i(38).getText,
-        m = i(217), f = i(822), g = i(642), _ = i(957), v = 3, y = 2;
+        m = i(217), f = i(824), g = i(644), _ = i(959), v = 3, y = 2;
     r(n, l), e.exports = n, n.prototype.createTabs = function (e, t) {
         e.tabs = new f, e.appendChild(e.tabs), e.panels = e.createChild("div", {className: "panels"}), e.panelCollection = {};
         for (var i = 0, n = t.length; i < n; i += 1) {
@@ -56054,11 +56106,10 @@
             case _.TELEPORTER_SUBWAY:
                 this.setupSubwayBody(e)
         }
-        this.nbKamas.setText(m.kamasToString(o, ""))
+        this.nbKamas.setText(m.kamasToString(o, ""));
     }, n.prototype.setupZaapBody = function (e) {
         var t, i, n;
-        n = p(e.teleporterType === _.TELEPORTER_ZAAP ? "ui.zaap.zaap" : "ui.zaap.prism"), this.windowTitle.setText(n + " - " + a), s === e.spawnMapId ? this.windowTitle.addClassNames("saved") : this.windowTitle.delClassNames("saved"), this.parentBody = this.zaapBody,
-            this.zaapBody.show(), this.subwayBody.hide();
+        n = p(e.teleporterType === _.TELEPORTER_ZAAP ? "ui.zaap.zaap" : "ui.zaap.prism"), this.windowTitle.setText(n + " - " + a), s === e.spawnMapId ? this.windowTitle.addClassNames("saved") : this.windowTitle.delClassNames("saved"), this.parentBody = this.zaapBody, this.zaapBody.show(), this.subwayBody.hide();
         for (t in this.zaapBody.panelCollection)i = this.zaapBody.panelCollection[t], i.table && i.table.clearContent();
         var o = e._subAreas.length, r = [];
         for (t = 0; t < o; t += 1) {
@@ -56199,7 +56250,7 @@
         })
     }
 
-    i(959);
+    i(961);
     var o = i(213).DofusButton, s = i(453), a = i(38).getText, r = i(28).inherits, l = i(339), c = i(210), d = i(212),
         u = i(195).setDroppable, h = i(418), p = i(24);
     r(n, h), e.exports = n, n.prototype.closeMinMaxSelector = function () {
@@ -56297,7 +56348,7 @@
         })
     }
 
-    i(961);
+    i(963);
     var o = i(213), s = i(195).setDroppable, a = i(453), r = i(38).getText, l = i(28).inherits, c = i(339), d = i(210),
         u = i(212), h = i(418), p = i(24);
     l(n, h), e.exports = n, n.prototype.closeMinMaxSelector = function () {
@@ -56350,9 +56401,9 @@
         }) : t(null)
     }
 
-    i(963);
-    var s = i(964), a = i(965), r = i(213), l = i(52), c = i(966), d = i(38).getText, u = i(217), h = i(28).inherits,
-        p = i(841), m = i(339), f = i(680), g = i(418), _ = i(24), v = i(789), y = i(164), b = 410, M = 392, w = 424,
+    i(965);
+    var s = i(966), a = i(967), r = i(213), l = i(52), c = i(968), d = i(38).getText, u = i(217), h = i(28).inherits,
+        p = i(843), m = i(339), f = i(682), g = i(418), _ = i(24), v = i(791), y = i(164), b = 410, M = 392, w = 424,
         T = 1e4;
     h(n, g), e.exports = n, n.minWidth = b, n.prototype._setupEvents = function () {
         var e = this, t = window.gui;
@@ -56706,7 +56757,7 @@
         i.currentOffer = t, i.tradeItemWindow.updateSelection(t), i._showSpecialItemInfo(t.item)
     }
 
-    var c = i(812), d = i(38).getText, u = i(217), h = i(28).inherits, p = i(339), m = i(699), f = i(423), g = i(416),
+    var c = i(814), d = i(38).getText, u = i(217), h = i(28).inherits, p = i(339), m = i(701), f = i(423), g = i(416),
         _ = i(215), v = i(199), y = i(24), b = 2, M = .5;
     h(n, v), e.exports = n, n.prototype.updateSettingBox = function (e, t) {
         var i = this;
@@ -56851,7 +56902,7 @@
         }), this._createDom(), this.mode = null, this.current = {}, this.tradeItemWindow = null, this.currency = "", this.tokenItem = null
     }
 
-    var o = i(28).inherits, s = i(218), a = i(38).getText, r = i(213), l = i(217), c = i(699), d = i(199), u = 10;
+    var o = i(28).inherits, s = i(218), a = i(38).getText, r = i(213), l = i(217), c = i(701), d = i(199), u = 10;
     o(n, d), e.exports = n, n.prototype._createDom = function () {
         function e() {
             var e = t.current.quantity, i = t.current.unitPrice;
@@ -56900,14 +56951,11 @@
             className: "greenButton"
         }, function () {
             var e = t.current;
-            return 0 === e.unitPrice ? t.unitPriceInput.promptForValue() : void t.tradeItemWindow.sellItemInMyShop(e.item, e.quantity, e.unitPrice)
+            return 0 === e.unitPrice ? t.unitPriceInput.promptForValue() : void t.tradeItemWindow.sellItemInMyShop(e.item, e.quantity, e.unitPrice);
         })), this.sellButton = d.appendChild(new r({text: a("ui.common.sell"), className: "greenButton"}, function () {
             var e = t.current;
             t.tradeItemWindow.sellItemToNpc(e.item, e.quantity, e.unitPrice)
-        })), this.buyButton = d.appendChild(new r({
-            text: a("ui.common.buy"),
-            className: "greenButton"
-        }, function () {
+        })), this.buyButton = d.appendChild(new r({text: a("ui.common.buy"), className: "greenButton"}, function () {
             var e = t.current;
             t.tradeItemWindow.buyItemFromNpc(e.item, e.quantity, e.unitPrice)
         }))
@@ -56970,7 +57018,7 @@
         }), this._reset(), this.on("open", this._onOpen), this.on("close", this._onClose)
     }
 
-    i(968);
+    i(970);
     var o = i(213), s = i(38).getText, a = i(217), r = i(28).inherits, l = i(418), c = i(24), d = i(199);
     r(n, l), e.exports = n, n.prototype._reset = function () {
         this.cb = null, this.itemLabel = null, this.itemImg = null, this.itemQuantity = null, this.buyBtn = null, this.buyBtnLabel = null
@@ -57034,8 +57082,8 @@
         })
     }
 
-    i(970);
-    var o = i(326), s = i(28).inherits, a = i(962), r = i(418), l = i(24), c = i(38).getText, d = i(213), u = i(217),
+    i(972);
+    var o = i(326), s = i(28).inherits, a = i(964), r = i(418), l = i(24), c = i(38).getText, d = i(213), u = i(217),
         h = 20;
     s(n, r), e.exports = n
 }, function (e, t) {
@@ -57077,8 +57125,8 @@
         })
     }
 
-    i(972);
-    var o = i(326), s = i(480), a = i(26).dimensions, r = i(28).inherits, l = i(962), c = i(418), d = i(24),
+    i(974);
+    var o = i(326), s = i(486), a = i(26).dimensions, r = i(28).inherits, l = i(964), c = i(418), d = i(24),
         u = i(38).getText, h = {
             ExchangeStartOkNpcShopMessage: "sell-npc",
             ExchangeShopStockStartedMessage: "sell-myShop",
@@ -57102,7 +57150,7 @@
         }), this.openOnItem = null, this.mode = null, this.currentItem = null, this.on("open", this._onOpen), this.on("closed", this._onClose)
     }
 
-    i(974);
+    i(976);
     var o = i(326), s = i(213), a = i(38).getText, r = i(217), l = i(28).inherits, c = i(339), d = i(403), u = i(215),
         h = i(418), p = i(24), m = i(199), f = {
             ExchangeStartOkNpcShopMessage: "buy-npc",
@@ -57278,8 +57326,8 @@
         }), this.wallet = null, this.on("open", this._onOpen)
     }
 
-    i(976);
-    var o = i(28).inherits, s = i(977), a = i(418), r = 300, l = 62;
+    i(978);
+    var o = i(28).inherits, s = i(979), a = i(418), r = 300, l = 62;
     o(n, a), e.exports = n, n.height = l, n.width = r, n.prototype._onOpen = function () {
         this.wallet || (this.wallet = this.windowBody.appendChild(new s({className: "small"})))
     }
@@ -57297,7 +57345,7 @@
         })
     }
 
-    i(978);
+    i(980);
     var s = i(213), a = i(217), r = i(28).inherits, l = i(24), c = i(199);
     r(n, c), e.exports = n, n.prototype._initialize = function () {
         this._setupListeners();
@@ -57363,9 +57411,9 @@
         y.setValue(i, t)
     }
 
-    i(980);
-    var a = i(215).addTooltip, r = i(28).inherits, l = i(981), c = i(998), d = i(418), u = i(38).getText, h = i(213),
-        p = i(26).dimensions, m = i(24), f = i(494), g = i(999), _ = i(1e3), v = i(883), y = i(32), b = 216,
+    i(982);
+    var a = i(215).addTooltip, r = i(28).inherits, l = i(983), c = i(1e3), d = i(418), u = i(38).getText, h = i(213),
+        p = i(26).dimensions, m = i(24), f = i(496), g = i(1001), _ = i(1002), v = i(885), y = i(32), b = 216,
         M = "mapButtons-", w = {temples: 1, markets: 2, workshops: 3, miscellaneous: 4, dungeons: 6, possessions: 7};
     r(n, d), e.exports = n, n.prototype._onClose = function () {
         this.status.isWorldMapRefreshing && this._worldMap.stopRefreshing(), this._buttonBox && this._buttonBox.addClassNames("hidden"), this._isOpened = !1
@@ -57544,11 +57592,11 @@
         }, this._iconsInfo = {}, this._iconsImage = null, this._iconBatchData = new I(this)
     }
 
-    i(982);
-    var o = i(14), s = i(28).inherits, a = i(199), r = i(983), l = i(6), c = i(773), d = i(985), u = i(986), h = i(987),
-        p = i(988), m = i(262), f = i(302), g = i(39), _ = i(270), v = i(989), y = i(990), b = i(991),
-        M = b.SUBAREA_COLOR, w = b.VIEW_MARGIN, T = b.CHUNK_WIDTH, C = b.CHUNK_HEIGHT, A = i(992), I = i(993),
-        S = i(997), E = i(996), x = i(215).addTooltip, N = i(352), L = i(309), O = i(36).getPosition, D = i(217),
+    i(984);
+    var o = i(14), s = i(28).inherits, a = i(199), r = i(985), l = i(6), c = i(775), d = i(987), u = i(988), h = i(989),
+        p = i(990), m = i(262), f = i(302), g = i(39), _ = i(270), v = i(991), y = i(992), b = i(993),
+        M = b.SUBAREA_COLOR, w = b.VIEW_MARGIN, T = b.CHUNK_WIDTH, C = b.CHUNK_HEIGHT, A = i(994), I = i(995),
+        S = i(999), E = i(998), x = i(215).addTooltip, N = i(352), L = i(309), O = i(36).getPosition, D = i(217),
         R = i(297), P = i(35), B = i(442), k = _.Tween, z = _.easing, F = 30;
     s(n, a), e.exports = n, n.prototype.preloadGenericAssets = function (e) {
         var t = this;
@@ -58036,7 +58084,7 @@
         }, this.refresh = this._refreshPrecisionRendering, this.render = this._compositePrecisionRendering, this.clear = this._clearPrecisionRendering) : (this.refresh = this._refresh, this.render = this._composite, this.clear = this._clear), this.setCanvasDimensions(this.canvas.width, this.canvas.height)
     }
 
-    var a = i(984), r = i(281), l = i(276);
+    var a = i(986), r = i(281), l = i(276);
     e.exports = s, s.prototype.togglePixelArt = function () {
         this.renderingProgram === this.renderer._programPixelArt ? this.renderingProgram = this.renderer._programFiltering : this.renderingProgram = this.renderer._programPixelArt
     }, s.prototype.setShader = function (e) {
@@ -58366,7 +58414,7 @@
         this.x = e * d, this.y = t * u, this.w = d, this.h = u, this.id = n, this.path = o, this.texture = r, this.scene = l, this.distToViewCenter = c
     }
 
-    var o = i(991), s = o.CHUNK_WIDTH, a = o.CHUNK_HEIGHT;
+    var o = i(993), s = o.CHUNK_WIDTH, a = o.CHUNK_HEIGHT;
     e.exports = n
 }, function (e, t, i) {
     t.WORLDMAP_PATH = i(6).WORLDMAP_PATH, t.SUBAREA_COLOR = [16 / 255, 186 / 255, 105 / 255, .25], t.VIEW_MARGIN = 1.1, t.CHUNK_WIDTH = 250, t.CHUNK_HEIGHT = 250, t.ICON_DIAMETER = 28
@@ -58383,7 +58431,7 @@
         this.texture = null, this.iconDimensions = null, this.iconBatch = null, this.worldMap = e, this.reset()
     }
 
-    var o = i(994).clusterOrdering, s = i(996), a = i(992);
+    var o = i(996).clusterOrdering, s = i(998), a = i(994);
     e.exports = n, n.prototype.getClusterIcons = function (e) {
         var t = this.iconClusters[e];
         if (t)return t.icons
@@ -58457,7 +58505,7 @@
         }
     }
 }, function (e, t, i) {
-    var n = i(991).ICON_DIAMETER, o = i(995);
+    var n = i(993).ICON_DIAMETER, o = i(997);
     t.positionOrdering = function (e, t) {
         var i = e.y - t.y;
         return 0 === i ? e.x - t.x : i
@@ -58491,7 +58539,7 @@
         this.id = e, this.position = new o(t, i), this.icons = [], this.nVisibleIcons = 0
     }
 
-    var o = i(995), s = i(994).getRelativePositions;
+    var o = i(997), s = i(996).getRelativePositions;
     e.exports = n, n.prototype.getIconPosition = function (e) {
         var t = s(this.nVisibleIcons);
         return this.position.plus(t[e])
@@ -58686,7 +58734,7 @@
         })
     }
 
-    var o = i(39), s = i(199), a = i(883), r = i(280), l = i(362), c = i(98).playUiSound, d = i(352), u = i(217),
+    var o = i(39), s = i(199), a = i(885), r = i(280), l = i(362), c = i(98).playUiSound, d = i(352), u = i(217),
         h = i(38).getText;
     e.exports = n, n.prototype.clear = function () {
         this._worldMap = null, this._worldMapLoaded = !1, this._updateQueue = []
@@ -58928,9 +58976,9 @@
         }), g.on("gameContextChanged", this.onGameContextChanged.bind(this)), this._setupEvents()
     }
 
-    i(1002);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(352), l = i(1003), c = i(1014), d = i(1015),
-        u = i(1017), h = i(1029), p = i(1031), m = i(24), f = i(875), g = i(109);
+    i(1004);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(352), l = i(1005), c = i(1016), d = i(1017),
+        u = i(1019), h = i(1031), p = i(1033), m = i(24), f = i(877), g = i(109);
     o(n, s), e.exports = n, n.prototype.onGameContextChanged = function () {
         g.isFightMode && m.close(this.id)
     }, n.prototype._initTabs = function () {
@@ -58987,9 +59035,9 @@
         })
     }
 
-    i(1004);
-    var o = i(458), s = i(28).inherits, a = i(38).getText, r = i(438), l = i(199), c = i(300), d = i(217), u = i(1005),
-        h = i(35), p = i(24), m = i(1006), f = i(1008), g = i(1010);
+    i(1006);
+    var o = i(458), s = i(28).inherits, a = i(38).getText, r = i(438), l = i(199), c = i(300), d = i(217), u = i(1007),
+        h = i(35), p = i(24), m = i(1008), f = i(1010), g = i(1012);
     s(n, l), e.exports = n, n.prototype._updateAllianceInformation = function () {
         var e = window.gui.playerData.alliance.current;
         this._updateAllianceCreationData(e), this.emblem.setValue(e.allianceEmblem, !0);
@@ -59053,8 +59101,7 @@
                 message: u("ui.alliance.giveLeadershipConfirm", e.guildName),
                 cb: function (t) {
                     t && window.dofus.sendMessage("AllianceChangeGuildRightsMessage", {
-                        guildId: e.guildId,
-                        rights: r.ALLIANCE_RIGHT_BOSS
+                        guildId: e.guildId, rights: r.ALLIANCE_RIGHT_BOSS
                     })
                 }
             })
@@ -59062,8 +59109,8 @@
         return l(t, u("ui.alliance.giveLeadership")), t
     }
 
-    i(1007);
-    var a = i(351), r = i(365), l = i(215).addTooltip, c = i(480), d = i(300), u = i(38).getText, h = i(355),
+    i(1009);
+    var a = i(351), r = i(365), l = i(215).addTooltip, c = i(486), d = i(300), u = i(38).getText, h = i(355),
         p = i(28).inherits, m = i(416), f = i(35), g = i(213), _ = i(199);
     p(n, _), e.exports = n, n.prototype._updateAvaMode = function () {
         var e = window.gui.playerData.characterBaseInformations, t = !1;
@@ -59144,7 +59191,7 @@
         return s(i, null, l("ui.prism.changeVulnerabilityHour")), i
     }
 
-    i(1009);
+    i(1011);
     var s = i(215).addTooltip, a = i(458), r = i(355), l = i(38).getText, c = i(355).GuildRightsBitEnum,
         d = i(28).inherits, u = i(362), h = i(416), p = i(54), m = i(24), f = i(213), g = i(199);
     d(n, g), e.exports = n, n.prototype._setupEvents = function () {
@@ -59287,8 +59334,8 @@
         }), i.on("slotTap", w[e.type]), i
     }
 
-    i(1011);
-    var u = i(352), h = i(38).getText, p = i(512), m = i(1012), f = i(432), g = i(28).inherits, _ = i(416), v = i(199),
+    i(1013);
+    var u = i(352), h = i(38).getText, p = i(514), m = i(1014), f = i(432), g = i(28).inherits, _ = i(416), v = i(199),
         y = u.entityType, b = u.fightingSide, M = u.fightState;
     g(n, v);
     var w = {};
@@ -59405,7 +59452,7 @@
         e.fighter = null, e.clear(), console.log("CLEARING SLOT!"), h.enableTooltip(e, !1)
     }
 
-    i(1013);
+    i(1015);
     var r = i(28).inherits, l = i(199), c = i(247), d = i(288), u = i(38).getText, h = i(215), p = i(352).fightingSide,
         m = 5;
     r(n, l), e.exports = n, n.prototype._addFightModeToolTip = function (e, t, i) {
@@ -59565,9 +59612,9 @@
         })
     }
 
-    i(1016);
-    var c = i(28).inherits, d = i(199), u = i(438), h = i(38).getText, p = i(213), m = i(642), f = i(480), g = i(407),
-        _ = i(5), v = i(32), y = i(488), b = i(303);
+    i(1018);
+    var c = i(28).inherits, d = i(199), u = i(438), h = i(38).getText, p = i(213), m = i(644), f = i(486), g = i(407),
+        _ = i(5), v = i(32), y = i(493), b = i(303);
     c(n, d), e.exports = n, n.prototype._createDom = function () {
         var e = this.tabs = this.appendChild(new u);
         this.friendsPanel = this.createChild("div", {className: ["mainPanel", "friendsPanel"]}), this.enemiesPanel = this.createChild("div", {className: ["mainPanel", "enemiesPanel"]}), this.ignoredPanel = this.createChild("div", {className: ["mainPanel", "ignoredPanel"]}), e.addTab(h("ui.common.friends"), this.friendsPanel, "friends"), e.addTab(h("ui.common.enemies"), this.enemiesPanel, "enemies"), e.addTab(h("ui.common.ignoreds"), this.ignoredPanel, "ignoreds"), e.openTab(0), this._buildFriendsPanel(), this._buildEnemiesPanel(), this._buildIgnoredPanel()
@@ -59709,9 +59756,9 @@
         })
     }
 
-    i(1018);
-    var o = i(28).inherits, s = i(38).getText, a = i(438), r = i(199), l = i(215).addTooltip, c = i(1019), d = i(1021),
-        u = i(1023), h = i(1025), p = i(1027), m = i(432), f = i(300), g = i(512), _ = i(217), v = i(24);
+    i(1020);
+    var o = i(28).inherits, s = i(38).getText, a = i(438), r = i(199), l = i(215).addTooltip, c = i(1021), d = i(1023),
+        u = i(1025), h = i(1027), p = i(1029), m = i(432), f = i(300), g = i(514), _ = i(217), v = i(24);
     o(n, r), e.exports = n, n.prototype._buildGuildGeneralInfoArea = function () {
         var e = this.createChild("div", {className: "guildGeneralInfo"}),
             t = e.createChild("div", {className: ["column", "title"]}),
@@ -59776,8 +59823,8 @@
         })
     }
 
-    i(1020);
-    var r = i(199), l = i(28).inherits, c = i(416), d = i(38).getText, u = i(213), h = i(24), p = i(480), m = i(488),
+    i(1022);
+    var r = i(199), l = i(28).inherits, c = i(416), d = i(38).getText, u = i(213), h = i(24), p = i(486), m = i(493),
         f = i(355).GuildRightsBitEnum, g = i(5), _ = i(303), v = i(32), y = {};
     y[m.NOT_CONNECTED] = "offline", y[m.GAME_TYPE_ROLEPLAY] = "online", y[m.GAME_TYPE_FIGHT] = "online", y[m.UNKNOWN_STATE] = "offline", l(a, r), e.exports = a, a.prototype._setupDom = function () {
         var e = this, t = [{id: "playerIcon", sort: s}, {id: "nameButton", header: d("ui.common.name"), sort: n}, {
@@ -59889,9 +59936,11 @@
                 buttons: x,
                 onlineStatus: E
             };
-            if ("offline" === E) R.stateIcon = new r("div", {className: ["stateIcon", "offline"]}); else if (S.hasOwnProperty("moodSmileyId") && S.moodSmileyId > 0) {
+            if ("offline" === E) R.stateIcon = new r("div", {
+                className: ["stateIcon", "offline"]
+            }); else if (S.hasOwnProperty("moodSmileyId") && S.moodSmileyId > 0) {
                 var P = S.moodSmileyId, B = window.gui.databases.Smileys[P];
-                B ? (R.stateIcon = new r("div", {className: ["stateIcon", "smiley"]}), b.push(R.stateIcon), M.push("gfx/smilies/" + B.gfxId + ".png")) : console.error("Smiley " + P + " details are not available, it could not be displayed");
+                B ? (R.stateIcon = new r("div", {className: ["stateIcon", "smiley"]}), b.push(R.stateIcon), M.push("gfx/smilies/" + B.gfxId + ".png")) : console.error("Smiley " + P + " details are not available, it could not be displayed")
             }
             this.table.addRow(R, S.id).addClassNames(E)
         }
@@ -59920,8 +59969,8 @@
         })
     }
 
-    i(1022);
-    var o = i(28).inherits, s = i(199), a = i(215).addTooltip, r = i(213).DofusButton, l = i(38).getText, c = i(642),
+    i(1024);
+    var o = i(28).inherits, s = i(199), a = i(215).addTooltip, r = i(213).DofusButton, l = i(38).getText, c = i(644),
         d = i(24);
     o(n, s), e.exports = n, n.prototype._createDom = function () {
         var e = this, t = {
@@ -60044,8 +60093,8 @@
         return t.id = e, t
     }
 
-    i(1024);
-    var l = i(28).inherits, c = i(38).getText, d = i(14), u = i(199), h = i(642), p = i(731), m = i(290), f = i(213),
+    i(1026);
+    var l = i(28).inherits, c = i(38).getText, d = i(14), u = i(199), h = i(644), p = i(733), m = i(290), f = i(213),
         g = i(215).addTooltip, _ = i(5),
         v = {taxCollectorPods: 0, taxCollectorProspecting: 1, taxCollectorWisdom: 2, maxTaxCollectorsCount: 3}, y = {
             taxCollectorLifePoints: null,
@@ -60104,8 +60153,8 @@
         })
     }
 
-    i(1026);
-    var o = i(28).inherits, s = i(213), a = i(199), r = i(215).addTooltip, l = i(38).getText, c = i(642), d = i(24),
+    i(1028);
+    var o = i(28).inherits, s = i(213), a = i(199), r = i(215).addTooltip, l = i(38).getText, c = i(644), d = i(24),
         u = i(5);
     o(n, a), e.exports = n, n.prototype._setupEvents = function () {
         var e = window.gui.playerData.guild, t = this;
@@ -60212,9 +60261,9 @@
         }
     }
 
-    i(1028);
-    var s = i(28).inherits, a = i(199), r = i(215).addTooltip, l = i(38).getText, c = i(512), d = i(217), u = i(1012),
-        h = i(432), p = i(642), m = i(352), f = m.entityType, g = m.fightingSide;
+    i(1030);
+    var s = i(28).inherits, a = i(199), r = i(215).addTooltip, l = i(38).getText, c = i(514), d = i(217), u = i(1014),
+        h = i(432), p = i(644), m = i(352), f = m.entityType, g = m.fightingSide;
     s(n, a), e.exports = n, n.prototype._createDom = function () {
         var e = this.createChild("div", {className: "tableContainer"});
         this.table = e.appendChild(new p({
@@ -60362,7 +60411,7 @@
         })
     }
 
-    i(1030);
+    i(1032);
     var o = i(28).inherits, s = i(38).getText, a = i(199), r = i(213), l = i(39), c = i(247), d = i(288), u = i(24),
         h = i(5);
     o(n, a), e.exports = n, n.prototype._setupDom = function () {
@@ -60451,8 +60500,8 @@
         })
     }
 
-    i(1032);
-    var o = i(28).inherits, s = i(38).getText, a = i(438), r = i(199), l = i(1033), c = i(1035);
+    i(1034);
+    var o = i(28).inherits, s = i(38).getText, a = i(438), r = i(199), l = i(1035), c = i(1037);
     o(n, r), e.exports = n, n.prototype._setupDom = function () {
         var e = this.appendChild(new a({className: "tabs"}));
         e.addTab(s("ui.social.guilds"), new l, "guilds"), e.addTab(s("ui.alliance.alliances"), new c, "alliances"), e.openTab(0)
@@ -60467,8 +60516,8 @@
         })
     }
 
-    i(1034);
-    var o = i(199), s = i(28).inherits, a = i(38).getText, r = i(409), l = i(407), c = i(642);
+    i(1036);
+    var o = i(199), s = i(28).inherits, a = i(38).getText, r = i(409), l = i(407), c = i(644);
     s(n, o), e.exports = n, n.prototype._setupDom = function () {
         var e = this.createChild("div", {className: "line"});
         e.createChild("div", {
@@ -60492,8 +60541,8 @@
         })
     }
 
-    i(1036);
-    var o = i(199), s = i(28).inherits, a = i(38).getText, r = i(409), l = i(407), c = i(642);
+    i(1038);
+    var o = i(199), s = i(28).inherits, a = i(38).getText, r = i(409), l = i(407), c = i(644);
     s(n, o), e.exports = n, n.prototype._setupDom = function () {
         var e = this.createChild("div", {className: "line"});
         e.createChild("div", {
@@ -60598,9 +60647,9 @@
         })
     }
 
-    i(1038);
+    i(1040);
     var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(217), l = i(38).getText, c = i(218), d = i(24),
-        u = i(5), h = i(920), p = i(699), m = i(313), f = i(789), g = "soft", _ = "hard";
+        u = i(5), h = i(922), p = i(701), m = i(313), f = i(791), g = "soft", _ = "hard";
     o(n, s), e.exports = n, n.prototype._setCurrency = function (e) {
         if (this.currency !== e) {
             var t = this.currency;
@@ -60644,7 +60693,7 @@
         })
     }
 
-    i(1040);
+    i(1042);
     var o = i(28).inherits, s = i(418), a = i(423), r = i(24);
     o(n, s), e.exports = n, n.prototype.showPaddockMount = function (e) {
         this.isMountInfoExpected = !0, r.open(this.id), window.dofus.sendMessage("MountInformationInPaddockRequestMessage", {mapRideId: e})
@@ -60734,7 +60783,7 @@
         }), this.on("open", function (e) {
             e = e || {}, this._reset(), this.mode = e.mode, this.params = e, this.setting = m[this.mode], this.setting.handleInput(e), this.setting.setupUI();
             var t = u(this.setting.filter);
-            this.storageViewer.setItemList(t), this.storageViewer.addFilters([this.setting.filter])
+            this.storageViewer.setItemList(t), this.storageViewer.addFilters([this.setting.filter]);
         }), this.on("close", function () {
             this.storageViewer.removeFilter(this.setting.filter)
         }), this.on("closed", function () {
@@ -60746,8 +60795,8 @@
         })
     }
 
-    i(1042);
-    var c = i(213), d = i(38).getText, u = i(28).inherits, h = i(841), p = i(218), m = i(333), f = i(418),
+    i(1044);
+    var c = i(213), d = i(38).getText, u = i(28).inherits, h = i(843), p = i(218), m = i(333), f = i(418),
         g = [7903, 7904], _ = [41, 62, 63, 64];
     u(l, f), l.prototype.possessFeedItemForMount = function () {
         for (var e = window.gui.playerData.inventory.objects, t = Object.keys(e), i = 0,
@@ -60826,7 +60875,7 @@
         })
     }
 
-    i(1044);
+    i(1046);
     var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(38).getText, l = i(220), c = i(24), d = i(407),
         u = l.MIN_RIDE_NAME_LEN, h = l.MAX_RIDE_NAME_LEN, p = 153, m = 108;
     o(n, s), e.exports = n, n.prototype._validate = function () {
@@ -60848,7 +60897,7 @@
         }), this._reset(), this.on("open", this._setMount)
     }
 
-    i(1046);
+    i(1048);
     var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(5);
     o(n, s), e.exports = n, n.prototype._reset = function () {
         this._hasContent = !1, this._myMount = null, this._myMountName = null, this._ancestorBoxes = null
@@ -60943,8 +60992,8 @@
         })
     }
 
-    i(1048);
-    var o = i(1049), s = i(28).inherits, a = i(418), r = i(213).DofusButton, l = i(38).getText, c = i(480), d = i(409);
+    i(1050);
+    var o = i(1051), s = i(28).inherits, a = i(418), r = i(213).DofusButton, l = i(38).getText, c = i(486), d = i(409);
     s(n, a), e.exports = n
 }, function (e, t) {
 }, function (e, t) {
@@ -61016,9 +61065,9 @@
         })
     }
 
-    i(1051);
-    var o = i(28).inherits, s = i(24), a = i(418), r = i(213).DofusButton, l = i(38).getText, c = i(199), d = i(642),
-        u = i(215).addTooltip, h = i(731), p = i(5), m = i(293).SpellData.SPELL_STATUS;
+    i(1053);
+    var o = i(28).inherits, s = i(24), a = i(418), r = i(213).DofusButton, l = i(38).getText, c = i(199), d = i(644),
+        u = i(215).addTooltip, h = i(733), p = i(5), m = i(293).SpellData.SPELL_STATUS;
     o(n, a), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -61094,11 +61143,11 @@
         e.setColor({rgb: n, hex: w.colorArrayToHexa(n)})
     }
 
-    i(1053);
-    var f = i(5), g = i(6), _ = i(213), v = i(187), y = i(247), b = i(476), M = i(904), w = i(256), T = i(251),
-        C = i(38).getText, A = i(28).inherits, I = i(339), S = i(1054), E = i(220), x = i(314),
+    i(1055);
+    var f = i(5), g = i(6), _ = i(213), v = i(187), y = i(247), b = i(476), M = i(906), w = i(256), T = i(251),
+        C = i(38).getText, A = i(28).inherits, I = i(339), S = i(1056), E = i(220), x = i(314),
         N = i(217).showProgressively, L = i(39), O = i(438), D = i(35), R = i(215), P = i(418), B = i(24), k = i(199),
-        z = i(1056), F = i(1058), H = i(1060).onSubmitRules, q = i(1060).onChangeRules,
+        z = i(1058), F = i(1060), H = i(1062).onSubmitRules, q = i(1062).onChangeRules,
         W = [2, 1, 2, 1, 3, 2, 1, 1, 1, 3, 1, 2, 3, 2, 2], U = 13518, G = 10860, j = 10861, Y = 10862, V = .6, X = {
             1: [174, 252],
             2: [173, 252],
@@ -61473,15 +61522,13 @@
         this.lastRendering = Date.now();
         var t = this;
         this.characterDisplay.setLook(this._buildEntityLook(), {
-            boneType: "characters/",
-            skinType: "characters/",
-            direction: this.orientation
+            boneType: "characters/", skinType: "characters/", direction: this.orientation
         }, function () {
             e && N(t.characterDisplay, 300, 50)
         })
     }, s.prototype._selectColor = function (e, t) {
         var i = this.colorButtons[e];
-        (i !== this.selectedColorBtn || t) && (this.selectedColorBtn && this.selectedColorBtn.deselect(), this.selectedColorBtn = i, i.select(), this.colorPicker.setCurrentColor(i.getColor().rgb));
+        (i !== this.selectedColorBtn || t) && (this.selectedColorBtn && this.selectedColorBtn.deselect(), this.selectedColorBtn = i, i.select(), this.colorPicker.setCurrentColor(i.getColor().rgb))
     }, s.prototype._resetColorButton = function (e) {
         var t = (this.sex === ie ? "female" : "male") + "Colors", i = this.allBreeds[this.breedId][t][e.id];
         m(e, i)
@@ -61500,7 +61547,7 @@
         n = n || {}, this.myWindow = e, this.id = t, this.active = n.active, this.selected = !1, this.currentColor = null, this.isCustom = !1, a.call(this, "div", {className: "plusColorButton"}), r(this), this.active && i && "function" == typeof i ? this.on("tap", i) : this.addClassNames("inactive"), this.plainColor = this.createChild("div", {className: "plainColor"})
     }
 
-    i(1055);
+    i(1057);
     var o = i(256), s = i(28).inherits, a = i(199), r = i(35);
     s(n, a), e.exports = n, n.prototype.select = function () {
         this.addClassNames("selected"), this.selected = !0
@@ -61536,7 +61583,7 @@
         })
     }
 
-    i(1057);
+    i(1059);
     var o = i(28).inherits, s = i(407);
     o(n, s), e.exports = n, n.prototype.getValue = function (e) {
         var t = s.prototype.getValue.call(this);
@@ -61552,7 +61599,7 @@
         e = e || {}, s.call(this, "div", e), this.addClassNames("InputBoxErrors"), this.setText(e.text || "")
     }
 
-    i(1059);
+    i(1061);
     var o = i(28).inherits, s = i(199);
     o(n, s), e.exports = n, n.prototype.setText = function (e) {
         s.prototype.setText.call(this, e), e ? this.show() : this.hide()
@@ -61688,9 +61735,9 @@
         }
     }
 
-    i(1062);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(896), l = i(213).DofusButton, c = i(499), d = i(24),
-        u = i(339), h = i(1063), p = i(500), m = i(841), f = i(1064), g = i(1066), _ = i(195);
+    i(1064);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(898), l = i(213).DofusButton, c = i(501), d = i(24),
+        u = i(339), h = i(1065), p = i(502), m = i(843), f = i(1066), g = i(1068), _ = i(195);
     o(n, s), e.exports = n, n.prototype._restoreMergeStopButtons = function () {
         this._stopBtn.disable(), this._buttonMerge.enable()
     }, n.prototype._createDom = function () {
@@ -61798,8 +61845,8 @@
         })
     }
 
-    i(1065);
-    var o = i(28).inherits, s = i(199), a = i(38).getText, r = i(210), l = i(339), c = i(723), d = i(213), u = i(195);
+    i(1067);
+    var o = i(28).inherits, s = i(199), a = i(38).getText, r = i(210), l = i(339), c = i(725), d = i(213), u = i(195);
     o(n, s), e.exports = n, n.prototype.prepareItem = function (e) {
         var t = this;
         l.getItems([e], function (i) {
@@ -61896,8 +61943,8 @@
         for (var m = 0; m < u.MAX_CRAFT_SLOTS; m += 1)this._allSlots.appendChild(new s)
     }
 
-    i(1067);
-    var o = i(195), s = i(723), a = i(28).inherits, r = i(199), l = i(210), c = i(38).getText;
+    i(1069);
+    var o = i(195), s = i(725), a = i(28).inherits, r = i(199), l = i(210), c = i(38).getText;
     a(n, r), e.exports = n, n.prototype.setNbSlots = function () {
         for (var e = this._allSlots.getChildren(), t = this._usedSlots + window.gui.playerData.jobs.getAvailableSlots(),
                  i = 0, n = e.length; i < n; i += 1) {
@@ -62024,7 +62071,7 @@
         }
     }
 
-    var o = i(28).inherits, s = i(38).getText, a = i(1061), r = i(1063), l = i(24);
+    var o = i(28).inherits, s = i(38).getText, a = i(1063), r = i(1065), l = i(24);
     o(n, a), e.exports = n, n.prototype._onOpen = function (e) {
         a.prototype._onOpen.call(this, e), l.close("cancel", {keepDialog: !0}), this._isCrafter = e.isCrafter;
         var t = e.msg;
@@ -62133,8 +62180,8 @@
         }), this.on("close", y)
     }
 
-    i(1070);
-    var o = i(1049), s = i(28).inherits, a = i(418), r = i(38).getText, l = i(409), c = i(642), d = i(39), u = i(24),
+    i(1072);
+    var o = i(1051), s = i(28).inherits, a = i(418), r = i(38).getText, l = i(409), c = i(644), d = i(39), u = i(24),
         h = i(213), p = i(199), m = i(5);
     s(n, a), e.exports = n
 }, function (e, t) {
@@ -62227,13 +62274,13 @@
             b.createChild("div", {
                 className: "label",
                 text: u("ui.craft.minItemInCraft")
-            }), this.minItems = b.createChild("div", {className: ["value", "minItems"]}), this.messageButton = this.windowBody.appendChild(new o(u("ui.common.wMessage"))), this.messageButton.addClassNames("messageButton"), this.messageButton.on("tap", function () {
+            }), this.minItems = b.createChild("div", {className: ["value", "minItems"]}), this.messageButton = this.windowBody.appendChild(new o(u("ui.common.wMessage"))),
+                this.messageButton.addClassNames("messageButton"), this.messageButton.on("tap", function () {
                 window.gui.chat.startPrivateMessage(n.crafter.playerInfo.playerName)
             }), window.gui.on("ContactLookMessage", function (t) {
                 n.crafter && e(t.look)
             }), window.gui.on("JobCrafterDirectoryAddMessage", function (e) {
-                n.crafter && e.listEntry.playerInfo.playerId === n.crafter.playerInfo.playerId && (n.crafter = e.listEntry,
-                    t(n.crafter, n.job))
+                n.crafter && e.listEntry.playerInfo.playerId === n.crafter.playerInfo.playerId && (n.crafter = e.listEntry, t(n.crafter, n.job))
             }), window.gui.on("JobCrafterDirectoryRemoveMessage", function (e) {
                 n.crafter && e.playerId === n.crafter.playerInfo.playerId && n.messageButton.disable()
             })
@@ -62242,9 +62289,9 @@
         }), this.on("close", i)
     }
 
-    i(1072);
-    var o = i(213).DofusButton, s = i(247), a = i(1049), r = i(1073), l = i(288), c = i(28).inherits, d = i(418),
-        u = i(38).getText, h = i(480), p = i(39), m = i(5), f = i(303);
+    i(1074);
+    var o = i(213).DofusButton, s = i(247), a = i(1051), r = i(1075), l = i(288), c = i(28).inherits, d = i(418),
+        u = i(38).getText, h = i(486), p = i(39), m = i(5), f = i(303);
     c(n, d), e.exports = n
 }, function (e, t) {
 }, function (e, t) {
@@ -62273,9 +62320,9 @@
         })
     }
 
-    i(1075);
-    var o = i(213).DofusButton, s = i(499), a = i(1063), r = i(195), l = i(38).getText, c = i(28).inherits, d = i(841),
-        u = i(339), h = i(723), p = i(210), m = i(418), f = i(1076), g = s.SMITHMAGIC_RUNE_ID,
+    i(1077);
+    var o = i(213).DofusButton, s = i(501), a = i(1065), r = i(195), l = i(38).getText, c = i(28).inherits, d = i(843),
+        u = i(339), h = i(725), p = i(210), m = i(418), f = i(1078), g = s.SMITHMAGIC_RUNE_ID,
         _ = s.SMITHMAGIC_POTION_ID, v = s.SIGNATURE_RUNE_ID, y = s.SIGNATURE_AVAILABLE_LEVEL,
         b = ["item", "rune", "signatureRune"];
     c(n, m), e.exports = n, n.prototype._initVariables = function () {
@@ -62441,7 +62488,7 @@
         return "ObjectEffectInteger" === e._type || "EffectInstanceInteger" === e._type || "ObjectEffectDice" === e._type || "EffectInstanceDice" === e._type
     }
 
-    var s = i(233).createEffectInstances, a = i(38).getText, r = i(1077), l = i(231);
+    var s = i(233).createEffectInstances, a = i(38).getText, r = i(1079), l = i(231);
     t.display = function (e, t, i) {
         var c = window.gui.chat, d = e.effects, u = t.effects, h = n(d), p = n(u);
         if (h && p && h.actionId !== p.actionId)return c.logMsg(a("ui.craft.success"));
@@ -62485,9 +62532,9 @@
         })
     }
 
-    i(1079);
-    var o = i(213).DofusButton, s = i(480), a = i(499), r = i(1074), l = i(195), c = i(38).getText, d = i(28).inherits,
-        u = i(339), h = i(723), p = i(719), m = i(24), f = i(199), g = 40, _ = 40, v = 30, y = a.SMITHMAGIC_RUNE_ID,
+    i(1081);
+    var o = i(213).DofusButton, s = i(486), a = i(501), r = i(1076), l = i(195), c = i(38).getText, d = i(28).inherits,
+        u = i(339), h = i(725), p = i(721), m = i(24), f = i(199), g = 40, _ = 40, v = 30, y = a.SMITHMAGIC_RUNE_ID,
         b = a.SMITHMAGIC_POTION_ID, M = a.SIGNATURE_RUNE_ID, w = a.SIGNATURE_AVAILABLE_LEVEL;
     d(n, r), e.exports = n, n.prototype._initVariables = function () {
         r.prototype._initVariables.call(this), this.isCrafter = null, this.isCraftingMode = !1, this.allowCrafterIngredients = !1, this.crafterSkillLevel = 1, this.currentPage = -1, this.pageCount = -1
@@ -62706,8 +62753,8 @@
         })
     }
 
-    i(1081);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(213).DofusButton, l = i(24), c = i(1082), d = i(1084),
+    i(1083);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(213).DofusButton, l = i(24), c = i(1084), d = i(1086),
         u = i(195), h = i(210), p = i(339);
     o(n, s), e.exports = n, n.prototype._createDom = function () {
         function e(e) {
@@ -62805,8 +62852,8 @@
         })
     }
 
-    i(1083);
-    var o = i(28).inherits, s = i(199), a = i(195), r = i(218), l = i(723), c = i(38).getText, d = i(213), u = i(1084);
+    i(1085);
+    var o = i(28).inherits, s = i(199), a = i(195), r = i(218), l = i(725), c = i(38).getText, d = i(213), u = i(1086);
     o(n, s), e.exports = n, n.prototype.setKama = function (e) {
         this._numberInput.setValue(e), this._numberInput.blur()
     }, n.prototype.setReadonly = function (e) {
@@ -62939,9 +62986,9 @@
         })
     }
 
-    i(1086);
+    i(1088);
     var o = i(195).setDroppable, s = i(28).inherits, a = i(339), r = i(339).isEquippable, l = i(418), c = i(38).getText,
-        d = i(210), u = i(480), h = i(499);
+        d = i(210), u = i(486), h = i(501);
     s(n, l), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -62953,7 +63000,8 @@
                 var i = h.setupNames(v._targetInfo.targetId, e.source);
                 if (!i)return console.error("TradeWithPlayer: setupNames");
                 b = i.sourceName, M = i.targetName, h.setupCancelPopupTexts({
-                    title: a("ui.exchange.requestInProgress"), message: a("ui.exchange.requestInProgress")
+                    title: a("ui.exchange.requestInProgress"),
+                    message: a("ui.exchange.requestInProgress")
                 }), h.setupConfirmPopupTexts({
                     title: a("ui.exchange.exchangeRequest"),
                     message: a("ui.exchange.resquestMessage", b)
@@ -63031,9 +63079,9 @@
         }, this.on("close", f)
     }
 
-    i(1088);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(24), l = i(453), c = i(1089), d = i(213).DofusButton,
-        u = i(339), h = i(501), p = 2;
+    i(1090);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(24), l = i(453), c = i(1091), d = i(213).DofusButton,
+        u = i(339), h = i(503), p = 2;
     o(n, s), e.exports = n, n.prototype._createDom = function () {
         var e = this, t = this.windowBody, i = t.createChild("div", {className: ["otherCharacterSpace", "tradeSpace"]});
         this._otherCharacterTradeSpace = i.appendChild(new c({blinkDuration: p}));
@@ -63099,8 +63147,8 @@
         })
     }
 
-    i(1090);
-    var o = i(28).inherits, s = i(199), a = i(1091), r = i(723), l = i(210), c = i(217), d = i(38).getText, u = i(432),
+    i(1092);
+    var o = i(28).inherits, s = i(199), a = i(1093), r = i(725), l = i(210), c = i(217), d = i(38).getText, u = i(432),
         h = i(215).addTooltip, p = i(195);
     o(n, s), e.exports = n, n.prototype.setAsRemote = function () {
         this._isRemote = !0, this._tradeGold.setAsRemote()
@@ -63209,7 +63257,7 @@
         })
     }
 
-    i(1092);
+    i(1094);
     var o = i(28).inherits, s = i(199), a = i(38).getText, r = i(218), l = i(215);
     o(n, s), e.exports = n, n.prototype.getKama = function () {
         return this._input.getValue()
@@ -63286,8 +63334,8 @@
         this._npcName = "", this._domCreated = !1, this._npcTradeSpace = null, this._myTradeSpace = null, this._buttonConfirm = null, this._exchangeStep = 0, m.on("ExchangeStartOkNpcTradeMessage", e), m.on("ExchangeKamaModifiedMessage", this.localizeEvent(c)), m.on("ExchangeObjectAddedMessage", this.localizeEvent(n)), m.on("ExchangeObjectModifiedMessage", this.localizeEvent(n)), m.on("ExchangeObjectRemovedMessage", this.localizeEvent(o)), this.on("closed", l)
     }
 
-    i(1094);
-    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(24), l = i(1089), c = i(213).DofusButton, d = i(339),
+    i(1096);
+    var o = i(28).inherits, s = i(418), a = i(38).getText, r = i(24), l = i(1091), c = i(213).DofusButton, d = i(339),
         u = 2;
     o(n, s), e.exports = n, n.prototype.prepareExchange = function (e) {
         this._npcName = e
@@ -63362,7 +63410,7 @@
         })
     }
 
-    i(1096);
+    i(1098);
     var o = i(28).inherits, s = i(339), a = i(418), r = i(38).getText, l = i(210), c = i(195);
     o(n, a), e.exports = n
 }, function (e, t) {
@@ -63382,7 +63430,7 @@
         })
     }
 
-    i(1098);
+    i(1100);
     var o = i(28).inherits, s = i(418), a = i(213).DofusButton, r = i(38).getText;
     o(n, s), e.exports = n, n.prototype.update = function (e, t) {
         t = t || {}, this.windowTitle.setText(e.title), this.message.setHtml(e.message), this.cb = e.cb, this.keepDialog = t.keepDialog
@@ -63438,9 +63486,9 @@
         return !1
     }
 
-    i(1100);
-    var d = i(215), u = i(98), h = i(213).DofusButton, p = i(480), m = i(38).getText, f = i(28).inherits, g = i(27),
-        _ = i(314), v = i(409), y = i(330).SingleSelectionList, b = i(1101), M = i(756), w = i(32), T = i(418),
+    i(1102);
+    var d = i(215), u = i(98), h = i(213).DofusButton, p = i(486), m = i(38).getText, f = i(28).inherits, g = i(27),
+        _ = i(314), v = i(409), y = i(330).SingleSelectionList, b = i(1103), M = i(758), w = i(32), T = i(418),
         C = i(33);
     f(n, T), e.exports = n, n.prototype._initOptionDefinitions = function () {
         this.optionDefinitions = [{
@@ -63646,7 +63694,7 @@
         e[this.channelId] = e[this.channelId] || {volume: 0, muted: !0}, this.setPosition(e[this.channelId].volume || 0)
     }
 
-    i(1102);
+    i(1104);
     var o = i(199), s = i(213).DofusButton, a = i(28).inherits, r = i(32), l = i(98);
     a(n, o), e.exports = n, n.prototype.setPosition = function (e) {
         e = Math.max(0, Math.min(4, ~~(4 * e)));
@@ -63664,8 +63712,8 @@
         }), this.scroller = this.windowBody.appendChild(new a), this.scroller.content.addClassNames("overlayBox")
     }
 
-    i(1104);
-    var o = i(28).inherits, s = i(723), a = i(314), r = i(418);
+    i(1106);
+    var o = i(28).inherits, s = i(725), a = i(314), r = i(418);
     o(n, r), e.exports = n, n.prototype.updateContent = function (e, t, i) {
         this.setTitle(e);
         var n = this.scroller.content;
@@ -63683,7 +63731,7 @@
         })
     }
 
-    i(1106);
+    i(1108);
     var o = i(28).inherits, s = i(55), a = i(418), r = i(199), l = i(24), c = i(213).DofusButton, d = i(38).getText,
         u = i(5);
     o(n, a), e.exports = n, n.prototype._createDom = function () {
@@ -63720,9 +63768,9 @@
         })
     }
 
-    i(1108);
-    var o = i(213), s = i(38).getText, a = i(217), r = i(28).inherits, l = i(699), c = i(418), d = i(24), u = i(789),
-        h = i(1109);
+    i(1110);
+    var o = i(213), s = i(38).getText, a = i(217), r = i(28).inherits, l = i(701), c = i(418), d = i(24), u = i(791),
+        h = i(1111);
     r(n, c), e.exports = n, n.prototype._reset = function () {
         this.params = null, this.cb = null, this.articleBox = null, this.buyBtn = null, this.buyBtnAmount = null, this.buyBtnIcon = null, this.purchaseLoader = null, this._setIsPurchasing(!1)
     }, n.prototype._onOpen = function () {
@@ -63771,9 +63819,7 @@
 }, function (e, t) {
 }, function (e, t, i) {
     function n(e, t, i) {
-        l.call(this, "div", {
-            className: "box"
-        }), this.options = i || {}, this._createDom(), e && this.update(e), t && this.resize(t)
+        l.call(this, "div", {className: "box"}), this.options = i || {}, this._createDom(), e && this.update(e), t && this.resize(t)
     }
 
     function o() {
@@ -63789,8 +63835,8 @@
         return t ? t : d("tablet.shop.offer")
     }
 
-    i(1110);
-    var r = i(28).inherits, l = i(199), c = i(35), d = i(38).getText, u = i(1111), h = i(1113), p = 1;
+    i(1112);
+    var r = i(28).inherits, l = i(199), c = i(35), d = i(38).getText, u = i(1113), h = i(1115), p = 1;
     r(n, l), e.exports = n, n.prototype._createDom = function () {
         var e = this, t = this.options, i = this.createChild("div", {className: "slot"});
         i.createChild("div", {className: "slotBackground"});
@@ -63856,7 +63902,7 @@
         e.toggleClassName("iap", !!n), n ? (e.delClassNames(["unavailable"]), e.currentPriceText.setText(t)) : (e.toggleClassName("unavailable", !t), t ? (e.currentPriceText.setText(l.kamasToString(t, "")), t >= h ? e.replaceClassNames(["lowPrice"], ["bigPrice"]) : t < p ? e.replaceClassNames(["bigPrice"], ["lowPrice"]) : e.delClassNames(["lowPrice", "bigPrice"]), e.enable(), i && (o = l.kamasToString(i, ""), e.originalPriceText.setText(o))) : (e.currentPriceText.setText(u("ui.item.averageprice.unavailable")), e.replaceClassNames(["lowPrice"], ["bigPrice"]), e.disable()))
     }
 
-    i(1112);
+    i(1114);
     var a = i(28).inherits, r = i(199), l = i(217), c = i(213), d = c.DofusButton, u = i(38).getText, h = 1e6, p = 1e3;
     a(n, r), e.exports = n, n.prototype._createDom = function () {
         function e(e, i) {
@@ -63926,8 +63972,8 @@
         }), this._setupEvents()
     }
 
-    i(1115);
-    var o = i(28).inherits, s = i(418), a = i(1116), r = i(875);
+    i(1117);
+    var o = i(28).inherits, s = i(418), a = i(1118), r = i(877);
     o(n, s), e.exports = n, n.prototype._initTabs = function () {
         var e = this.tabsDefinitions;
         for (var t in e)this.tabs.toggleTabAvailability(t, !e[t].disabled)
@@ -63975,9 +64021,9 @@
         return window.gui.playerData.identification.subscriptionEndDate
     }
 
-    i(1117);
-    var a = i(28).inherits, r = i(38).getText, l = i(199), c = i(883), d = i(98).playUiSound, u = i(213), h = i(35),
-        p = i(24), m = i(977), f = i(699), g = i(1118), _ = i(1120), v = i(1122), y = i(1113), b = i(789), M = i(164),
+    i(1119);
+    var a = i(28).inherits, r = i(38).getText, l = i(199), c = i(885), d = i(98).playUiSound, u = i(213), h = i(35),
+        p = i(24), m = i(979), f = i(701), g = i(1120), _ = i(1122), v = i(1124), y = i(1115), b = i(791), M = i(164),
         w = 500, T = "itemsList", C = "homepage", A = "itemDetails", I = "homepage", S = {id: I, name: "", child: []},
         E = 556, x = 557, N = {canTapImage: !1},
         L = {lines: 1, columns: 2, promoType: "strip", showArticleDescription: !0, canTapImage: !1},
@@ -64298,8 +64344,8 @@
         return {boxWidth: e, boxHeight: t}
     }
 
-    i(1119);
-    var s = i(28).inherits, a = i(199), r = i(1109), l = i(184), c = i(35), d = 6, u = 5, h = 8, p = 155, m = 200,
+    i(1121);
+    var s = i(28).inherits, a = i(199), r = i(1111), l = i(184), c = i(35), d = 6, u = 5, h = 8, p = 155, m = 200,
         f = 1, g = p / m;
     s(n, a), e.exports = n, n.prototype.clear = function () {
         this.highlightArticleBox && (this.highlightArticleBox.clear(), this.highlightArticleBox = null);
@@ -64375,8 +64421,8 @@
         a.call(this, "div", {className: "itemsListView"}), this.articlesPerLine = d, this.articlesPerColumn = u, this._isAdditionalContentLoading = !1, this._boxHeight = _, this._boxWidth = g, this._scrollMargin = 0, this._scrollPosition = null, this.constraints = {}, this.setConstraints(b), this._createDom()
     }
 
-    i(1121);
-    var o = i(28).inherits, s = i(38).getText, a = i(199), r = i(314), l = i(1109), c = i(184), d = 2, u = 1, h = 9,
+    i(1123);
+    var o = i(28).inherits, s = i(38).getText, a = i(199), r = i(314), l = i(1111), c = i(184), d = 2, u = 1, h = 9,
         p = 0, m = 11, f = 9, g = 155, _ = 200, v = _ + m, y = 40,
         b = {lines: null, columns: null, promoType: "corner", showArticleDescription: !1, canTapImage: !0};
     o(n, a), e.exports = n, n.prototype.clear = function () {
@@ -64507,16 +64553,16 @@
         return window.gui.playerData.characterBaseInformations.entityLook
     }
 
-    i(1123);
-    var s = i(28).inherits, a = i(38).getText, r = i(199), l = i(213), c = i(247), d = i(339), u = i(1109), h = i(1111),
-        p = i(288), m = i(5), f = i(314), g = i(723), _ = i(24), v = i(184), y = i(1124), b = i(415),
+    i(1125);
+    var s = i(28).inherits, a = i(38).getText, r = i(199), l = i(213), c = i(247), d = i(339), u = i(1111), h = i(1113),
+        p = i(288), m = i(5), f = i(314), g = i(725), _ = i(24), v = i(184), y = i(1126), b = i(415),
         M = i(339).isEquippable, w = i(231), T = {};
     T[w.ACTION_LADDER_ID] = !0, T[w.ACTION_ITEM_CHANGE_PETS_LIFE] = !0, T[w.ACTION_ITEM_PETS_SHAPE] = !0, T[w.ACTION_ITEM_PETS_EAT] = !0, T[w.ACTION_PETS_LAST_MEAL] = !0, T[w.ACTION_ID_LIVING_OBJECT_MOOD] = !0, T[w.ACTION_ID_LIVING_OBJECT_SKIN] = !0, T[w.ACTION_ID_LIVING_OBJECT_CATEGORY] = !0, T[w.ACTION_ID_LIVING_OBJECT_LEVEL] = !0, T[983] = !0, T[984] = !0, T[620] = !0;
     var C = 641, A = 429, I = A / C, S = .85, E = 2 / 236;
     s(n, r), e.exports = n, n.prototype._resetProperties = function () {
         this._classSymbolImage = null, this._firstItemOfSet = null, this._articleId = null
     }, n.prototype.clear = function () {
-        this._resetProperties(), this._articleBox.clear(), this._characterDisplay.release()
+        this._resetProperties(), this._articleBox.clear(), this._characterDisplay.release();
     }, n.prototype._createDom = function () {
         function e() {
             n.emit("purchaseIAP", n._articleId)
@@ -64530,11 +64576,10 @@
             n.emit("purchaseOnAnkama", n._articleId, v.KAMA)
         }
 
-        var n = this, o = this._backToCategory = new r("div", {className: "goToPrevious"}), s = new l({
-            className: "arrow"
-        }, function () {
-            n.emit("goToPreviousView")
-        });
+        var n = this, o = this._backToCategory = new r("div", {className: "goToPrevious"}),
+            s = new l({className: "arrow"}, function () {
+                n.emit("goToPreviousView")
+            });
         o.appendChild(s), this._backToCategoryText = o.createChild("div", {className: "text"}), this.promoBanner = this.createChild("div", {className: "promoBanner"});
         var d = this.leftColumn = this.appendChild(new f({className: "left"}));
         this.promoDescription = d.content.createChild("div", {className: "promoDescription"});
@@ -64677,7 +64722,7 @@
         s.call(this, "div", {className: "itemDetailsBox"}), this._createDom(e)
     }
 
-    i(1123);
+    i(1125);
     var o = i(28).inherits, s = i(199);
     o(n, s), e.exports = n, n.prototype._createDom = function (e) {
         var t = this.createChild("div", {className: "header"});
@@ -64707,8 +64752,8 @@
         })
     }
 
-    i(1126);
-    var o = i(213), s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(789), d = i(1109),
+    i(1128);
+    var o = i(213), s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(791), d = i(1111),
         u = {NO_PACK: 0, AMOUNT_TOO_HIGH: 1};
     a(n, r), e.exports = n, n.prototype._reset = function () {
         this.content = null, this.buyPackText = null, this.articleBoxContainer = null, this.articleBox = null, this.hardCurrencyAmountMissing = 0
@@ -64774,8 +64819,8 @@
         })
     }
 
-    i(1128);
-    var o = i(213), s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(789),
+    i(1130);
+    var o = i(213), s = i(38).getText, a = i(28).inherits, r = i(418), l = i(24), c = i(791),
         d = {PENDING: 0, FAILED: 1, SUCCEEDED: 2};
     a(n, r), e.exports = n, n.prototype._reset = function () {
         this.windowBody.clearContent(), this._content = null, this._description = null, this._spinner = null, this._pendingPurchases = [], this._purchasesDetails = {}, this._isProcessing = !1
@@ -64884,7 +64929,7 @@
         })
     }
 
-    i(1130);
+    i(1132);
     var o = i(28).inherits, s = i(418), a = i(24), r = "/recaptcha";
     o(n, s), e.exports = n, n.prototype.update = function (e) {
         var t = {type: "recaptchaLoad", sitekey: e.enrichData.sitekey, lang: window.Config.language || "en"},
@@ -64906,7 +64951,7 @@
         e.autoRemoveTimeout = null, e.replaceClassNames(["blocking"], ["warning"])
     }
 
-    i(1132);
+    i(1134);
     var s = i(38).getText, a = i(217), r = i(28).inherits, l = i(53), c = i(199), d = l.WARNING, u = l.BLOCKING,
         h = 15e3;
     r(n, c), e.exports = n, n.prototype._createContent = function () {
@@ -64965,10 +65010,10 @@
         })
     }
 
-    i(1134);
+    i(1136);
     var o = i(28).inherits, s = i(199), a = i(98), r = i(213), l = i(320), c = i(7), d = i(26).dimensions, u = i(38),
-        h = u.getText, p = i(56), m = i(217), f = i(55), g = i(35), _ = i(32), v = i(276), y = i(24), b = i(1135),
-        M = i(1140), w = i(1142), T = i(1144), C = i(1148), A = i(1151), I = i(1139).connectMethod, S = !0,
+        h = u.getText, p = i(56), m = i(217), f = i(55), g = i(35), _ = i(32), v = i(276), y = i(24), b = i(1137),
+        M = i(1142), w = i(1144), T = i(1146), C = i(1150), A = i(1153), I = i(1141).connectMethod, S = !0,
         E = I.lastCharacter, x = 670, N = {UPDATE_DOM: 0, RELOAD_PAGE: 1}, L = i(6).TOTAL_MAP_ASSETS_SIZE_IN_GB;
     o(n, s), e.exports = n, n.prototype._createContent = function () {
         function e(e) {
@@ -65153,8 +65198,8 @@
         })), this.createChild("div", {className: "greenLine"})
     }
 
-    i(1136);
-    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(32), c = i(56), d = i(1137);
+    i(1138);
+    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(32), c = i(56), d = i(1139);
     o(n, s), e.exports = n, n.prototype.refresh = function () {
         this._btnPlay.enable(), this._btnPlay.setText(r("ui.common.play")), this._hasAnAccount.setText(r("tablet.login.haveLogin")), this._connectionOptions.refresh(), this._update()
     }, n.prototype._update = function () {
@@ -65191,8 +65236,8 @@
         })
     }
 
-    i(1138);
-    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(217), c = i(409), d = i(32), u = i(1139);
+    i(1140);
+    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(217), c = i(409), d = i(32), u = i(1141);
     o(n, s), e.exports = n, n.prototype.refresh = function () {
         this._forgottenPassword && (this._forgottenPassword.setText(r("ui.login.forgottenPassword")), this._forgottenPassword.link = r("tablet.link.findPassword")), this._connectionOptions.setText(r("tablet.login.connectionOptions")), this.connectionMethodSelector.clearContent();
         for (var e in u.connectMethod)this.connectionMethodSelector.addOption(r("tablet.login.connectionOption." + e), e);
@@ -65215,7 +65260,9 @@
                 twitterAccountId: "DOFUSTouch_EN"
             },
             fallbackLanguage: "en"
-        }, connectMethod: {manual: "manual", lastServer: "lastServer", lastCharacter: "lastCharacter"}
+        }, connectMethod: {
+            manual: "manual", lastServer: "lastServer", lastCharacter: "lastCharacter"
+        }
     }
 }, function (e, t, i) {
     function n(e) {
@@ -65223,9 +65270,7 @@
         var t = this;
         this.createChild("div", {className: ["frame", "frame1"]});
         var i = this.createChild("div", {className: "content"});
-        i.createChild("div", {
-            className: "dofusTouchLogo"
-        });
+        i.createChild("div", {className: "dofusTouchLogo"});
         var n = i.createChild("div", {className: "form"});
         this._introText = n.createChild("div", {className: "introText"}), this._btnPlay = n.createChild("div", {className: "horizontalCenter"}).appendChild(new a({
             className: ["button", "buttonPlay"],
@@ -65237,8 +65282,8 @@
         })), this.createChild("div", {className: "greenLine"})
     }
 
-    i(1141);
-    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(56), c = i(1137);
+    i(1143);
+    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(56), c = i(1139);
     o(n, s), e.exports = n, n.prototype.refresh = function () {
         var e = l.getHaapiUsername();
         this._introText.setText(r("tablet.token.desc", e)), this._btnPlay.setText(r("ui.common.play")), this._guestLink.setText(r("tablet.token.notme", e)), this._connectionOptions.refresh(), this._update()
@@ -65275,9 +65320,9 @@
         })), this.createChild("div", {className: "greenLine"})
     }
 
-    i(1143);
-    var o = i(28).inherits, s = i(199), a = i(213), r = i(480), l = i(38).getText, c = i(407), d = i(313), u = i(32),
-        h = i(1137);
+    i(1145);
+    var o = i(28).inherits, s = i(199), a = i(213), r = i(486), l = i(38).getText, c = i(407), d = i(313), u = i(32),
+        h = i(1139);
     o(n, s), e.exports = n, n.prototype.refresh = function () {
         this._labelLogin.setText(l("ui.login.username")), this._labelPassword.setText(l("ui.login.password")), this._btnPlay.setText(l("ui.common.play")), this._rememberName.setText(l("tablet.login.rememberMe")), this._guestLink.setText(l("tablet.login.noAccount")), this._connectionOptions.refresh(), this._update()
     }, n.prototype._update = function () {
@@ -65340,8 +65385,8 @@
         })
     }
 
-    i(1145);
-    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(56), c = i(217), d = i(1146), u = i(35),
+    i(1147);
+    var o = i(28).inherits, s = i(199), a = i(213), r = i(38).getText, l = i(56), c = i(217), d = i(1148), u = i(35),
         h = i(36).getPosition, p = 5e3, m = 288e5, f = 600, g = 475, _ = 3, v = 20;
     o(n, s), e.exports = n, n.prototype.refresh = function () {
         this.retractableBlock.show(), this.retractableBlock.setTitle(r("tablet.login.news")), this._update()
@@ -65416,7 +65461,7 @@
         })), this._subTitle = this._titleBox.createChild("div", {className: "subTitle"}), this._retractable = i.createChild("div", {className: "retractable"}), r.push(this)
     }
 
-    i(1147);
+    i(1149);
     var o = i(28).inherits, s = i(199), a = i(213), r = [];
     o(n, s), e.exports = n, n.prototype.getContainer = function () {
         return this._retractable
@@ -65494,8 +65539,8 @@
         return e = e.replace(/(?:\r\n|\r|\n)/g, "<br />")
     }
 
-    i(1149);
-    var l = i(28).inherits, c = i(199), d = i(1150), u = i(38).getText, h = i(56), p = i(217), m = i(1146);
+    i(1151);
+    var l = i(28).inherits, c = i(199), d = i(1152), u = i(38).getText, h = i(56), p = i(217), m = i(1148);
     l(n, c), e.exports = n, n.prototype.refresh = function () {
         this.retractableBlock.show(), this.retractableBlock.setTitle(u("tablet.login.changelog")), this._update()
     }, n.prototype._update = function () {
@@ -66024,7 +66069,7 @@
         })
     }
 
-    i(1153);
+    i(1155);
     var o = i(28).inherits, s = i(199);
     o(n, s), e.exports = n, n.prototype._createContent = function () {
         this.log = this.createChild("div", {className: "logBox"}), this.createChild("div", {className: "dofusLogo"}), this.createChild("div", {className: ["spinner", "splashSpinner"]})
@@ -66075,8 +66120,8 @@
         })
     }
 
-    i(1155);
-    var o = i(28).inherits, s = i(418), a = i(24), r = i(407), l = i(38).getText, c = i(213), d = i(1156), u = i(480),
+    i(1157);
+    var o = i(28).inherits, s = i(418), a = i(24), r = i(407), l = i(38).getText, c = i(213), d = i(1158), u = i(486),
         h = i(217), p = {};
     p[d.ALREADY_USED] = "ui.nickname.alreadyUsed", p[d.SAME_AS_LOGIN] = "ui.nickname.equalsLogin", p[d.TOO_SIMILAR_TO_LOGIN] = "ui.nickname.similarToLogin", p[d.INVALID_NICK] = "ui.nickname.invalid", p[d.UNKNOWN_NICK_ERROR] = "ui.nickname.unknown", o(n, s), e.exports = n
 }, function (e, t) {
@@ -66106,7 +66151,7 @@
         }
 
         function n() {
-            f.openUrlInAppBrowser(this.link)
+            f.openUrlInAppBrowser(this.link);
         }
 
         function o(e) {
@@ -66118,9 +66163,10 @@
 
         var _ = m.screenHeight > 655;
         s.call(this, {
-            className: "RegisterWindow", title: "", positionInfo: {
-                left: "c", top: "c", width: 450, height: _ ? 640 : 550, isFullScreen: !0
-            }, noCloseButton: !0
+            className: "RegisterWindow",
+            title: "",
+            positionInfo: {left: "c", top: "c", width: 450, height: _ ? 640 : 550, isFullScreen: !0},
+            noCloseButton: !0
         }), _ && this.addClassNames("large");
         var v, y, b = this, M = this.windowBody, w = function () {
             }, T = w, C = M.createChild("div", {className: "formWrapper"}),
@@ -66178,9 +66224,9 @@
         })
     }
 
-    i(1158);
+    i(1160);
     var o = i(28).inherits, s = i(418), a = i(407), r = i(38).getText, l = i(213), c = l.DofusButton, d = i(56),
-        u = i(480), h = i(14), p = i(313), m = i(26).dimensions, f = i(217), g = 3;
+        u = i(486), h = i(14), p = i(313), m = i(26).dimensions, f = i(217), g = 3;
     o(n, s), e.exports = n
 }, function (e, t) {
 }, function (e, t, i) {
@@ -66309,8 +66355,8 @@
         })["catch"](t)
     }
 
-    i(1160);
-    var g = i(161), _ = i(213), v = i(38).getText, y = i(28).inherits, b = i(800), M = i(162), w = i(432), T = i(44),
+    i(1162);
+    var g = i(161), _ = i(213), v = i(38).getText, y = i(28).inherits, b = i(802), M = i(162), w = i(432), T = i(44),
         C = i(39), A = i(418), I = i(6).TOTAL_MAP_ASSETS_SIZE_IN_GB, S = 1e4,
         E = {DISCLAIMER: 0, DOWNLOAD_PREPARE: 1, DOWNLOAD_ACTIVE: 2, DOWNLOAD_STOP: 3, DOWNLOAD_DONE: 4, ERROR: 5};
     y(o, A), e.exports = o, o.prototype._clearState = function () {
@@ -66434,7 +66480,7 @@
         return e ? e.connectedServerData : null
     }
 
-    i(1162);
+    i(1164);
     var s = i(213).DofusButton, a = i(38).getText, r = i(28).inherits, l = i(55), c = i(418), d = i(24);
     r(n, c), e.exports = n, n.prototype._setupEventListeners = function () {
         var e = this;
@@ -66469,7 +66515,7 @@
         }), this.messageStack = []
     }
 
-    i(1164);
+    i(1166);
     var o = i(28).inherits, s = i(418), a = i(24), r = i(213).DofusButton, l = i(38).getText, c = i(217);
     o(n, s), e.exports = n, n.prototype._createContent = function () {
         function e() {
@@ -66519,9 +66565,9 @@
     var u = {enable: a, disable: r, isEnabled: l};
     e.exports = u
 }, function (e, t, i) {
-    i(1167), i(1204), i(1207), i(1210), i(1212), i(1213), i(1214), i(1215), e.exports = i(1168)
+    i(1169), i(1206), i(1209), i(1212), i(1214), i(1215), i(1216), i(1217), e.exports = i(1170)
 }, function (e, t, i) {
-    var n = i(1168), o = i(781), s = o.compressPath, a = i(24), r = i(38).getText, l = i(52), c = i(109), d = 3e3,
+    var n = i(1170), o = i(783), s = o.compressPath, a = i(24), r = i(38).getText, l = i(52), c = i(109), d = 3e3,
         u = 1e3;
     n.prototype.onArrived = function (e) {
         if (window.dofus.sendMessage("GameMapMovementConfirmMessage", null), this.mapRenderer.removeMovementFeedback(), this.endMovementCallback) {
@@ -66668,8 +66714,8 @@
         }
     }
 
-    var o = i(28).inherits, s = i(18).EventEmitter, a = i(6), r = i(989), l = i(983), c = i(1169), d = i(1178),
-        u = i(1185), h = i(1188), p = i(259), m = i(24), f = i(302), g = i(1203), _ = i(52), v = i(109);
+    var o = i(28).inherits, s = i(18).EventEmitter, a = i(6), r = i(991), l = i(985), c = i(1171), d = i(1180),
+        u = i(1187), h = i(1190), p = i(259), m = i(24), f = i(302), g = i(1205), _ = i(52), v = i(109);
     o(n, s), e.exports = n, n.prototype._loadBitmapFonts = function () {
         if (null === this.bitmapFonts) {
             var e = this;
@@ -66760,9 +66806,9 @@
         j = i
     }
 
-    var a = i(1170), r = i(18).EventEmitter, l = i(28).inherits, c = i(768), d = i(6), u = i(1171), h = i(5),
-        p = i(262), m = i(258), f = i(773), g = i(1172), _ = i(1173), v = i(1174), y = i(1175), b = i(776), M = i(781),
-        w = i(1176), T = i(52), C = i(109), A = d.IMG_PATH, I = d.BACKGROUND_PATH, S = d.FOREGROUND_PATH,
+    var a = i(1172), r = i(18).EventEmitter, l = i(28).inherits, c = i(770), d = i(6), u = i(1173), h = i(5),
+        p = i(262), m = i(258), f = i(775), g = i(1174), _ = i(1175), v = i(1176), y = i(1177), b = i(778), M = i(783),
+        w = i(1178), T = i(52), C = i(109), A = d.IMG_PATH, I = d.BACKGROUND_PATH, S = d.FOREGROUND_PATH,
         E = {r: 255, g: 0, b: 0, a: .75}, x = {r: 0, g: 0, b: 0, a: 1}, N = 1, L = 2, O = 52, D = -d.CELL_HEIGHT / 4,
         R = 131, P = 14, B = 56, k = 224, z = d.NB_CELLS, F = d.CELL_HEIGHT, H = 2, q = d.CELL_WIDTH,
         W = Math.round(1.5 * F), U = q + H, G = W + H;
@@ -67059,7 +67105,7 @@
         i !== -1 && (e.cells.splice(i, 1), e.bounds.splice(i, 1))
     }
 
-    var r = i(6), l = i(782), c = r.CELL_WIDTH, d = r.CELL_HEIGHT, u = r.HORIZONTAL_OFFSET - c,
+    var r = i(6), l = i(784), c = r.CELL_WIDTH, d = r.CELL_HEIGHT, u = r.HORIZONTAL_OFFSET - c,
         h = r.VERTICAL_OFFSET - d / 2, p = 19, m = p + .225, f = Math.sqrt(2), g = f / 2, _ = f / c, v = f / d, y = 33,
         b = 34, M = 14, w = 2 * M;
     e.exports = o, o.prototype.getCoordinateGridFromCellId = function (e) {
@@ -67317,7 +67363,7 @@
         }
     }
 
-    var d = i(6), u = i(773), h = i(28).inherits, p = i(270).easing, m = i(270).Tween, f = i(270).Delay, g = i(262),
+    var d = i(6), u = i(775), h = i(28).inherits, p = i(270).easing, m = i(270).Tween, f = i(270).Delay, g = i(262),
         _ = [], v = [], y = null, b = !1, M = 60, w = 60, T = 24, C = 2, A = 2 * (T + C),
         I = {up: 0, down: 180, left: -90, right: 90, upLeft: -45, upRight: 45, downLeft: -135, downRight: 135}, S = 3,
         E = 3;
@@ -67426,7 +67472,7 @@
         }
     }
 
-    var o = i(768), s = i(1177), a = i(6), r = i(256), l = i(987), c = i(988), d = a.GRID_ALTITUDE_OFFSET,
+    var o = i(770), s = i(1179), a = i(6), r = i(256), l = i(989), c = i(990), d = a.GRID_ALTITUDE_OFFSET,
         u = a.CELL_WIDTH, h = a.CELL_HEIGHT, p = u / 2, m = h / 2, f = 1;
     e.exports = n, n.prototype.destroy = function () {
         null !== this.gfx && this.gfx.remove(), this._lineBatch && (this._lineBatch.remove(), this._lineBatch = null), this._boxBatch && (this._boxBatch.remove(), this._boxBatch = null)
@@ -67460,7 +67506,7 @@
         return o
     }
 
-    var r = i(782), l = i(6), c = i(985), d = l.GRID_ALTITUDE_OFFSET, u = l.CELL_WIDTH, h = l.CELL_HEIGHT, p = .325,
+    var r = i(784), l = i(6), c = i(987), d = l.GRID_ALTITUDE_OFFSET, u = l.CELL_WIDTH, h = l.CELL_HEIGHT, p = .325,
         m = 1.338, f = 20.225, g = l.HORIZONTAL_OFFSET - u / 2 - p, _ = l.VERTICAL_OFFSET - h / 2 - m, v = Math.sqrt(2),
         y = v / 2, b = v / u, M = v / h;
     e.exports.getZoneOutlines = a
@@ -67475,8 +67521,8 @@
         return window.isoEngine.mapRenderer.getCellId(n.x, n.y)
     }
 
-    var s = i(6), a = i(768), r = i(28).inherits, l = i(773), c = i(985), d = i(986), u = i(987), h = i(988),
-        p = i(1179), m = i(1183), f = i(270).Tween, g = i(1184), _ = i(27), v = i(109), y = s.CELL_WIDTH,
+    var s = i(6), a = i(770), r = i(28).inherits, l = i(775), c = i(987), d = i(988), u = i(989), h = i(990),
+        p = i(1181), m = i(1185), f = i(270).Tween, g = i(1186), _ = i(27), v = i(109), y = s.CELL_WIDTH,
         b = s.CELL_HEIGHT, M = s.GRID_ALTITUDE_OFFSET, w = s.MAP_LAYER_BACKGROUND, T = y / 2, C = b / 2,
         A = [0, 0, 0, 1], I = [.569, .522, .38, 1], S = [.8, .8, .8, .8];
     r(n, l), e.exports = n, n.prototype.resetAndClear = function () {
@@ -67621,7 +67667,7 @@
         this._gridOverlay = new o, this._gridOverlay.hide(), this._layers = new a, this._layersBeingRemoved = new a
     }
 
-    var o = i(1180), s = i(1182), a = i(261), r = i(71), l = i(72);
+    var o = i(1182), s = i(1184), a = i(261), r = i(71), l = i(72);
     e.exports = n, n.prototype.addGridAnimation = function (e) {
         if (0 === Object.keys(e).length)return console.error("Trying to add animation with no cells!"), null;
         this._gridOverlay.show();
@@ -67671,11 +67717,10 @@
             layer: -1,
             id: "gridFeedbackOverlay"
         };
-        s.call(this, e), this._bbox = [1 / 0, -(1 / 0), 1 / 0, -(1 / 0)], this._boxByteSize = this.renderer.getNbBytesPerBox(),
-            this.createGrid(), this.forceRefresh(), this._updated = !1
+        s.call(this, e), this._bbox = [1 / 0, -(1 / 0), 1 / 0, -(1 / 0)], this._boxByteSize = this.renderer.getNbBytesPerBox(), this.createGrid(), this.forceRefresh(), this._updated = !1
     }
 
-    var o = i(1181), s = i(253), a = i(28).inherits, r = i(6), l = i(768), c = i(986), d = r.CELL_WIDTH,
+    var o = i(1183), s = i(253), a = i(28).inherits, r = i(6), l = i(770), c = i(988), d = r.CELL_WIDTH,
         u = r.CELL_HEIGHT, h = d / 2, p = u / 2;
     a(n, s), e.exports = n, n.prototype.createGrid = function () {
         this.spriteBoxes = [], this._vertexBuffer = new ArrayBuffer(r.NB_CELLS * this._boxByteSize);
@@ -67824,7 +67869,7 @@
         r.call(this, e), this.indexText = document.createElement("canvas"), this.indexText.width = e.w, this.indexText.height = e.h, this.indexTextContext = this.indexText.getContext("2d"), this.indexTextContext.font = "20px Verdana", this.indexTextContext.fillStyle = "rgba(0,0,0,0.6)", this.indexTextContext.textAlign = "center"
     }
 
-    var o = i(6), s = i(768), a = i(28).inherits, r = i(773), l = o.CELL_WIDTH, c = o.CELL_HEIGHT,
+    var o = i(6), s = i(770), a = i(28).inherits, r = i(775), l = o.CELL_WIDTH, c = o.CELL_HEIGHT,
         d = o.GRID_ALTITUDE_OFFSET, u = l / 2;
     a(n, r), e.exports = n, n.prototype.generateOverlay = function (e) {
         this._generateOverlay(e)
@@ -67873,7 +67918,7 @@
         }), this.fighterIndicator = null, this._onIdAdded = {}, this._queuedToCarryActors = {}, this._nickNamesOn = !1
     }
 
-    var o = i(764), s = i(27), a = i(782), r = i(781), l = i(6), c = i(1186), d = i(242), u = i(776), h = i(1187),
+    var o = i(766), s = i(27), a = i(784), r = i(783), l = i(6), c = i(1188), d = i(242), u = i(778), h = i(1189),
         p = i(52), m = i(109), f = i(32), g = .001, _ = 1.5, v = .38, y = .002, b = .5, M = .2;
     e.exports = n, n.prototype.onGameContextChanged = function () {
         m.isRoleplayMode ? this.cleanupActorAnimations() : this.turnNicknamesOff()
@@ -68484,8 +68529,8 @@
         }
     }
 
-    var f, g, _, v, y, b, M, w = i(14), T = i(1189), C = i(1195), A = i(1197), I = i(1199), S = i(1200), E = i(1201),
-        x = i(1202), N = i(109), L = i(225).FIGHT_STATES, O = {
+    var f, g, _, v, y, b, M, w = i(14), T = i(1191), C = i(1197), A = i(1199), I = i(1201), S = i(1202), E = i(1203),
+        x = i(1204), N = i(109), L = i(225).FIGHT_STATES, O = {
             GameMapMovementMessage: I.mapMovement,
             GameActionFightSlideMessage: I.slideMovement,
             GameActionFightTeleportOnSameMapMessage: I.teleport,
@@ -68611,7 +68656,7 @@
             var u = new P({scene: window.isoEngine.mapScene, position: s, x: d.x, y: d.y - (r || 0)});
             if (c) {
                 var h;
-                h = c === q.TOWARD_POSITION2 ? a(s, l) : a(l, s), u.rotation = z[o] ? h + Math.PI : h
+                h = c === W.TOWARD_POSITION2 ? a(s, l) : a(l, s), u.rotation = F[o] ? h + Math.PI : h
             }
             return t["_" + n + "Orientation"] = o, t["_" + n] = u, e.loadAnimationManager(u, i + "/FX"), u
         }
@@ -68652,9 +68697,12 @@
         E && (b = n.position);
         var N = [];
         y.exec(s);
-        for (var L = 1; L < o.length && !x; L += 1) {
-            var O = o[L], R = a.getCoordinateGridFromCellId(O);
-            s(R.i, R.j)
+        for (var L = Object.keys(o), O = [], R = 0; R < L.length && !x; R++)O.push(o[L[R]]);
+        var P = z.createPropertyNameCompareFunc("distanceToPlayer");
+        O.sort(P);
+        for (var B = 1; B < O.length && !x; B++) {
+            var k = O[B], F = a.getCoordinateGridFromCellId(k.cellId);
+            s(F.i, F.j)
         }
         t._trailGfxs = N, t._trailGfxsOrientation = u
     }
@@ -68679,9 +68727,9 @@
 
     function p(e, t) {
         switch (e) {
-            case H.RANDOM:
+            case q.RANDOM:
                 return Math.floor(8 * Math.random());
-            case H.ORIENTED:
+            case q.ORIENTED:
                 return t;
             default:
                 return 0
@@ -68689,7 +68737,7 @@
     }
 
     function m(e, t, i) {
-        return t === H.ORIENTED ? q.NONE : e ? i ? q.TOWARD_POSITION2 : q.TOWARD_POSITION1 : q.NONE
+        return t === q.ORIENTED ? W.NONE : e ? i ? W.TOWARD_POSITION2 : W.TOWARD_POSITION1 : W.NONE
     }
 
     function f(e) {
@@ -68748,7 +68796,7 @@
     }
 
     function y(e, t, i) {
-        s(e, t.sourceId, {base: "AnimThrow"}, i), t._throwingProjectile = l(e, t.sourceId, F), t._direction = o(t.sourceId, i).direction
+        s(e, t.sourceId, {base: "AnimThrow"}, i), t._throwingProjectile = l(e, t.sourceId, H), t._direction = o(t.sourceId, i).direction
     }
 
     function b(e, t) {
@@ -68799,15 +68847,15 @@
             n.nAssetsLoaded += 1, n.nAssetsLoaded === n.nAssetsToLoad && t()
         };
         for (var o = 0; o < e.length; o++) {
-            var s = e[o], a = W[s._messageType];
+            var s = e[o], a = U[s._messageType];
             a && a(this, s, i)
         }
         this.onAssetsLoaded()
     }
 
-    var x = i(782), N = i(768), L = i(1190), O = i(6), D = i(1191), R = i(1192), P = i(257),
-        B = i(1194).getSpellEffectZone, k = i(258), z = O.ANIM_SYMETRY, F = "21209",
-        H = {NORMAL: 0, RANDOM: 1, ORIENTED: 2}, q = {NONE: 0, TOWARD_POSITION1: 1, TOWARD_POSITION2: 2}, W = {
+    var x = i(784), N = i(770), L = i(1192), O = i(6), D = i(1193), R = i(1194), P = i(257),
+        B = i(1196).getSpellEffectZone, k = i(258), z = i(217), F = O.ANIM_SYMETRY, H = "21209",
+        q = {NORMAL: 0, RANDOM: 1, ORIENTED: 2}, W = {NONE: 0, TOWARD_POSITION1: 1, TOWARD_POSITION2: 2}, U = {
             GameActionFightSpellCastMessage: g,
             GameActionFightCloseCombatMessage: g,
             GameActionFightChangeLookMessage: M,
@@ -68898,7 +68946,7 @@
         }
     }
 
-    var m, f, g = i(782), _ = {
+    var m, f, g = i(784), _ = {
         GameActionFightCloseCombatMessage: h,
         GameActionFightSpellCastMessage: h,
         GameMapMovementMessage: null,
@@ -68984,7 +69032,7 @@
         s.call(this, e, e.animManager), this.actorId = void 0 !== e.actorId ? e.actorId : null, this.path = [], this.step = 0, this.moving = !1
     }
 
-    var o = i(28).inherits, s = i(252), a = i(270).Tween, r = i(1193).prepare(3), l = i(1191), c = i(768), d = i(782),
+    var o = i(28).inherits, s = i(252), a = i(270).Tween, r = i(1195).prepare(3), l = i(1193), c = i(770), d = i(784),
         u = new l, h = {base: "FX", direction: 0};
     o(n, s), e.exports = n, n.prototype.isFx = !0, n.prototype.isTapped = function () {
         return !1
@@ -69158,7 +69206,7 @@
         return a
     }
 
-    var g = i(71), _ = i(782), v = i(72), y = 39;
+    var g = i(71), _ = i(784), v = i(72), y = 39;
     e.exports.getSpellRange = function (e, t, i) {
         var a, r = _.getMapPointFromCellId(t);
         return a = i.castInLine && i.castInDiagonal ? o(r.x, r.y, i.minRange, i.range).concat(s(r.x, r.y, i.minRange, i.range)) : i.castInLine ? o(r.x, r.y, i.minRange, i.range) : i.castInDiagonal ? s(r.x, r.y, i.minRange, i.range) : n(r.x, r.y, i.minRange, i.range)
@@ -69208,7 +69256,7 @@
         return o
     }
 }, function (e, t, i) {
-    var n = i(1196), o = i(1197), s = i(270).Delay, a = i(27), r = i(14), l = 17;
+    var n = i(1198), o = i(1199), s = i(270).Delay, a = i(27), r = i(14), l = 17;
     e.exports = function (e, t) {
         function i(i) {
             t.push(function (t) {
@@ -69378,7 +69426,7 @@
         })
     }
 
-    var l = i(1198), c = i(6), d = i(270).Tween, u = i(270).easing, h = i(270).Delay, p = i(27), m = i(231),
+    var l = i(1200), c = i(6), d = i(270).Tween, u = i(270).easing, h = i(270).Delay, p = i(27), m = i(231),
         f = [0, 0, 0, 0], g = [.5, -.3, -.3, 0], _ = [.3, .3, -.5, 0], v = [-.2, -.3, .5, 0], y = [.2, .5, -.2, 0],
         b = [.3, 0, .5, 0], M = {};
     M[m.ACTION_CHARACTER_ACTION_POINTS_USE] = v, M[m.ACTION_CHARACTER_MOVEMENT_POINTS_USE] = y, M[m.ACTION_CHARACTER_MOVEMENT_POINTS_LOST] = y, M[m.ACTION_CHARACTER_ACTION_POINTS_LOST] = v, M[m.ACTION_CHARACTER_BOOST_ACTION_POINTS] = v, M[m.ACTION_CHARACTER_DEBOOST_ACTION_POINTS] = v, M[m.ACTION_CHARACTER_BOOST_MOVEMENT_POINTS] = y, M[m.ACTION_CHARACTER_DEBOOST_MOVEMENT_POINTS] = y, M[m.ACTION_CHARACTER_ACTION_POINTS_WIN] = v;
@@ -69490,7 +69538,8 @@
     }, t.exchangePositions = function (e, t) {
         var n = window.actorManager.getActor(e.sourceId), o = window.actorManager.getActor(e.targetId);
         t.push(function (t) {
-            return window.gui.transmitFightSequenceMessage(e), n && n.setDisposition(e.casterCellId), o && o.setDisposition(e.targetCellId), i(e.sourceId), i(e.targetId), t()
+            return window.gui.transmitFightSequenceMessage(e), n && n.setDisposition(e.casterCellId), o && o.setDisposition(e.targetCellId),
+                i(e.sourceId), i(e.targetId), t()
         })
     }
 }, function (e, t, i) {
@@ -69504,9 +69553,8 @@
             var m = e.cells[d], f = m.cellId, g = r.parseIndexedColor(m.cellColor).color,
                 _ = "rgba(" + g.r + "," + g.g + "," + g.b + ", 0.6)",
                 v = "rgba(" + g.r + "," + g.g + "," + g.b + ", 0.3)",
-                y = 0 === m.cellsType ? s.getCircleArea : s.getCrossArea, b = y(o.cells, f, m.zoneSize), M = {
-                    spellId: e.markSpellId
-                }, w = new c(b, {color: v, outline: _, data: M});
+                y = 0 === m.cellsType ? s.getCircleArea : s.getCrossArea, b = y(o.cells, f, m.zoneSize),
+                M = {spellId: e.markSpellId}, w = new c(b, {color: v, outline: _, data: M});
             if (l) {
                 var T = a.cellCoord[f];
                 l.x = T.x, l.y = T.y, l.position = f - .1, l.animManager.assignSymbol(u, !1), w.gfx = l
@@ -69521,7 +69569,7 @@
         })) : void n(e)
     }
 
-    var s = i(1194), a = i(768), r = i(256), l = i(257), c = i(1176), d = i(258), u = {base: "FX", direction: 0},
+    var s = i(1196), a = i(770), r = i(256), l = i(257), c = i(1178), d = i(258), u = {base: "FX", direction: 0},
         h = {};
     t.addMark = function (e, t) {
         t.push(function (t) {
@@ -69685,8 +69733,8 @@
         o.start()
     }
 
-    var a = i(6), r = i(1168), l = i(782), c = i(38).getText, d = i(38).getTextFailover, u = i(1198), h = i(1205),
-        p = i(764), m = i(1197), f = i(225).FIGHT_STATES, g = i(1206).trueName, _ = i(270), v = _.Delay, y = _.Tween,
+    var a = i(6), r = i(1170), l = i(784), c = i(38).getText, d = i(38).getTextFailover, u = i(1200), h = i(1207),
+        p = i(766), m = i(1199), f = i(225).FIGHT_STATES, g = i(1208).trueName, _ = i(270), v = _.Delay, y = _.Tween,
         b = _.easing, M = {red: 1.7, green: 1.7, blue: 1.7, alpha: 1}, w = 10, T = {DEFAULT: 1, QUEUE: 2},
         C = [{elementTypeId: 16, skillId: 114}, {elementTypeId: -1, skillId: 84}, {
             elementTypeId: -1,
@@ -70039,8 +70087,8 @@
         return n.path
     }
 
-    var r = i(1168), l = i(1208), c = i(781).compressPath, d = i(1191), u = i(782), h = i(98).playUiSound, p = i(71),
-        m = i(72), f = i(1209), g = i(27), _ = i(1206).trueName, v = i(33), y = null, b = null, M = !1, w = null,
+    var r = i(1170), l = i(1210), c = i(783).compressPath, d = i(1193), u = i(784), h = i(98).playUiSound, p = i(71),
+        m = i(72), f = i(1211), g = i(27), _ = i(1208).trueName, v = i(33), y = null, b = null, M = !1, w = null,
         T = new d;
     r.prototype.fightTurnStart = function (e) {
         this._previousTurn = this._isUserTurn, this._isUserTurn = e, window.background.hideTargetHighlights(), this._resetFightPositionLayer(), this._previousTurn !== this._isUserTurn && (e ? this._enemyToUserTurn() : this._userToEnemyTurn()), this._resetWalkLayer(), s()
@@ -70276,7 +70324,7 @@
         return i
     }
 
-    var d = i(782), u = i(242), h = i(1188), p = u.INVISIBLE, m = u.DETECTED, f = 6, g = 95, _ = 96;
+    var d = i(784), u = i(242), h = i(1190), p = u.INVISIBLE, m = u.DETECTED, f = 6, g = 95, _ = 96;
     t.getReachableZone = c
 }, function (e, t, i) {
     function n(e, t) {
@@ -70289,7 +70337,7 @@
         return r
     }
 
-    var s = i(782), a = s.getMapPointFromCellId;
+    var s = i(784), a = s.getMapPointFromCellId;
     e.exports.getCellDistance = n, e.exports.getDistance = o
 }, function (e, t, i) {
     function n(e, t, i, n) {
@@ -70306,11 +70354,10 @@
         return t
     }
 
-    var o = i(1168), s = i(1194), a = i(1206).trueName, r = i(782), l = r.getCellIdFromMapPoint, c = i(1211), d = i(71),
+    var o = i(1170), s = i(1196), a = i(1208).trueName, r = i(784), l = r.getCellIdFromMapPoint, c = i(1213), d = i(71),
         u = i(72), h = r.getMapPointFromCellId, p = null, m = null;
     o.prototype._initGridOverlayLayers = function () {
-        this._fightPositionLayer = null, this._spellRangeLayer = null, this._spellEffectLayer = null, this._walkLayer = null,
-            this._walkAreaLayer = null, this._enemyWalkAreaLayer = null
+        this._fightPositionLayer = null, this._spellRangeLayer = null, this._spellEffectLayer = null, this._walkLayer = null, this._walkAreaLayer = null, this._enemyWalkAreaLayer = null
     }, o.prototype._resetFightPositionLayer = function (e) {
         this.background.removeGridLayer(this._fightPositionLayer), this._fightPositionLayer = e ? this.background.addGridAnimation(e) : null
     }, o.prototype._resetSpellRangeLayer = function (e) {
@@ -70476,7 +70523,7 @@
         }
     }
 
-    var a = i(1168), r = i(6), l = i(225), c = i(659), d = i(221), u = i(870), h = i(262), p = i(773), m = i(109),
+    var a = i(1170), r = i(6), l = i(225), c = i(661), d = i(221), u = i(872), h = i(262), p = i(775), m = i(109),
         f = l.FIGHT_OPTION_KEY_TO_ENUM, g = l.FIGHT_OPTION_ICON_ID, _ = {};
     o.prototype.addTeam = function (e, t) {
         this.teams[e] = {id: e, contextualId: n(this.id, e), icons: {}, options: {}, cellId: t}
@@ -70556,8 +70603,8 @@
         }
     }
 }, function (e, t, i) {
-    var n = i(1168), o = i(14), s = i(1189), a = i(1195), r = i(251), l = i(98).playUiSound, c = i(6), d = i(1183),
-        u = i(1198), h = i(270), p = h.Tween, m = h.easing;
+    var n = i(1170), o = i(14), s = i(1191), a = i(1197), r = i(251), l = i(98).playUiSound, c = i(6), d = i(1185),
+        u = i(1200), h = i(270), p = h.Tween, m = h.easing;
     n.prototype.playEmote = function (e) {
         if (!this.actorManager.isCreatureModeOn) {
             var t = this.actorManager.getActor(e.actorId);
@@ -70626,7 +70673,7 @@
         })
     }
 }, function (e, t, i) {
-    var n = i(1168), o = 14, s = 40;
+    var n = i(1170), o = 14, s = 40;
     n.prototype._logMap = function (e) {
         e = e || [];
         for (var t = {}, i = 0; i < e.length; i++)t[e[i]] = !0;
@@ -70654,8 +70701,8 @@
         }), this.progressEgg.setAnimManager(new p(this.progressEgg, new m(""), 1.7, 0)), this.progressEggFrameTween = new c(this.progressEgg.animManager, ["frame"]), this.hide()
     }
 
-    var o = i(6), s = i(1168), a = i(781), r = i(5), l = i(259), c = i(270).Tween, d = i(270).easing, u = i(773),
-        h = i(1173), p = i(269), m = i(268), f = i(52), g = 1200, _ = 100, v = 20;
+    var o = i(6), s = i(1170), a = i(783), r = i(5), l = i(259), c = i(270).Tween, d = i(270).easing, u = i(775),
+        h = i(1175), p = i(269), m = i(268), f = i(52), g = 1200, _ = 100, v = 20;
     n.prototype.loadAssets = function (e) {
         var t = this.progressEgg.animManager, i = this.progressEgg.renderer;
         l.loadTemplate("loader", "loadingLogo", "", function (i) {
