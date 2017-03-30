@@ -7,9 +7,9 @@
   "main": "./main.js",
   "scripts": {
     "start": "electron .",
-    "dist-mac": "build --mac",
-    "dist-win": "docker run --rm -it -v `pwd`:/project electronuserland/electron-builder:wine /bin/bash -c 'npm install && ./node_modules/.bin/build --win'",
-    "dist-linux": "docker run --rm -it -v `pwd`:/project electronuserland/electron-builder:wine /bin/bash -c 'npm install && ./node_modules/.bin/build --linux'"
+    "install": "node ./install.js",
+    "dist:mac": "npm install && build --mac",
+    "dist:win": "npm install && build --win --ia32"
   },
   "build": {
     "appId": "me.caumette.remi.dofustouchemu",
