@@ -7,7 +7,7 @@
   "main": "./main.js",
   "scripts": {
     "start": "electron .",
-    "install": "node ./install.js",
+    "dofus:install": "node ./dofus_install.js",
     "dist:mac": "npm install && build --mac",
     "dist:win": "npm install && build --win --ia32"
   },

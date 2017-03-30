@@ -4,3 +4,6 @@
 node_modules/
 .DS_Store
 dist/
+app/ui/
+app/javascript/dofus.js
+app/stylesheet/dofus.css
