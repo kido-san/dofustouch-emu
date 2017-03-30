@@ -1,10 +1,9 @@
 Array.prototype.last = function () {
-    return this[this.length - 1];
+	return this[this.length - 1];
 };
 
 $(document).ready(() => {
     let isOnline = false;
-
     window.addEventListener("resize", () => window.gui._resizeUi());
 
     window.addEventListener("keydown", (event) => {
@@ -62,6 +61,67 @@ $(document).ready(() => {
                     window.gui.menuBar._icons._childrenList.find((icon) => icon.id == "Almanax").tap();
                     event.preventDefault();
                     break;
+					
+				case "0":
+				case "À": //0
+					window.gui.shortcutBar._panels.spell.slotList[0].tap();
+					event.preventDefault();
+                    break;
+					
+				case "1":
+				case "&": //1
+					window.gui.shortcutBar._panels.spell.slotList[1].tap();
+					event.preventDefault();
+                    break;
+					
+				case "2":
+				case "É":
+					window.gui.shortcutBar._panels.spell.slotList[2].tap();
+					event.preventDefault();
+                    break;
+					
+				case "3":
+				case "\"":
+					window.gui.shortcutBar._panels.spell.slotList[3].tap();
+					event.preventDefault();
+                    break;
+					
+				case "4":
+				case "'":
+					window.gui.shortcutBar._panels.spell.slotList[4].tap();
+					event.preventDefault();
+                    break;
+					
+				case "5":
+				case "(":
+					window.gui.shortcutBar._panels.spell.slotList[5].tap();
+					event.preventDefault();
+                    break;
+					
+				case "6":
+				case "-":
+					window.gui.shortcutBar._panels.spell.slotList[6].tap();
+					event.preventDefault();
+                    break;
+					
+				case "7":
+				case "È":
+					window.gui.shortcutBar._panels.spell.slotList[7].tap();
+					event.preventDefault();
+                    break;
+					
+				case "8":
+				case "_":
+					window.gui.shortcutBar._panels.spell.slotList[8].tap();
+					event.preventDefault();
+                    break;
+					
+				case "9":
+				case "Ç":
+					window.gui.shortcutBar._panels.spell.slotList[9].tap();
+					event.preventDefault();
+                    break;
+				
                 case " ":
                     switch (window.gui.fightManager.fightState) {
                         case window.gui.fightManager.FIGHT_STATES.PREPARATION:
