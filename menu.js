@@ -3,8 +3,10 @@ const menu = require("electron").Menu;
 
 module.exports = class Menu {
     static getTemplate() {
+        let template = [];
+
         if (process.platform === "darwin") {
-            return [{
+            template.push({
                 label: app.getName(),
                 submenu: [
                     {
@@ -29,37 +31,39 @@ module.exports = class Menu {
                         role: "quit"
                     }
                 ]
-            }];
-        } else {
-            return [{
-                label: "Edition",
-                submenu: [
-                    {
-                        label: "Annuler",
-                        role: "undo"
-                    },
-                    {
-                        type: "separator"
-                    },
-                    {
-                        label: "Couper",
-                        role: "cut"
-                    },
-                    {
-                        label: "Copier",
-                        role: "copy"
-                    },
-                    {
-                        label: "Coller",
-                        role: "paste"
-                    },
-                    {
-                        label: "Tout sélectionner",
-                        role: "selectall"
-                    }
-                ]
-            }];
+            });
         }
+
+        template.push({
+            label: "Edition",
+            submenu: [
+                {
+                    label: "Annuler",
+                    role: "undo"
+                },
+                {
+                    type: "separator"
+                },
+                {
+                    label: "Couper",
+                    role: "cut"
+                },
+                {
+                    label: "Copier",
+                    role: "copy"
+                },
+                {
+                    label: "Coller",
+                    role: "paste"
+                },
+                {
+                    label: "Tout sélectionner",
+                    role: "selectall"
+                }
+            ]
+        });
+
+        return template;
     }
 
     static buildMenu() {

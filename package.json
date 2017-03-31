@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "browser-es-module-loader": "^0.2.0",
-    "electron-notifications": "^1.0.0",
     "jquery": "^3.1.1"
   },
   "devDependencies": {

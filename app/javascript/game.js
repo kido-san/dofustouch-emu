@@ -2,7 +2,15 @@ Array.prototype.last = function () {
     return this[this.length - 1];
 };
 
-$(document).ready(() => {
+function sendNotification(body) {
+    if (document.hidden) {
+        new Notification(window.gui.playerData.characterBaseInformations.name, {
+            body: body
+        });
+    }
+}
+
+(() => {
     let isOnline = false;
 
     window.addEventListener("resize", () => window.gui._resizeUi());
@@ -165,4 +173,28 @@ $(document).ready(() => {
         isOnline = false;
         document.title = "DofusTouchEmu";
     });
-});
+
+    window.gui.on("FriendUpdateMessage", (data) => {
+        sendNotification(data.friendUpdated.playerName + " (" + data.friendUpdated.accountName + ") vient de se connecter.");
+    });
+
+    window.gui.on("ExchangeRequestedTradeMessage", (data) => {
+        if (window.gui.playerData.id != data.source) {
+            sendNotification(window.actorManager.actors[data.source].data.name + " vient de vous proposez un échange.");
+        }
+    });
+
+    window.gui.on("GameRolePlayPlayerFightFriendlyRequestedMessage", (data) => {
+        if (window.gui.playerData.id != data.sourceId) {
+            sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposez un défi.");
+        }
+    });
+
+    window.gui.on("GameRolePlayArenaFightPropositionMessage", () => {
+        sendNotification("Un kolizéum vient d'être trouvé.");
+    });
+
+    window.gui.on("PartyInvitationMessage", () => {
+        sendNotification("Vous venez de recevoir une invitation de groupe.");
+    });
+})();
