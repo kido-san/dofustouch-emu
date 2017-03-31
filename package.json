@@ -17,11 +17,12 @@
   },
   "dependencies": {
     "browser-es-module-loader": "^0.2.0",
-    "jquery": "^3.1.1",
-    "node-fetch": "^1.6.3"
+    "electron-notifications": "^1.0.0",
+    "jquery": "^3.1.1"
   },
   "devDependencies": {
     "electron": "^1.4.13",
-    "electron-builder": "next"
+    "electron-builder": "next",
+    "node-fetch": "^1.6.3"
   }
 }

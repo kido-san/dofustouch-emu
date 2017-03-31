@@ -157,7 +157,6 @@ $(document).ready(() => {
 
     window.gui.playerData.on("characterSelectedSuccess", () => {
         isOnline = true;
-
         $(document).find(".shopBtn.Button").parent().hide();
         document.title = window.gui.playerData.characterBaseInformations.name;
     });

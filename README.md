@@ -11,6 +11,7 @@ Téléchargement disponible [ici](https://github.com/remicaumette/dofustouch-emu
 $ git clone git@github.com:remicaumette/dofustouch-emu.git
 $ cd dofustouch-emu
 $ npm install
+$ npm run dofus:install
 $ npm start
 ```
 
