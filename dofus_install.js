@@ -46,7 +46,7 @@ function downloadAsset(fileName) {
         let destarr = fileName.split("/");
         destarr.shift();
         destarr.shift();
-        let destfolder = "";
+        let destfolder = "app/ui";
         let destname = destarr[0];
         for (let i = 1; i < destarr.length; i++) {
             destname = destname + "/" + destarr[i];
@@ -56,11 +56,16 @@ function downloadAsset(fileName) {
         }
         console.log("Downloading " + destname + "...");
         try {
-            fs.mkdirSync("./app/ui" + destfolder);
+            destfolder.split('/').forEach((dir, index, splits) => {
+                const parent = splits.slice(0, index).join('/');
+                const dirPath = path.resolve(parent, dir);
+                if (!fs.existsSync(dirPath)) {
+                    fs.mkdirSync(dirPath);
+                }
+            });
+            res.body.pipe(fs.createWriteStream("./app/ui/" + destname));
         } catch (e) {
         }
-        let dest = fs.createWriteStream("./app/ui/" + destname);
-        res.body.pipe(dest);
     }).catch(function (err) {
         if (err.code == "ECONNRESET" || err.code == "ETIMEDOUT") {
             downloadAsset(fileName);
