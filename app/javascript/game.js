@@ -2,17 +2,20 @@ Array.prototype.last = function () {
     return this[this.length - 1];
 };
 
-function sendNotification(body) {
-    if (document.hidden) {
-        new Notification(window.gui.playerData.characterBaseInformations.name, {
-            body: body
-        });
-    }
-}
-
 (() => {
     let isOnline = false;
+    let focused = true;
 
+    function sendNotification(body) {
+        if (document.hidden || !focused) {
+            new Notification(window.gui.playerData.characterBaseInformations.name, {
+                body: body
+            });
+        }
+    }
+
+    window.addEventListener("focus", () => focused = true);
+    window.addEventListener("blur", () => focused = false);
     window.addEventListener("resize", () => window.gui._resizeUi());
 
     window.addEventListener("keydown", (event) => {
@@ -163,38 +166,36 @@ function sendNotification(body) {
         }
     });
 
-    window.gui.playerData.on("characterSelectedSuccess", () => {
-        isOnline = true;
-        $(document).find(".shopBtn.Button").parent().hide();
-        document.title = window.gui.playerData.characterBaseInformations.name;
-    });
-
     window.gui.on("disconnect", () => {
         isOnline = false;
         document.title = "DofusTouchEmu";
     });
 
-    window.gui.on("FriendUpdateMessage", (data) => {
-        sendNotification(data.friendUpdated.playerName + " (" + data.friendUpdated.accountName + ") vient de se connecter.");
-    });
-
-    window.gui.on("ExchangeRequestedTradeMessage", (data) => {
-        if (window.gui.playerData.id != data.source) {
-            sendNotification(window.actorManager.actors[data.source].data.name + " vient de vous proposez un échange.");
+    window.dofus.connectionManager.on("data", (data) => {
+        switch (data._messageType) {
+            case "CharacterSelectedSuccessMessage":
+                isOnline = true;
+                $(document).find(".shopBtn.Button").parent().hide();
+                document.title = data.infos.name;
+                break;
+            case "ChatServerMessage":
+                if (data.channel == 9) sendNotification("Message de " + data.senderName + " : " + data.content);
+                break;
+            case "PartyInvitationMessage":
+                sendNotification(data.fromName + " vous invite à rejoindre son groupe.");
+                break;
+            case "GameRolePlayArenaFightPropositionMessage":
+                sendNotification("Un kolizéum vient d'être trouvé.");
+                break;
+            case "FriendUpdateMessage":
+                sendNotification(data.friendUpdated.playerName + " (" + data.friendUpdated.accountName + ") vient de se connecter.");
+                break;
+            case "ExchangeRequestedTradeMessage":
+                sendNotification(window.actorManager.actors[data.source].data.name + " vient de vous proposez un échange.");
+                break;
+            case "GameRolePlayPlayerFightFriendlyRequestedMessage":
+                sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposez un défi.");
+                break;
         }
-    });
-
-    window.gui.on("GameRolePlayPlayerFightFriendlyRequestedMessage", (data) => {
-        if (window.gui.playerData.id != data.sourceId) {
-            sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposez un défi.");
-        }
-    });
-
-    window.gui.on("GameRolePlayArenaFightPropositionMessage", () => {
-        sendNotification("Un kolizéum vient d'être trouvé.");
-    });
-
-    window.gui.on("PartyInvitationMessage", () => {
-        sendNotification("Vous venez de recevoir une invitation de groupe.");
     });
 })();
