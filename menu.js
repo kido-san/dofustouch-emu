@@ -56,6 +56,12 @@ module.exports = class Menu {
                             focusedWindow.webContents.toggleDevTools();
                         }
                     }
+                },
+                {
+                    label: "Activer / Désactiver le son",
+                    click (item, focusedWindow) {
+                        focusedWindow.webContents.setAudioMuted(!focusedWindow.webContents.isAudioMuted());
+                    }
                 }
             ]
         });
