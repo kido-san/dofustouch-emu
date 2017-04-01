@@ -1,5 +1,6 @@
 const app = require("electron").app;
 const menu = require("electron").Menu;
+const main = require("./main");
 
 module.exports = class Menu {
     static getTemplate() {
@@ -33,6 +34,31 @@ module.exports = class Menu {
                 ]
             });
         }
+
+        template.push({
+            label: "Jeu",
+            submenu: [
+                {
+                    label: "Nouvelle fenêtre",
+                    accelerator: "CommandOrControl+N",
+                    click () {
+                        main.newGameWindow();
+                    }
+                },
+                {
+                    type: "separator"
+                },
+                {
+                    label: "Console de développeur",
+                    accelerator: process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
+                    click (item, focusedWindow) {
+                        if (focusedWindow) {
+                            focusedWindow.webContents.toggleDevTools();
+                        }
+                    }
+                }
+            ]
+        });
 
         template.push({
             label: "Edition",
