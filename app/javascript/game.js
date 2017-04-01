@@ -185,16 +185,16 @@ Array.prototype.last = function () {
                 sendNotification(data.fromName + " vous invite à rejoindre son groupe.");
                 break;
             case "GameRolePlayArenaFightPropositionMessage":
-                sendNotification("Un kolizéum vient d'être trouvé.");
+                sendNotification("Un kolizéum vient d'être trouvé !");
                 break;
             case "FriendUpdateMessage":
                 sendNotification(data.friendUpdated.playerName + " (" + data.friendUpdated.accountName + ") vient de se connecter.");
                 break;
             case "ExchangeRequestedTradeMessage":
-                sendNotification(window.actorManager.actors[data.source].data.name + " vient de vous proposez un échange.");
+                sendNotification(window.actorManager.actors[data.source].data.name + " vient de vous proposer un échange.");
                 break;
             case "GameRolePlayPlayerFightFriendlyRequestedMessage":
-                sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposez un défi.");
+                sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposer un défi.");
                 break;
         }
     });
