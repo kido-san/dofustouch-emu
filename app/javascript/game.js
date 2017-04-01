@@ -162,6 +162,9 @@ Array.prototype.last = function () {
                             break;
                     }
                     break;
+                case "ENTER":
+                    window.gui.chat.activate();
+                    break;
             }
         }
     });
@@ -196,6 +199,10 @@ Array.prototype.last = function () {
             case "GameRolePlayPlayerFightFriendlyRequestedMessage":
                 sendNotification(window.actorManager.actors[data.sourceId].data.name + " vient de vous proposer un défi.");
                 break;
+            case "GameFightTurnStartMessage":
+                if (window.gui.playerData.id == data.id) sendNotification("Votre tour commence.");
+                break;
+
         }
     });
 })();
