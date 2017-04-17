@@ -1,4 +1,5 @@
 const {app, BrowserWindow} = require("electron");
+const Menu = require("./menu");
 
 let windows = [];
 
@@ -17,7 +18,7 @@ function newGameWindow() {
 }
 
 app.on("ready", () => {
-    require("./menu").buildMenu();
+    Menu.buildMenu();
     newGameWindow();
 });
 

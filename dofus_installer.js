@@ -1,8 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const fetch = require("node-fetch");
+
 const assetRegex = /cdvfile:\/\/localhost\/persistent\/data\/assets/g;
 const versionRegex = /,appVersion:.,/g;
-const fetch = require("node-fetch");
+const overrideConsoleRegex = /.\.overrideConsole=function\(\){(\s*?.*?)*?},/g;
 
 fetch("https://proxyconnection.touch.dofus.com/build/script.js").then(function (res) {
     console.log("Downloading script.js...");
@@ -13,8 +15,9 @@ fetch("https://proxyconnection.touch.dofus.com/build/script.js").then(function (
     }).then((content) => {
         fs.writeFileSync(
             "./app/javascript/dofus.js",
-            data.replace(assetRegex, "../")
-                .replace(versionRegex, ",appVersion: \"" + content["results"][0]["version"] + "\","));
+            data.replace(assetRegex, "..")
+                .replace(versionRegex, ",appVersion: \"" + content["results"][0]["version"] + "\",")
+                .replace(overrideConsoleRegex, "_.overrideConsole=function(){},"));
     }).catch((err) => {
         console.log(err);
     });
@@ -26,7 +29,7 @@ fetch("https://proxyconnection.touch.dofus.com/build/styles-native.css").then(fu
     console.log("Downloading dofus.css...");
     return res.text();
 }).then(function (data) {
-    fs.writeFileSync("./app/stylesheet/dofus.css", data.replace(assetRegex, "../"));
+    fs.writeFileSync("./app/stylesheet/dofus.css", data.replace(assetRegex, ".."));
 }).catch(function (err) {
     console.log(err);
 });
@@ -43,29 +46,22 @@ fetch("https://proxyconnection.touch.dofus.com/assetMap.json").then(function (re
 
 function downloadAsset(fileName) {
     fetch("https://proxyconnection.touch.dofus.com/" + fileName).then(function (res) {
-        let destarr = fileName.split("/");
-        destarr.shift();
-        destarr.shift();
-        let destfolder = "app/ui";
-        let destname = destarr[0];
-        for (let i = 1; i < destarr.length; i++) {
-            destname = destname + "/" + destarr[i];
-        }
-        for (let i = 0; i < destarr.length - 1; i++) {
-            destfolder = destfolder + "/" + destarr[i];
-        }
-        console.log("Downloading " + destname + "...");
-        try {
-            destfolder.split('/').forEach((dir, index, splits) => {
-                const parent = splits.slice(0, index).join('/');
-                const dirPath = path.resolve(parent, dir);
-                if (!fs.existsSync(dirPath)) {
-                    fs.mkdirSync(dirPath);
-                }
-            });
-            res.body.pipe(fs.createWriteStream("./app/ui/" + destname));
-        } catch (e) {
-        }
+        let destinationArray = fileName.split("/");
+        destinationArray.shift();
+        destinationArray.shift();
+        let destinationFileName = destinationArray.pop();
+        let destinationFolder = "app/ui/" + destinationArray.toString().replace(",", "/");
+        let destination = destinationFolder + "/" + destinationFileName;
+
+        console.log("Downloading " + destination + "...");
+        destinationFolder.split('/').forEach((dir, index, splits) => {
+            const parent = splits.slice(0, index).join('/');
+            const dirPath = path.resolve(parent, dir);
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath);
+            }
+        });
+        res.body.pipe(fs.createWriteStream(destination));
     }).catch(function (err) {
         if (err.code == "ECONNRESET" || err.code == "ETIMEDOUT") {
             downloadAsset(fileName);

@@ -1,15 +1,16 @@
 {
   "name": "dofustouch-emu",
   "description": "Emulateur dofus touch",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "private": true,
   "author": "Rémi Caumette <remi@caumette.me>",
-  "main": "./main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dofus:install": "node ./dofus_install.js",
-    "dist:mac": "npm install && build --mac",
-    "dist:win": "npm install && build --win --ia32"
+    "install": "node dofus_installer.js",
+    "dofus:install": "node dofus_installer.js",
+    "dist:mac": "build --mac",
+    "dist:win": "build --win --ia32"
   },
   "build": {
     "appId": "me.caumette.remi.dofustouchemu",
