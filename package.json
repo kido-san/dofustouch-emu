@@ -23,6 +23,7 @@
   "devDependencies": {
     "electron": "^1.4.13",
     "electron-builder": "next",
+    "electron-tabs": "^0.6.0",
     "node-fetch": "^1.6.3"
   }
 }
